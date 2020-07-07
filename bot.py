@@ -156,7 +156,7 @@ async def reload(ctx):
     embed.add_field(name = "It won't be a minute.", value = "Apologies for the wait!")
     embed.set_footer(text = glo.FOOTER())
     message = await ctx.send(embed = embed)
-    os.system("local_Store/scrape.bat")
+    os.system("scrape.bat")
     new_embed = discord.Embed(title = "Poll complete!", color = 0x00ff00)
     new_embed.add_field(name = f"{glo.PREFIX}votes has now been filled with new information!", value = "You can see how this worked over at [InstaScrape](https://github.com/Pythogon/InstaScrape/).")
     new_embed.set_footer(text = glo.FOOTER())
