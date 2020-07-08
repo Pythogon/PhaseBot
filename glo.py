@@ -1,7 +1,7 @@
 import discord
 import random
 
-STAR_COUNT = 1
+STAR_COUNT = 3
 VERSION = "1.0.5-pre"
 PREFIX = ")"
 
