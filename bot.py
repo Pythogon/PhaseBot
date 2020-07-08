@@ -129,6 +129,7 @@ async def info(ctx):
     embed.add_field(name = "Developer", value = "PhaseBot was created for LIFE: The Game by [Ash](https://kaidev.uk) on behalf of [Pythogon Technologies](https://github.com/Pythogon).", inline = False)
     embed.add_field(name = "More Info", value = f"PhaseBot is currently on Version {glo.VERSION}. The project started on 2020-07-04.", inline = False)
     embed.add_field(name = "Special Thanks", value = "Special thanks to all who worked on [Anabot](https://github.com/Pythogon/Anabot) and [CommentGenRNN](https://github.com/Pythogon/CommentGenRNN) for providing considerable contributions to PhaseBot.", inline = False)
+    embed.add_field(name = "GitHub.", value = "You can find PhaseBot's GitHub [here](https://github.com/Pythogon/PhaseBot) and take a look at its source code! If you posess developing talents, feel free to send a PR our way, we'd be happy to take on any suggestions.", inline = False)
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed) # Credits :)
 
@@ -174,7 +175,7 @@ async def votes(ctx, to_check: str):
         else:
             no += 1
     total_percentage = str((yes / (yes + no)) * 100)[:5]
-    embed = discord.Embed(title = "Voting statistics.", color = 0xff00ff)
+    embed = discord.Embed(title = "Lemme do the maths...", color = 0xff00ff)
     embed.add_field(name = f"{total_percentage}% of people voted for {to_check}.", value = "Need anything else? Feel free to run the command again!")
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)

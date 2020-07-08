@@ -3,6 +3,10 @@ import glo
 
 async def getLogs(v):
     valid_embed = discord.Embed(title = f"Changelogs for v{v}:", color = 0xff00ff)
+    elif v = "1.0.3":
+        valif_embed.add_field(name = "Modifications:", value = f"""Changed {glo.PREFIX}votes' embed title to seem more Phaser-y.
+Added PhaseBot to [GitHub](https://github.com/Pythogon/Phasebot)!
+Edited {glo.PREFIX}info to include more up-to-date information.""")
     if v == "1.0.2":
         valid_embed.add_field(name = "Additions:", value = f"""{glo.PREFIX}reload command (thanks to my InstaScrape meta-grabber).
 {glo.PREFIX}votes command.""", inline = False)
@@ -12,7 +16,7 @@ Added 2 new random footers, including one thanking SoleNyu for their work on LIF
         valid_embed.add_field(name = "Bug fixes:", value = f"""Fixed a bug where {glo.PREFIX}help did not correctly load.
 Fixed a bug whereby PhaseBot checking an existing users' rating, the command would error without a message.
 Fixed a spelling mistake in v0.1.2's changelog.""", inline = False)
-    if v == "1.0.1":
+    elif v == "1.0.1":
         valid_embed.add_field(name = "Modifications:", value = """Changed the name formatting of all variables.
 Changed glo.STAR_COUNT to 3 (was 2, was starcount).
 Changed glo.PREFIX to ) (was ^, was p).""")

@@ -2,7 +2,7 @@ import discord
 import random
 
 STAR_COUNT = 3
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 PREFIX = ")"
 
 def FOOTER():
