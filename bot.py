@@ -207,7 +207,7 @@ async def name(ctx, gender):
         name = names.get_full_name(gender = {"m": "male", "f": "female"}.get(gender))
     else:
         name = names.get_full_name()
-    label = {m: "male", f: "female"}.get(gender, "random")
+    label = {"m": "male", "f": "female"}.get(gender, "random")
     embed = discord.Embed(title = f"Generating a {label} name...", color = 0xff00ff)
     embed.add_field(name = f"The name I came up with is {name}.", value = "Feel free to run the command again!")
     embed.set_footer(text = glo.FOOTER())
