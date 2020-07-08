@@ -2,7 +2,7 @@ import discord
 import random
 
 STAR_COUNT = 3
-VERSION = "1.0.5-pre"
+VERSION = "1.1-pre"
 PREFIX = ")"
 
 def FOOTER():
@@ -11,7 +11,11 @@ def FOOTER():
                                                                               3: "on 2020-07-04.",
                                                                               4: "| Error 404: Good code not found.",
                                                                               5: "with special thanks to SoleNyu!",
-                                                                              6: "with Anabot."}.get(random.randint(1,6)))  # Random footer <3
+                                                                              6: "with Anabot.",
+                                                                              7: "with CommentGenRNN.",
+                                                                              8: "| It's nut free!",
+                                                                              9: "with magic and rainbows.",
+                                                                              10: "while consulting the deities."}.get(random.randint(1,10)))  # Random footer <3
 
 def GETRATE(l, user):
     varset = {1: ["{} is a lowly triangle, 1/10, not very surreal.",0x5fa8ff,'★☆☆☆☆'],

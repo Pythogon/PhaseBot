@@ -58,7 +58,7 @@ class PhaseBot(commands.Bot):
         embed.add_field(name = "Jump link:", value = message.jump_url, inline = False)
         embed.set_footer(text = glo.FOOTER())
         await star_channel.send(embed = embed) # PhaseBot class
-        fileAppend("starcastle.txt", message.content)
+        fileAppend("starcastle.txt", message.content.encode(encoding = "ascii", errors = "ignore").decode())
 
 bot = PhaseBot(command_prefix = glo.PREFIX) # Writing the embed
 bot.remove_command('help') # Removing default help (I don't like it)
@@ -77,8 +77,9 @@ Commands:
 {glo.PREFIX}logs <version>
 {glo.PREFIX}generate
 {glo.PREFIX}reload
-{glo.PREFIX}votes <letter>
-{glo.PREFIX}name <m|f|n>""", inline = True) # Help and informmation #
+{glo.PREFIX}votes <number of choices>
+{glo.PREFIX}name <m|f|n>
+{glo.PREFIX}comments <IG user>""", inline = True) # Help and informmation #
     title.set_footer(text = glo.FOOTER())
     await ctx.send(embed = title) # Anabot help
 
@@ -199,6 +200,24 @@ async def votes(ctx, to_check: int):
     embed.add_field(name = f"Running voting results for today ({str(abs(100 - total_percentage))[:5]}% potential error):", value = to_send)
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)
+
+@bot.command()
+async def comments(ctx, user):
+    comments = ""
+    data = jsonRead("sole_nyu/sole_nyu.json")["GraphImages"][0]["comments"]["data"]
+    for comment in data:
+        if user == comment["owner"]["username"]:
+             comments += comment["text"] + "\n"
+    if comments == "":
+        embed = discord.Embed(title = "No comments found!", color = 0xff0000)
+        embed.add_field(name = "Maybe they got dissolved by adimensia...", value = "Ensure you're typing the username correctly.")
+        embed.set_footer(text = glo.FOOTER())
+        return await ctx.send(embed = embed)
+    embed = discord.Embed(title = "Comments found!", color = 0xff00ff)
+    embed.add_field(name = f"{user}'s comments:", value = comments)
+    embed.set_footer(text = glo.FOOTER())
+    await ctx.send(embed = embed)
+    
 
 @bot.command()
 @commands.is_owner()
