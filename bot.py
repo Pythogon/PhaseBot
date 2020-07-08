@@ -140,7 +140,7 @@ async def info(ctx):
 async def logs(ctx, v: str):
     embed = await getLogs(v)
     embed.set_footer(text = glo.FOOTER())
-    await ctx.send(embed = embed) # See logsembed.pyy
+    await ctx.send(embed = embed) # See logsembed.py
 
 @bot.command()
 async def generate(ctx):
