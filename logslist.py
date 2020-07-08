@@ -3,11 +3,16 @@ import glo
 
 async def getLogs(v):
     valid_embed = discord.Embed(title = f"Changelogs for v{v}:", color = 0xff00ff)
-    elif v = "1.0.3":
-        valif_embed.add_field(name = "Modifications:", value = f"""Changed {glo.PREFIX}votes' embed title to seem more Phaser-y.
+    if v == "1.0.4":
+        valid_embed.add_field(name = "Additions:", value = "Bot now automatically polls Instagram upon startup.". inline = False)
+        valid_embed.add_field(name = "Modifications:", value = f"""Started work on a new feature (it will not release for several months).
+Changed where the full stop appears in {glo.PREFIX}votes' command.""", inline = False)
+        valid_embed.add_field(name = "Bug fixes:", value = "Fixed a bug where v1.0.3's changelog didn't load correctly.", inline = False)
+    elif v == "1.0.3":
+        valid_embed.add_field(name = "Modifications:", value = f"""Changed {glo.PREFIX}votes' embed title to seem more Phaser-y.
 Added PhaseBot to [GitHub](https://github.com/Pythogon/Phasebot)!
-Edited {glo.PREFIX}info to include more up-to-date information.""")
-    if v == "1.0.2":
+Edited {glo.PREFIX}info to include more up-to-date information.""", inline = False)
+    elif v == "1.0.2":
         valid_embed.add_field(name = "Additions:", value = f"""{glo.PREFIX}reload command (thanks to my InstaScrape meta-grabber).
 {glo.PREFIX}votes command.""", inline = False)
         valid_embed.add_field(name = "Modifications:", value = f"""Edited embeds to be easier to read on mobile devices.

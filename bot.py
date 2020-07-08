@@ -28,6 +28,7 @@ class PhaseBot(commands.Bot):
     """ The bot """
     async def on_ready(self):
         print("LOAD") # Great, it's working
+        os.system("scrape.bat")
         embed = discord.Embed(title = "Phaser has phased in!", color = 0xff00ff)
         embed.add_field(name = "We're online!", value = "All messages before this have been cleared from cache and are no longer eligible for starcastle.")
         embed.set_footer(text = glo.FOOTER())
@@ -164,19 +165,41 @@ async def reload(ctx):
     await message.edit(embed = new_embed)
 
 @bot.command()
-async def votes(ctx, to_check: str):
-    yes = 0
-    no = 0
+async def votes(ctx, to_check: int):
+    yes = []
+    no = []
+    letters = []
+    percentage = []
+    total_percentage = 0.0
+    for x in range(to_check):
+        yes.append(0)
+        no.append(0)
+        letters.append(chr(65 + x))
+        percentage.append("")
     read = jsonRead("sole_nyu/sole_nyu.json")
     data = read["GraphImages"][0]["comments"]["data"]
-    for comment in data:
-        if to_check in comment["text"]:
-            yes += 1
-        else:
-            no += 1
-    total_percentage = str((yes / (yes + no)) * 100)[:5]
+    for x in range(to_check):
+        for comment in data:
+            if letters[x] in comment["text"]:
+                yes[x] += 1
+            else:
+                no[x] += 1
+    to_send = ""
+    for x in range(to_check):
+        percentage[x] = str((yes[x] / (yes[x] + no[x])) * 100)[:5]
+        to_send += f"{percentage[x]}% of people voted for {letters[x]} ({yes[x]} counted.)\n"
+        total_percentage += float(percentage[x])
     embed = discord.Embed(title = "Lemme do the maths...", color = 0xff00ff)
-    embed.add_field(name = f"{total_percentage}% of people voted for {to_check}.", value = "Need anything else? Feel free to run the command again!")
+    embed.add_field(name = f"Running voting results for today ({str(abs(100 - total_percentage))[:5]}% potential error):", value = to_send)
+    embed.set_footer(text = glo.FOOTER())
+    await ctx.send(embed = embed)
+
+@bot.command()
+@commands.is_owner()
+async def announce(ctx, *message):
+    message = " ".join(message)
+    embed = discord.Embed(title = "An important update about PhaseBot.", color = 0xff00ff)
+    embed.add_field(name = "Announcement:", value = message)
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)
 
