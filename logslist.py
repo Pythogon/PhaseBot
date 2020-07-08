@@ -3,7 +3,9 @@ import glo
 
 async def getLogs(v):
     valid_embed = discord.Embed(title = f"Changelogs for v{v}:", color = 0xff00ff)
-    if v == "1.0.4":
+    if v == "1.0.5":
+        valid_embed.add_field(name = "Additions:", value = f"""{glo.PREFIX}stargen command to show how much of the way we are to having the data needed to implement a real one.""", inline = False)
+    elif v == "1.0.4":
         valid_embed.add_field(name = "Additions:", value = f"""Bot now automatically polls Instagram upon startup.
 {glo.PREFIX}name command.""", inline = False)
         valid_embed.add_field(name = "Modifications:", value = f"""Started work on a new feature (it will not release for several months).

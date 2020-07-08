@@ -25,10 +25,15 @@ def fileRead(fpath):
     fpath = f"local_Store/{fpath}"
     with open(fpath, "r", encoding = "utf-8") as file: return file.read() # TXT read
 
+def fileAppend(fpath, data):
+    fpath = f"local_Store/{fpath}"
+    with open(fpath, "a", encoding = "utf-8") as file: file.write("\n" + data)
+
 class PhaseBot(commands.Bot):
     """ The bot """
     async def on_ready(self):
         print("LOAD") # Great, it's working
+        await bot.change_presence(activity = discord.Activity(name = f"Instagram - Loading...", type = discord.ActivityType.watching)) # Simplistic help
         os.system("scrape.bat")
         await bot.change_presence(activity = discord.Activity(name = f"le noir | v{glo.VERSION}", type = discord.ActivityType.watching)) # Simplistic help
 
@@ -53,6 +58,7 @@ class PhaseBot(commands.Bot):
         embed.add_field(name = "Jump link:", value = message.jump_url, inline = False)
         embed.set_footer(text = glo.FOOTER())
         await star_channel.send(embed = embed) # PhaseBot class
+        fileAppend("starcastle.txt", message.content)
 
 bot = PhaseBot(command_prefix = glo.PREFIX) # Writing the embed
 bot.remove_command('help') # Removing default help (I don't like it)
@@ -156,7 +162,9 @@ async def reload(ctx):
     embed.add_field(name = "It won't be a minute.", value = "Apologies for the wait!")
     embed.set_footer(text = glo.FOOTER())
     message = await ctx.send(embed = embed)
+    await bot.change_presence(activity = discord.Activity(name = f"Instagram - Loading...", type = discord.ActivityType.watching)) # Simplistic help
     os.system("scrape.bat")
+    await bot.change_presence(activity = discord.Activity(name = f"le noir | v{glo.VERSION}", type = discord.ActivityType.watching)) # Simplistic help
     new_embed = discord.Embed(title = "Poll complete!", color = 0x00ff00)
     new_embed.add_field(name = f"{glo.PREFIX}votes has now been filled with new information!", value = "You can see how this worked over at [InstaScrape](https://github.com/Pythogon/InstaScrape/).")
     new_embed.set_footer(text = glo.FOOTER())
@@ -212,5 +220,11 @@ async def name(ctx, gender):
     embed.add_field(name = f"The name I came up with is {name}.", value = "Feel free to run the command again!")
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)
+
+@bot.command()
+async def stargen(ctx):
+    read = len(fileRead("starcastle.txt"))
+    read = read / 1000
+    await ctx.send(f"This isn't available yet! We are {read}% of the way towards having enough data to implement this command.")
 
 bot.run(fileRead("token"))
