@@ -30,10 +30,6 @@ class PhaseBot(commands.Bot):
     async def on_ready(self):
         print("LOAD") # Great, it's working
         os.system("scrape.bat")
-        embed = discord.Embed(title = "Phaser has phased in!", color = 0xff00ff)
-        embed.add_field(name = "We're online!", value = "All messages before this have been cleared from cache and are no longer eligible for starcastle.")
-        embed.set_footer(text = glo.FOOTER())
-        await bot.get_channel(709717829112561776).send(embed = embed) # Optional file send
         await bot.change_presence(activity = discord.Activity(name = f"le noir | v{glo.VERSION}", type = discord.ActivityType.watching)) # Simplistic help
 
     async def on_message(self, message):
