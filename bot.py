@@ -2,6 +2,7 @@ import asyncio # Imports
 import discord
 import glo
 import json
+import names
 import os
 import random
 import time
@@ -32,7 +33,7 @@ class PhaseBot(commands.Bot):
         embed = discord.Embed(title = "Phaser has phased in!", color = 0xff00ff)
         embed.add_field(name = "We're online!", value = "All messages before this have been cleared from cache and are no longer eligible for starcastle.")
         embed.set_footer(text = glo.FOOTER())
-        #await bot.get_channel(709717829112561776).send(embed = embed) # Optional file send
+        await bot.get_channel(709717829112561776).send(embed = embed) # Optional file send
         await bot.change_presence(activity = discord.Activity(name = f"le noir | v{glo.VERSION}", type = discord.ActivityType.watching)) # Simplistic help
 
     async def on_message(self, message):
@@ -74,7 +75,8 @@ Commands:
 {glo.PREFIX}logs <version>
 {glo.PREFIX}generate
 {glo.PREFIX}reload
-{glo.PREFIX}votes <letter>""", inline = True) # Help and informmation #
+{glo.PREFIX}votes <letter>
+{glo.PREFIX}name <m|f|n>""", inline = True) # Help and informmation #
     title.set_footer(text = glo.FOOTER())
     await ctx.send(embed = title) # Anabot help
 
@@ -200,6 +202,17 @@ async def announce(ctx, *message):
     message = " ".join(message)
     embed = discord.Embed(title = "An important update about PhaseBot.", color = 0xff00ff)
     embed.add_field(name = "Announcement:", value = message)
+    embed.set_footer(text = glo.FOOTER())
+    await ctx.send(embed = embed)
+
+@bot.command()
+async def name(ctx, gender):
+    if gender == "m" or gender == "f":
+        name = names.get_full_name(gender = {"m": "male", "f": "female"}.get(gender))
+    else:
+        name = names.get_full_name()
+    embed = discord.Embed(title = f"Generating a {{m: "male", f: "female"}.get(gender, "random")} name...", color = 0xff00ff)
+    embed.add_field(name = "And.. done!", value = f"The name I came up with is {name}.")
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)
 
