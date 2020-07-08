@@ -189,7 +189,7 @@ async def votes(ctx, to_check: int):
     to_send = ""
     for x in range(to_check):
         percentage[x] = str((yes[x] / (yes[x] + no[x])) * 100)[:5]
-        to_send += f"{percentage[x]}% of people voted for {letters[x]} ({yes[x]} counted.)\n"
+        to_send += f"{letters[x]}: {percentage[x]}% ({yes[x]} counted).\n"
         total_percentage += float(percentage[x])
     embed = discord.Embed(title = "Lemme do the maths...", color = 0xff00ff)
     embed.add_field(name = f"Running voting results for today ({str(abs(100 - total_percentage))[:5]}% potential error):", value = to_send)
@@ -211,7 +211,8 @@ async def name(ctx, gender):
         name = names.get_full_name(gender = {"m": "male", "f": "female"}.get(gender))
     else:
         name = names.get_full_name()
-    embed = discord.Embed(title = f"Generating a {{m: "male", f: "female"}.get(gender, "random")} name...", color = 0xff00ff)
+    label = {m: "male", f: "female"}.get(gender, "random")
+    embed = discord.Embed(title = f"Generating a {label} name...", color = 0xff00ff)
     embed.add_field(name = f"The name I came up with is {name}.", value = "Feel free to run the command again!")
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)

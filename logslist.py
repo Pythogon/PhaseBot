@@ -7,7 +7,7 @@ async def getLogs(v):
         valid_embed.add_field(name = "Additions:", value = f"""Bot now automatically polls Instagram upon startup.
 {glo.PREFIX}name command.""", inline = False)
         valid_embed.add_field(name = "Modifications:", value = f"""Started work on a new feature (it will not release for several months).
-Changed where the full stop appears in {glo.PREFIX}votes' command.""", inline = False)
+Minor appearance changes to {glo.PREFIX}votes.""", inline = False)
         valid_embed.add_field(name = "Bug fixes:", value = "Fixed a bug where v1.0.3's changelog didn't load correctly.", inline = False)
     elif v == "1.0.3":
         valid_embed.add_field(name = "Modifications:", value = f"""Changed {glo.PREFIX}votes' embed title to seem more Phaser-y.
