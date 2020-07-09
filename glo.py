@@ -1,10 +1,10 @@
 import discord
 import random
 
+COLOR = 0xff00ff
+PREFIX = ")"
 STAR_COUNT = 3
 VERSION = "1.1-pre"
-PREFIX = ")"
-COLOR = 0xff00ff
 
 def FOOTER():
     return "PhaseBot v{} | Made by Pythogon Technologies {}".format(VERSION, {1: "with love. ❤",
@@ -18,6 +18,9 @@ def FOOTER():
                                                                               9: "with magic and rainbows.",
                                                                               10: "while consulting the deities."}.get(random.randint(1,10)))  # Random footer <3
 
+def GETEMOJI(l):
+    return {0: u"\U0001F7E4", 1: u"\U0001F7E3", 2: u"\U0001F7E2", 3: u"\U0001F7E0"}.get(l) # My beautiful getEmoji
+
 def GETRATE(l, user):
     varset = {1: ["{} is a lowly triangle, 1/10, not very surreal.",0x5fa8ff,'★☆☆☆☆'],
     2: ["{} seems to be a square - they should visit the Void more often.",0xfffc00,'★★☆☆☆'],
@@ -29,10 +32,3 @@ def GETRATE(l, user):
     embed.add_field(name = f'Rating: {varset[2]}', value = f'Do you want to know what I think about someone? Do {PREFIX}rate [@user].')
     embed.set_footer(text = footerStr())
     return embed # # Splitting code
-
-
-def GETEMOJI(l):
-    return {0: u"\U0001F7E4",
-    1: u"\U0001F7E3",
-    2: u"\U0001F7E2",
-    3: u"\U0001F7E0"}.get(l) # My beautiful getEmoji
