@@ -8,7 +8,8 @@ async def getLogs(v):
 {glo.PREFIX}comments command.
 Automatic #starcastle saver along with automatic progress updates on {glo.PREFIX}stargen.
 {glo.PREFIX}announce command for bot developers.""", inline = False)
-        valid_embed.add_field(name = "Modifications:", value = "Added more random footers.")
+        valid_embed.add_field(name = "Modifications:", value = f"""Added more random footers.
+Changed the logic behind {glo.PREFIX}votes' counting system (hopefully removing false positives)""")
     elif v == "1.0.4":
         valid_embed.add_field(name = "Additions:", value = f"""Bot now automatically polls Instagram upon startup.
 {glo.PREFIX}name command.""", inline = False)

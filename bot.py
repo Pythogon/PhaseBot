@@ -187,7 +187,7 @@ async def votes(ctx, to_check: int):
     data = read["GraphImages"][0]["comments"]["data"]
     for x in range(to_check):
         for comment in data:
-            if letters[x] in comment["text"]:
+            if letters[x] == comment["text"][0].upper():
                 yes[x] += 1
             else:
                 no[x] += 1
