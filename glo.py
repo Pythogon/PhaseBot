@@ -4,6 +4,7 @@ import random
 STAR_COUNT = 3
 VERSION = "1.1-pre"
 PREFIX = ")"
+COLOR = 0xff00ff
 
 def FOOTER():
     return "PhaseBot v{} | Made by Pythogon Technologies {}".format(VERSION, {1: "with love. ❤",

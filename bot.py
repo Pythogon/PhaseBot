@@ -53,7 +53,7 @@ class PhaseBot(commands.Bot):
         print("b")
         if reaction.count != glo.STAR_COUNT: return # NO NOT THE LIMIT!
         print("c")
-        embed = discord.Embed(title = f"⭐ | {message.author}", color = 0xff00ff) # Making the embed (Magenta)
+        embed = discord.Embed(title = f"⭐ | {message.author}", color = glo.COLOR) # Making the embed (Magenta)
         embed.add_field(name = "Message:", value = message.content, inline = False)
         embed.add_field(name = "Jump link:", value = message.jump_url, inline = False)
         embed.set_footer(text = glo.FOOTER())
@@ -66,7 +66,7 @@ bot.remove_command('help') # Removing default help (I don't like it)
 @bot.command(name = 'help') # New help command (help is a registered keyword so we just need to pretend we have a function called 'help')
 async def help_command(ctx):
     """ Basic bitch help command (by Ash) """
-    title = discord.Embed(title = 'Help', color = 0xff00ff)
+    title = discord.Embed(title = 'Help', color = glo.COLOR)
     title.add_field(name = 'Welcome to PhaseBot!', value = f"""
 Commands:
 {glo.PREFIX}starinfo
@@ -86,7 +86,7 @@ Commands:
 @bot.command()
 async def starinfo(ctx):
     """Starboard info"""
-    embed = discord.Embed (title = "What the hell is a starboard?", color = 0xff00ff)
+    embed = discord.Embed (title = "What the hell is a starboard?", color = glo.COLOR)
     embed.add_field(name = "The starboard", value = f"""The starboard is a way of saving messages that the community finds funny, clever, etc. It operates like the Quote Vault, but is purely democratic.
 
 You can add to the starboard by reacting to a message with the ⭐ emoji. If the message gets {glo.STAR_COUNT} ⭐s, it will be added to the starcastle channel automatically.
@@ -131,7 +131,7 @@ async def poll(ctx, question, *answers):
 
 @bot.command()
 async def info(ctx):
-    embed = discord.Embed(title = "About PhaseBot", color = 0xff00ff)
+    embed = discord.Embed(title = "About PhaseBot", color = glo.COLOR)
     embed.add_field(name = "Developer", value = "PhaseBot was created for LIFE: The Game by [Ash](https://kaidev.uk) on behalf of [Pythogon Technologies](https://github.com/Pythogon).", inline = False)
     embed.add_field(name = "More Info", value = f"PhaseBot is currently on Version {glo.VERSION}. The project started on 2020-07-04.", inline = False)
     embed.add_field(name = "Special Thanks", value = "Special thanks to all who worked on [Anabot](https://github.com/Pythogon/Anabot) and [CommentGenRNN](https://github.com/Pythogon/CommentGenRNN) for providing considerable contributions to PhaseBot.", inline = False)
@@ -147,7 +147,7 @@ async def logs(ctx, v: str):
 
 @bot.command()
 async def generate(ctx):
-    embed = discord.Embed(title = "I'm thinking...", color = 0xff00ff)
+    embed = discord.Embed(title = "I'm thinking...", color = glo.COLOR)
     embed.add_field(name = "Consulting CommentGenRNN...", value = "Just one moment.")
     embed.set_footer(text = glo.FOOTER())
     message = await ctx.send(embed = embed)
@@ -159,7 +159,7 @@ async def generate(ctx):
 
 @bot.command()
 async def reload(ctx):
-    embed = discord.Embed(title = "Polling Instagram...", color = 0xff00ff)
+    embed = discord.Embed(title = "Polling Instagram...", color = glo.COLOR)
     embed.add_field(name = "It won't be a minute.", value = "Apologies for the wait!")
     embed.set_footer(text = glo.FOOTER())
     message = await ctx.send(embed = embed)
@@ -173,30 +173,31 @@ async def reload(ctx):
 
 @bot.command()
 async def votes(ctx, to_check: int):
-    yes = []
-    no = []
     letters = []
+    no = []
     percentage = []
+    read = jsonRead("sole_nyu/sole_nyu.json")["GraphImages"][0]["comments"]["data"]
+    to_send = ""
     total_percentage = 0.0
+    total_yes = 0.0
+    yes = []
+
     for x in range(to_check):
-        yes.append(0)
-        no.append(0)
         letters.append(chr(65 + x))
         percentage.append("")
-    read = jsonRead("sole_nyu/sole_nyu.json")
-    data = read["GraphImages"][0]["comments"]["data"]
-    for x in range(to_check):
-        for comment in data:
-            if letters[x] == comment["text"][0].upper():
-                yes[x] += 1
-            else:
-                no[x] += 1
-    to_send = ""
-    for x in range(to_check):
+        no.append(0)
+        yes.append(0)
+
+        for comment in read:
+            if letters[x] == comment["text"][0].upper(): yes[x] += 1
+            else: no[x] += 1
+
         percentage[x] = str((yes[x] / (yes[x] + no[x])) * 100)[:5]
-        to_send += f"{letters[x]}: {percentage[x]}% ({yes[x]} counted).\n"
         total_percentage += float(percentage[x])
-    embed = discord.Embed(title = "Lemme do the maths...", color = 0xff00ff)
+        total_yes += yes[x]
+
+    for x in range(to_check): to_send += f"{letters[x]}: {str((yes[x] / total_yes) * 100)[:5]}% ({yes[x]} counted).\n"
+    embed = discord.Embed(title = "Lemme do the maths...", color = glo.COLOR)
     embed.add_field(name = f"Running voting results for today ({str(abs(100 - total_percentage))[:5]}% potential error):", value = to_send)
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)
@@ -213,17 +214,17 @@ async def comments(ctx, user):
         embed.add_field(name = "Maybe they got dissolved by adimensia...", value = "Ensure you're typing the username correctly.")
         embed.set_footer(text = glo.FOOTER())
         return await ctx.send(embed = embed)
-    embed = discord.Embed(title = "Comments found!", color = 0xff00ff)
+    embed = discord.Embed(title = "Comments found!", color = glo.COLOR)
     embed.add_field(name = f"{user}'s comments:", value = comments)
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)
-    
+
 
 @bot.command()
 @commands.is_owner()
 async def announce(ctx, *message):
     message = " ".join(message)
-    embed = discord.Embed(title = "An important update about PhaseBot.", color = 0xff00ff)
+    embed = discord.Embed(title = "An important update about PhaseBot.", color = glo.COLOR)
     embed.add_field(name = "Announcement:", value = message)
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)
@@ -235,7 +236,7 @@ async def name(ctx, gender):
     else:
         name = names.get_full_name()
     label = {"m": "male", "f": "female"}.get(gender, "random")
-    embed = discord.Embed(title = f"Generating a {label} name...", color = 0xff00ff)
+    embed = discord.Embed(title = f"Generating a {label} name...", color = glo.COLOR)
     embed.add_field(name = f"The name I came up with is {name}.", value = "Feel free to run the command again!")
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)

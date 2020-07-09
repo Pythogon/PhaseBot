@@ -2,14 +2,15 @@ import discord
 import glo
 
 async def getLogs(v):
-    valid_embed = discord.Embed(title = f"Changelogs for v{v}:", color = 0xff00ff)
+    valid_embed = discord.Embed(title = f"Changelogs for v{v}:", color = glo.COLOR)
     if v == "1.1":
         valid_embed.add_field(name = "Additions:", value = f"""{glo.PREFIX}stargen command.
 {glo.PREFIX}comments command.
 Automatic #starcastle saver along with automatic progress updates on {glo.PREFIX}stargen.
 {glo.PREFIX}announce command for bot developers.""", inline = False)
         valid_embed.add_field(name = "Modifications:", value = f"""Added more random footers.
-Changed the logic behind {glo.PREFIX}votes' counting system (hopefully removing false positives)""")
+Changed the logic behind {glo.PREFIX}votes' counting system (hopefully removing false positives).
+Optimised {glo.PREFIX}votes' code to make it easier to read.""")
     elif v == "1.0.4":
         valid_embed.add_field(name = "Additions:", value = f"""Bot now automatically polls Instagram upon startup.
 {glo.PREFIX}name command.""", inline = False)
