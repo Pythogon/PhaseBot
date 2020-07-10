@@ -4,7 +4,7 @@ import random
 COLOR = 0xff00ff
 PREFIX = ")"
 STAR_COUNT = 3
-VERSION = "1.1-pre"
+VERSION = "1.1"
 
 def FOOTER():
     return "PhaseBot v{} | Made by Pythogon Technologies {}".format(VERSION, {1: "with love. ❤",
@@ -16,7 +16,8 @@ def FOOTER():
                                                                               7: "with CommentGenRNN.",
                                                                               8: "| It's nut free!",
                                                                               9: "with magic and rainbows.",
-                                                                              10: "while consulting the deities."}.get(random.randint(1,10)))  # Random footer <3
+                                                                              10: "while consulting the deities.",
+                                                                              11: "on behalf of a very caffeinated frog."}.get(random.randint(1,11)))  # Random footer <3
 
 def GETEMOJI(l):
     return {0: u"\U0001F7E4", 1: u"\U0001F7E3", 2: u"\U0001F7E2", 3: u"\U0001F7E0"}.get(l) # My beautiful getEmoji

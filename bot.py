@@ -78,6 +78,7 @@ Commands:
 {glo.PREFIX}generate
 {glo.PREFIX}reload
 {glo.PREFIX}votes <number of choices>
+{glo.PREFIX}votesraw <chars to check>
 {glo.PREFIX}name <m|f|n>
 {glo.PREFIX}comments <IG user>""", inline = True) # Help and informmation #
     title.set_footer(text = glo.FOOTER())
@@ -180,6 +181,7 @@ async def votes(ctx, to_check: int):
     to_send = ""
     total_percentage = 0.0
     total_yes = 0.0
+    voted = []
     yes = []
 
     for x in range(to_check):
@@ -187,9 +189,45 @@ async def votes(ctx, to_check: int):
         percentage.append("")
         no.append(0)
         yes.append(0)
-
+        
         for comment in read:
-            if letters[x] == comment["text"][0].upper(): yes[x] += 1
+            author = comment["owner"]["username"]
+            if author in voted: continue
+            if letters[x] == comment["text"][0].upper(): yes[x] += 1; voted.append(author)
+            else: no[x] += 1
+
+        percentage[x] = str((yes[x] / (yes[x] + no[x])) * 100)[:5]
+        total_percentage += float(percentage[x])
+        total_yes += yes[x]
+
+    for x in range(to_check): to_send += f"{letters[x]}: {str((yes[x] / total_yes) * 100)[:5]}% ({yes[x]} counted).\n"
+    embed = discord.Embed(title = "Lemme do the maths...", color = glo.COLOR)
+    embed.add_field(name = f"Running voting results for today ({str(abs(100 - total_percentage))[:5]}% potential error):", value = to_send)
+    embed.set_footer(text = glo.FOOTER())
+    await ctx.send(embed = embed)
+
+@bot.command()
+async def votesraw(ctx, to_check):
+    letters = list(to_check)
+    no = []
+    percentage = []
+    read = jsonRead("sole_nyu/sole_nyu.json")["GraphImages"][0]["comments"]["data"]
+    to_check = len(letters)
+    to_send = ""
+    total_percentage = 0.0
+    total_yes = 0.0
+    voted = []
+    yes = []
+
+    for x in range(to_check):
+        percentage.append("")
+        no.append(0)
+        yes.append(0)
+        
+        for comment in read:
+            author = comment["owner"]["username"]
+            if author in voted: continue
+            if letters[x] == comment["text"][0].upper(): yes[x] += 1; voted.append(author)
             else: no[x] += 1
 
         percentage[x] = str((yes[x] / (yes[x] + no[x])) * 100)[:5]
@@ -207,8 +245,7 @@ async def comments(ctx, user):
     comments = ""
     data = jsonRead("sole_nyu/sole_nyu.json")["GraphImages"][0]["comments"]["data"]
     for comment in data:
-        if user == comment["owner"]["username"]:
-             comments += comment["text"] + "\n"
+        if user == comment["owner"]["username"]: comments += comment["text"] + "\n"
     if comments == "":
         embed = discord.Embed(title = "No comments found!", color = 0xff0000)
         embed.add_field(name = "Maybe they got dissolved by adimensia...", value = "Ensure you're typing the username correctly.")

@@ -1,1 +1,1 @@
-instagram-scraper TARGET -m 1 -u SCRAPER_USERNAME -p SCRAPER_PASSWORD --comments --media-types=none
+instagram-scraper sole_nyu -m 1 --comments --media-types=none -d ./local_Store/sole_nyu/

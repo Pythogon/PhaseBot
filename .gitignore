@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 local_Store/
-scrape.bat
+*.bat
 
 # C extensions
 *.so
