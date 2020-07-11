@@ -4,7 +4,9 @@ import glo
 async def getLogs(v):
     valid_embed = discord.Embed(title = f"Changelogs for v{v}:", color = glo.COLOR)
     if v == "1.1.1":
-        valid_embed.add_field(name = "Additions:", value = """Added an alias to all commands (most aliases are just the first character of the command).""", inline = False)
+        valid_embed.add_field(name = "Additions:", value = f"""{glo.PREFIX}forcestar command.
+Added an alias to all commands (most aliases are just the first character of the command).
+Added STAR_CHANNEL_ID as a global variable.""", inline = False)
         valid_embed.add_field(name = "Modifications:", value = f"Changed {glo.PREFIX}votesraw to have two search options.")
     elif v == "1.1":
         valid_embed.add_field(name = "Additions:", value = f"""{glo.PREFIX}stargen command.

@@ -301,8 +301,12 @@ async def starcount(ctx):
     await ctx.send(embed = embed)
 
 @bot.command(aliases = ["fs"])
+@commands.is_owner()
 async def forcestar(ctx, id: int):
     try:
         glo.STAR(bot.get_message(id), bot.get_channel(glo.STAR_CHANNEL_ID))
+        await ctx.send(f"Message {id} starred.")
+    except:
+        await ctx.send("ERR. Invallid ID?")
 
 bot.run(fileRead("token"))
