@@ -46,7 +46,6 @@ class PhaseBot(commands.Bot):
 
     async def on_reaction_add(self, reaction, user):
         message = reaction.message # Let's get the message reactions
-        star_channel = bot.get_channel(728440495105114173) #starcastle on LIFE: The Game
         star_list = jsonRead("starcount.json")
         if message.author.bot: return # NO BOTS
         print("a")
@@ -54,6 +53,7 @@ class PhaseBot(commands.Bot):
         print("b")
         if reaction.count != glo.STAR_COUNT: return # NO NOT THE LIMIT!
         print("c")
+        glo.STAR(message, bot.get_channel(glo.STAR_CHANNEL_ID))
         embed = discord.Embed(title = f"⭐ | {message.author}", color = glo.COLOR) # Making the embed (Magenta)
         embed.add_field(name = "Message:", value = message.content, inline = False)
         embed.add_field(name = "Jump link:", value = message.jump_url, inline = False)
@@ -196,7 +196,7 @@ async def votes(ctx, to_check: int, ):
         percentage.append("")
         no.append(0)
         yes.append(0)
-        
+
         for comment in read:
             author = comment["owner"]["username"]
             if author in voted: continue
@@ -228,7 +228,7 @@ async def votesraw(ctx, to_check, loose_checking=False):
     for x in range(to_check):
         percentage.append("")
         no.append(0)
-        yes.append(0)        
+        yes.append(0)
         for comment in read:
             author = comment["owner"]["username"]
             is_yes = False
@@ -295,9 +295,14 @@ async def stargen(ctx):
 @bot.command(aliases = ["sc"])
 async def starcount(ctx):
     star_list = jsonRead("starcount.json")
-    try: count = star_list[str(user.id)]
-    except: count = 0; star_list[str(user.id)] = 0; jsonWrite("starcount.json", star_list)
+    try: count = star_list[str(ctx.author.id)]
+    except: count = 0; star_list[str(ctx.author.id)] = 0; jsonWrite("starcount.json", star_list)
     embed = discord.Embed(title = "Let me quickly check...", color = glo.COLOR).add_field(name = f"You currently have {count} stars.", value = "Stars before 2020-07-11 weren't counted.").set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)
+
+@bot.command(aliases = ["fs"])
+async def forcestar(ctx, id: int):
+    try:
+        glo.STAR(bot.get_message(id), bot.get_channel(glo.STAR_CHANNEL_ID))
 
 bot.run(fileRead("token"))

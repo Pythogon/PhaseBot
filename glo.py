@@ -4,6 +4,7 @@ import random
 COLOR = 0xff00ff
 PREFIX = ")"
 STAR_COUNT = 3
+STAR_CHANNEL_ID = 728440495105114173
 VERSION = "1.1.1"
 
 def FOOTER():
@@ -33,3 +34,34 @@ def GETRATE(l, user):
     embed.add_field(name = f'Rating: {varset[2]}', value = f'Do you want to know what I think about someone? Do {PREFIX}rate [@user].')
     embed.set_footer(text = footerStr())
     return embed # # Splitting code
+
+def STAR(message, star_channel):
+    embed = discord.Embed(title = f"⭐ | {message.author}", color = COLOR) # Making the embed (Magenta)
+    embed.add_field(name = "Message:", value = message.content, inline = False)
+    embed.add_field(name = "Jump link:", value = message.jump_url, inline = False)
+    embed.set_footer(text = FOOTER())
+    await star_channel.send(embed = embed) # PhaseBot class
+    fileAppend("starcastle.txt", message.content.encode(encoding = "ascii", errors = "ignore").decode())
+    try:
+        star_list[str(user.id)] += 1
+    except:
+        star_list[str(user.id)] = 1
+    jsonWrite("starcount.json", star_list)
+
+# Local file mod functions
+
+def jsonRead(fpath):
+    fpath = f"local_Store/{fpath}"
+    with open(fpath, 'r', encoding = "utf-8") as json_file: return json.load(json_file) # Anabot JSON read
+
+def jsonWrite(fpath, data):
+    fpath = f"local_Store/{fpath}"
+    with open(fpath, 'w', encoding = "utf-8") as outfile: json.dump(data,outfile) # Anabot JSON write
+
+def fileRead(fpath):
+    fpath = f"local_Store/{fpath}"
+    with open(fpath, "r", encoding = "utf-8") as file: return file.read() # TXT read
+
+def fileAppend(fpath, data):
+    fpath = f"local_Store/{fpath}"
+    with open(fpath, "a", encoding = "utf-8") as file: file.write("\n" + data)
