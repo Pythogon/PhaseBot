@@ -47,6 +47,7 @@ class PhaseBot(commands.Bot):
     async def on_reaction_add(self, reaction, user):
         message = reaction.message # Let's get the message reactions
         star_channel = bot.get_channel(728440495105114173) #starcastle on LIFE: The Game
+        star_list = jsonRead("starcount.json")
         if message.author.bot: return # NO BOTS
         print("a")
         if reaction.emoji != "⭐": return # NO ANYTHING BUT STAR BB
@@ -59,32 +60,38 @@ class PhaseBot(commands.Bot):
         embed.set_footer(text = glo.FOOTER())
         await star_channel.send(embed = embed) # PhaseBot class
         fileAppend("starcastle.txt", message.content.encode(encoding = "ascii", errors = "ignore").decode())
+        try:
+            star_list[str(user.id)] += 1
+        except:
+            star_list[str(user.id)] = 1
+        jsonWrite("starcount.json", star_list)
 
 bot = PhaseBot(command_prefix = glo.PREFIX) # Writing the embed
 bot.remove_command('help') # Removing default help (I don't like it)
 
-@bot.command(name = 'help') # New help command (help is a registered keyword so we just need to pretend we have a function called 'help')
+@bot.command(name = 'help', aliases = ["?"]) # New help command (help is a registered keyword so we just need to pretend we have a function called 'help')
 async def help_command(ctx):
     """ Basic bitch help command (by Ash) """
     title = discord.Embed(title = 'Help', color = glo.COLOR)
     title.add_field(name = 'Welcome to PhaseBot!', value = f"""
 Commands:
-{glo.PREFIX}starinfo
-{glo.PREFIX}avatar <user>
-{glo.PREFIX}rate <user>
-{glo.PREFIX}poll \"Question\" answers|here
-{glo.PREFIX}info
-{glo.PREFIX}logs <version>
-{glo.PREFIX}generate
-{glo.PREFIX}reload
-{glo.PREFIX}votes <number of choices>
-{glo.PREFIX}votesraw <chars to check>
-{glo.PREFIX}name <m|f|n>
-{glo.PREFIX}comments <IG user>""", inline = True) # Help and informmation #
+{glo.PREFIX}starinfo|si
+{glo.PREFIX}avatar|a <user>
+{glo.PREFIX}rate|sr <user>
+{glo.PREFIX}poll|p \"Question\" answers|here
+{glo.PREFIX}info|i
+{glo.PREFIX}logs|l <version>
+{glo.PREFIX}generate|lg
+{glo.PREFIX}stargen|sg
+{glo.PREFIX}reload|r
+{glo.PREFIX}votes|v <number of choices>
+{glo.PREFIX}votesraw|vr <chars to check>
+{glo.PREFIX}name|n <m|f|n>
+{glo.PREFIX}comments|c <IG user>""", inline = True) # Help and informmation #
     title.set_footer(text = glo.FOOTER())
     await ctx.send(embed = title) # Anabot help
 
-@bot.command()
+@bot.command(aliases = ["si"])
 async def starinfo(ctx):
     """Starboard info"""
     embed = discord.Embed (title = "What the hell is a starboard?", color = glo.COLOR)
@@ -96,11 +103,11 @@ If a message of your's that you don't like made it to the board, you can just as
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed) # Starboard help
 
-@bot.command()
+@bot.command(aliases = ["a"])
 async def avatar(ctx, user: discord.User):
     await ctx.send(user.avatar_url) # Anabot avatar command
 
-@bot.command()
+@bot.command(aliases = ["sr"])
 async def rate(ctx, user: discord.User):
     fpath = 'rate.json'
     try: scores = jsonRead(fpath)
@@ -120,7 +127,7 @@ async def rate(ctx, user: discord.User):
     await asyncio.sleep(2)
     await msg.edit(embed = glo.GETRATE(score, user)) # Stolen from Anabot
 
-@bot.command()
+@bot.command(aliases = ["p"])
 async def poll(ctx, question, *answers):
     answers = " ".join(answers) # Anabot interpreter
     answers = list(answers.split("|")) # Listify!
@@ -130,7 +137,7 @@ async def poll(ctx, question, *answers):
     message = await ctx.send(to_send)
     for x in range(len(answers)): await message.add_reaction(glo.GETEMOJI(x)) # GETEMOJI[x]
 
-@bot.command()
+@bot.command(aliases = ["i"])
 async def info(ctx):
     embed = discord.Embed(title = "About PhaseBot", color = glo.COLOR)
     embed.add_field(name = "Developer", value = "PhaseBot was created for LIFE: The Game by [Ash](https://kaidev.uk) on behalf of [Pythogon Technologies](https://github.com/Pythogon).", inline = False)
@@ -140,13 +147,13 @@ async def info(ctx):
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed) # Credits :)
 
-@bot.command()
+@bot.command(aliases = ["l"])
 async def logs(ctx, v: str):
     embed = await getLogs(v)
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed) # See logsembed.py
 
-@bot.command()
+@bot.command(aliases = ["lg"])
 async def generate(ctx):
     embed = discord.Embed(title = "I'm thinking...", color = glo.COLOR)
     embed.add_field(name = "Consulting CommentGenRNN...", value = "Just one moment.")
@@ -158,7 +165,7 @@ async def generate(ctx):
     new_embed.set_footer(text = glo.FOOTER())
     await message.edit(embed = new_embed) # CommentGenRNN integration
 
-@bot.command()
+@bot.command(aliases = ["r"])
 async def reload(ctx):
     embed = discord.Embed(title = "Polling Instagram...", color = glo.COLOR)
     embed.add_field(name = "It won't be a minute.", value = "Apologies for the wait!")
@@ -172,8 +179,8 @@ async def reload(ctx):
     new_embed.set_footer(text = glo.FOOTER())
     await message.edit(embed = new_embed)
 
-@bot.command()
-async def votes(ctx, to_check: int):
+@bot.command(aliases = ["v"])
+async def votes(ctx, to_check: int, ):
     letters = []
     no = []
     percentage = []
@@ -206,8 +213,8 @@ async def votes(ctx, to_check: int):
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)
 
-@bot.command()
-async def votesraw(ctx, to_check):
+@bot.command(aliases = ["vr"])
+async def votesraw(ctx, to_check, loose_checking=False):
     letters = list(to_check)
     no = []
     percentage = []
@@ -218,18 +225,19 @@ async def votesraw(ctx, to_check):
     total_yes = 0.0
     voted = []
     yes = []
-
     for x in range(to_check):
         percentage.append("")
         no.append(0)
-        yes.append(0)
-        
+        yes.append(0)        
         for comment in read:
             author = comment["owner"]["username"]
+            is_yes = False
             if author in voted: continue
-            if letters[x] == comment["text"][0].upper(): yes[x] += 1; voted.append(author)
-            else: no[x] += 1
-
+            if loose_checking == False:
+                if letters[x] == comment["text"][0].upper(): yes[x] += 1; voted.append(author); is_yes = True
+            else:
+                if letters[x] in comment["text"].upper(): yes[x] += 1; voted.append(author); is_yes = True
+            if is_yes == False: no[x] += 1
         percentage[x] = str((yes[x] / (yes[x] + no[x])) * 100)[:5]
         total_percentage += float(percentage[x])
         total_yes += yes[x]
@@ -240,7 +248,7 @@ async def votesraw(ctx, to_check):
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)
 
-@bot.command()
+@bot.command(aliases = ["c"])
 async def comments(ctx, user):
     comments = ""
     data = jsonRead("sole_nyu/sole_nyu.json")["GraphImages"][0]["comments"]["data"]
@@ -257,7 +265,7 @@ async def comments(ctx, user):
     await ctx.send(embed = embed)
 
 
-@bot.command()
+@bot.command(aliases = ["an"])
 @commands.is_owner()
 async def announce(ctx, *message):
     message = " ".join(message)
@@ -266,7 +274,7 @@ async def announce(ctx, *message):
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)
 
-@bot.command()
+@bot.command(aliases = ["n"])
 async def name(ctx, gender):
     if gender == "m" or gender == "f":
         name = names.get_full_name(gender = {"m": "male", "f": "female"}.get(gender))
@@ -278,10 +286,18 @@ async def name(ctx, gender):
     embed.set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)
 
-@bot.command()
+@bot.command(aliases = ["sg"])
 async def stargen(ctx):
     read = len(fileRead("starcastle.txt"))
     read = read / 1000
     await ctx.send(f"This isn't available yet! We are {read}% of the way towards having enough data to implement this command.")
+
+@bot.command(aliases = ["sc"])
+async def starcount(ctx):
+    star_list = jsonRead("starcount.json")
+    try: count = star_list[str(user.id)]
+    except: count = 0; star_list[str(user.id)] = 0; jsonWrite("starcount.json", star_list)
+    embed = discord.Embed(title = "Let me quickly check...", color = glo.COLOR).add_field(name = f"You currently have {count} stars.", value = "Stars before 2020-07-11 weren't counted.").set_footer(text = glo.FOOTER())
+    await ctx.send(embed = embed)
 
 bot.run(fileRead("token"))
