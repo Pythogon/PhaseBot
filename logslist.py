@@ -73,7 +73,7 @@ Modified how reaction_add gets logged to make checking for bugs and issues easie
         valid_embed.add_field(name = "Additions:", value = f"""{glo.PREFIX}starinfo command.
 Large amounts of essential backwork for starboard.""", inline = False)
     else:
-        invalid_embed = discord.Embed(title = f"v{v}..? I don't know what v{v} is...", color = 0xff0000)
-        invalid_embed.add_field(name = "Invalid version provided.", value = "Have you tried double checking the version you provided? Pre-releases (x.x.x-pre) do not have changelogs, try running the command without the -pre suffix.")
-        return invalid_embed
-    return valid_embed
+        invalid_embed = discord.Embed(title = f"v{v}..? I don't know what v{v} is...", color = 0xff0000
+        ).add_field(name = "Invalid version provided.", value = "Have you tried double checking the version you provided? Pre-releases (x.x.x-pre) do not have changelogs, try running the command without the -pre suffix.")
+        return invalid_embed.set_footer(text = glo.FOOTER())
+    return valid_embed.set_footer(text = glo.FOOTER())

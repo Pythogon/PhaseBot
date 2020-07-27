@@ -1,11 +1,12 @@
 import discord
+import json
 import random
 
 COLOR = 0xff00ff
 PREFIX = ")"
 STAR_COUNT = 3
 STAR_CHANNEL_ID = 728440495105114173
-VERSION = "1.1.1"
+VERSION = "1.2"
 
 def FOOTER():
     return "PhaseBot v{} | Made by Pythogon Technologies {}".format(VERSION, {1: "with love. ❤",
@@ -19,6 +20,13 @@ def FOOTER():
                                                                               9: "with magic and rainbows.",
                                                                               10: "while consulting the deities.",
                                                                               11: "on behalf of a very caffeinated frog."}.get(random.randint(1,11)))  # Random footer <3
+
+def GDPR():
+    return discord.Embed(title = "Sorry, but you need to agree to our privacy agreement!", color = 0xff0000
+    ).add_field(name = "Your privacy is important to us...", value = f"""In compliance with the EU's General Data Protection Regulation (GDPR), we're requiring all users to agree to their data being stored.
+PhaseBot uses and stores only the data that is essential to its operaton.
+You can learn more about the data we store by running {PREFIX}gdpr, or accept it by typing {PREFIX}accept."""
+    ).set_footer(text = FOOTER())
 
 def GETEMOJI(l):
     return {0: u"\U0001F7E4", 1: u"\U0001F7E3", 2: u"\U0001F7E2", 3: u"\U0001F7E0"}.get(l) # My beautiful getEmoji
@@ -35,19 +43,19 @@ def GETRATE(l, user):
     embed.set_footer(text = footerStr())
     return embed # # Splitting code
 
-def STAR(message, star_channel):
-    embed = discord.Embed(title = f"⭐ | {message.author}", color = COLOR) # Making the embed (Magenta)
-    embed.add_field(name = "Message:", value = message.content, inline = False)
-    embed.add_field(name = "Jump link:", value = message.jump_url, inline = False)
-    embed.set_footer(text = FOOTER())
+async def STAR(message, star_channel):
+    star_list = jsonRead("starcount.json")
+    embed = discord.Embed(title = f"⭐ | {message.author}", color = COLOR
+    ).add_field(name = "Message:", value = message.content, inline = False
+    ).add_field(name = "Jump link:", value = message.jump_url, inline = False
+    ).set_footer(text = FOOTER())
     await star_channel.send(embed = embed) # PhaseBot class
     fileAppend("starcastle.txt", message.content.encode(encoding = "ascii", errors = "ignore").decode())
     try:
-        star_list[str(user.id)] += 1
+        star_list[str(message.author.id)] += 1
     except:
-        star_list[str(user.id)] = 1
+        star_list[str(message.author.id)] = 1
     jsonWrite("starcount.json", star_list)
-
 # Local file mod functions
 
 def jsonRead(fpath):
