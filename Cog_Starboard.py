@@ -22,18 +22,17 @@ class Starboard(commands.Cog):
     @commands.command(aliases = ["fs"])
     @commands.is_owner()
     async def forcestar(self, ctx, channel: discord.TextChannel, message_id: int):
-        gdpr_list = glo.FILEREAD("gdpr.json")
+        gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
         except:
             return await ctx.send(embed = glo.GDPR())
-        try:
-            await glo.STAR(await channel.fetch_message(message_id), bot.get_channel(glo.STAR_CHANNEL_ID))
-            await ctx.send(f"Message {message_id} starred.")
-        except: await ctx.send("ERR. Invalid ID?")
+        await glo.STAR(await channel.fetch_message(message_id), self.bot.get_channel(glo.STAR_CHANNEL_ID))
+        await ctx.send(f"Message {message_id} starred.")
+        await ctx.send("ERR. Invalid ID?")
 
     @commands.command(aliases = ["ld"])
-    @commands.has_role(391598881009303562)
+    @commands.has_role(732384059191328809)
     async def leaderboard(self, ctx):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
@@ -50,7 +49,7 @@ class Starboard(commands.Cog):
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
 
-    @bot.command(aliases = ["sc"])
+    @commands.command(aliases = ["sc"])
     async def starcount(self, ctx):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
@@ -69,7 +68,7 @@ class Starboard(commands.Cog):
     async def starinfo(self, ctx):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
-            if gdpr_list[str(ctx.author.id)] is not 1: raise ValueError
+            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
         except:
             return await ctx.send(embed = glo.GDPR())
         """Starboard info"""

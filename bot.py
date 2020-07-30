@@ -94,8 +94,10 @@ poll|p "Question" answer1|answer2|answer3|answer4
 rate|sr <user>""", inline = False
     ).add_field(name = "Instagram", value = """comments|c <IG user>
 votes|v <number of choices>
-votesraw|vr <letters to search for> [loose checking = False]""", inline = False) # Help and informmation #
-    title.set_footer(text = glo.FOOTER())
+votesraw|vr <letters to search for> [loose checking = False]""", inline = False
+    ).add_field(name = "Starboard", value = """starcount|sc
+starinfo|si""", inline = False
+    ).set_footer(text = glo.FOOTER())
     await ctx.send(embed = title) # Anabot help
 
 @bot.command(aliases = ["a"])

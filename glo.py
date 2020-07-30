@@ -44,7 +44,7 @@ def GETRATE(l, user):
     return embed # # Splitting code
 
 async def STAR(message, star_channel):
-    star_list = jsonRead("starcount.json")
+    star_list = JSONREAD("starcount.json")
     embed = discord.Embed(title = f"⭐ | {message.author}", color = COLOR
     ).add_field(name = "Message:", value = message.content, inline = False
     ).add_field(name = "Jump link:", value = message.jump_url, inline = False

@@ -11,7 +11,7 @@ class Instagram(commands.Cog):
         self._last_member = None
 
     @commands.command(aliases = ["c"])
-    async def comments(ctx, user):
+    async def comments(self, ctx, user):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
@@ -32,7 +32,7 @@ class Instagram(commands.Cog):
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["r"])
-    async def reload(ctx):
+    async def reload(self, ctx):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
@@ -42,9 +42,9 @@ class Instagram(commands.Cog):
         ).add_field(name = "It won't be a minute.", value = "Apologies for the wait!"
         ).set_footer(text = glo.FOOTER())
         message = await ctx.send(embed = embed)
-        await bot.change_presence(activity = discord.Activity(name = f"Instagram - Loading...", type = discord.ActivityType.watching)) # Simplistic help
+        await self.bot.change_presence(activity = discord.Activity(name = f"Instagram - Loading...", type = discord.ActivityType.watching)) # Simplistic help
         os.system("scrape.bat")
-        await bot.change_presence(activity = discord.Activity(name = f"le noir | v{glo.VERSION}", type = discord.ActivityType.watching)) # Simplistic help
+        await self.bot.change_presence(activity = discord.Activity(name = f"le noir | v{glo.VERSION}", type = discord.ActivityType.watching)) # Simplistic help
         new_embed = discord.Embed(title = "Poll complete!", color = 0x00ff00
         ).add_field(name = f"{glo.PREFIX}votes has now been filled with new information!", value = "You can see how this worked over at [InstaScrape](https://github.com/Pythogon/InstaScrape/)."
         ).set_footer(text = glo.FOOTER())
