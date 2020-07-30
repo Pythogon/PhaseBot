@@ -40,7 +40,7 @@ def GETRATE(l, user):
     6: ['{} is the void itself. What did you expect?',0xff0000,'★★★★★★']}.get(l)
     embed = discord.Embed(title = varset[0].format(user.name), color = varset[1])
     embed.add_field(name = f'Rating: {varset[2]}', value = f'Do you want to know what I think about someone? Do {PREFIX}rate [@user].')
-    embed.set_footer(text = footerStr())
+    embed.set_footer(text = FOOTER())
     return embed # # Splitting code
 
 async def STAR(message, star_channel):
@@ -50,26 +50,26 @@ async def STAR(message, star_channel):
     ).add_field(name = "Jump link:", value = message.jump_url, inline = False
     ).set_footer(text = FOOTER())
     await star_channel.send(embed = embed) # PhaseBot class
-    fileAppend("starcastle.txt", message.content.encode(encoding = "ascii", errors = "ignore").decode())
+    FILEAPPEND("starcastle.txt", message.content.encode(encoding = "ascii", errors = "ignore").decode())
     try:
         star_list[str(message.author.id)] += 1
     except:
         star_list[str(message.author.id)] = 1
-    jsonWrite("starcount.json", star_list)
+    JSONWRITE("starcount.json", star_list)
 # Local file mod functions
 
-def jsonRead(fpath):
+def JSONREAD(fpath):
     fpath = f"local_Store/{fpath}"
     with open(fpath, 'r', encoding = "utf-8") as json_file: return json.load(json_file) # Anabot JSON read
 
-def jsonWrite(fpath, data):
+def JSONWRITE(fpath, data):
     fpath = f"local_Store/{fpath}"
     with open(fpath, 'w', encoding = "utf-8") as outfile: json.dump(data,outfile) # Anabot JSON write
 
-def fileRead(fpath):
+def FILEREAD(fpath):
     fpath = f"local_Store/{fpath}"
     with open(fpath, "r", encoding = "utf-8") as file: return file.read() # TXT read
 
-def fileAppend(fpath, data):
+def FILEAPPEND(fpath, data):
     fpath = f"local_Store/{fpath}"
     with open(fpath, "a", encoding = "utf-8") as file: file.write("\n" + data)
