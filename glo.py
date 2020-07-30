@@ -19,7 +19,9 @@ def FOOTER():
                                                                               8: "| It's nut free!",
                                                                               9: "with magic and rainbows.",
                                                                               10: "while consulting the deities.",
-                                                                              11: "on behalf of a very caffeinated frog."}.get(random.randint(1,11)))  # Random footer <3
+                                                                              11: "on behalf of a very caffeinated frog.",
+                                                                              12: "| If you find a bug, feel free to report it!",
+                                                                              13: "with thanks to our bug fixers: <insert them here>"}.get(random.randint(1,12)))  # Random footer <3
 
 def GDPR():
     return discord.Embed(title = "Sorry, but you need to agree to our privacy agreement!", color = 0xff0000
