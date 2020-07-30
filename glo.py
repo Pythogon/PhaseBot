@@ -6,7 +6,7 @@ COLOR = 0xff00ff
 PREFIX = ")"
 STAR_COUNT = 3
 STAR_CHANNEL_ID = 728440495105114173
-VERSION = "1.2"
+VERSION = "1.3"
 
 def FOOTER():
     return "PhaseBot v{} | Made by Pythogon Technologies {}".format(VERSION, {1: "with love. ❤",
