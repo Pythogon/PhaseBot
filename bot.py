@@ -16,7 +16,9 @@ from discord.ext import commands
 from logslist import getLogs
 from textgenrnn import textgenrnn
 
-from starboard import Starboard
+from COGgdpr import GDPR
+from COGinstagram import Instagram
+from COGstarboard import Starboard
 
 textgen = textgenrnn("local_Store/weights.hdf5") # CommentGenRNN backend loaded
 
@@ -69,6 +71,7 @@ class PhaseBot(commands.Bot):
 
 
 bot = PhaseBot(command_prefix = glo.PREFIX) # Writing the embed
+bot.add_cog(GDPR(bot))
 bot.add_cog(Starboard(bot))
 bot.remove_command('help') # Removing default help (I don't like it)
 
@@ -409,25 +412,6 @@ async def checkid(ctx, unkID: int, channelID = 1):
     ).add_field(name = f"Detected ID type: {to_send}.", value = "If this seems incorrect, check again! If it's suspected to be a message, ensure to add the channel."
     ).set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed)
-
-@bot.command()
-async def gdpr(ctx):
-    return await ctx.send(embed = discord.Embed(title = "GDPR", color = 0x00ff00
-    ).add_field(name = "How we use your data.", value = """PhaseBot uses your data in several situations. Below is a full list.
-Anonymised tracking and raw counts of starboard statistics.
-Saving of internal data such as scores.
-Temporary storage of user avatars.
-Named and anonymised public information from Instagram from the last 24 hours.
-
-If you wish to use the bot, type )accept."""
-    ).set_footer(text = glo.FOOTER()))
-
-@bot.command()
-async def accept(ctx):
-    gdpr_list = jsonRead("gdpr.json")
-    gdpr_list[str(ctx.author.id)] = 1
-    jsonWrite("gdpr.json", gdpr_list)
-    return await ctx.send("Thank you for agreeing to our DCA. You can revoke your permission at any time by contacting Ashie#9999.")
 
 @bot.command(aliases = ["eval"])
 @commands.is_owner()
