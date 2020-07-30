@@ -1,13 +1,13 @@
 import discord
 import glo
 
-from discord import commands
+from discord.ext import commands
 
 class GDPR(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
-    
+
     @bot.command()
     async def accept(self, ctx):
         gdpr_list = glo.JSONREAD("gdpr.json")
@@ -26,4 +26,3 @@ Named and anonymised public information from Instagram from the last 24 hours.
 
 If you wish to use the bot, type )accept."""
         ).set_footer(text = glo.FOOTER()))
- 

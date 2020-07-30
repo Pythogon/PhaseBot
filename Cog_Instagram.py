@@ -3,7 +3,7 @@ import os
 import discord
 import glo
 
-from discord import commands
+from discord.ext import commands
 
 class Instagram(commands.Cog):
     def __init__(self, bot):

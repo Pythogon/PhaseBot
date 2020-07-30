@@ -13,7 +13,6 @@ import glo
 from datetime import date
 from datetime import timedelta
 from discord.ext import commands
-from logslist import getLogs
 from textgenrnn import textgenrnn
 
 from Cog_GDPR import GDPR

@@ -1,7 +1,7 @@
 import discord
 import glo
 
-from discord import commands
+from discord.ext import commands
 
 class Generators(commands.Cog):
     def __init__(self, bot):

@@ -1,7 +1,7 @@
 import discord
 import glo
 
-from discord import commands
+from discord.ext import commands
 
 class Admin(commands.Cog):
 N    def __init__(self, bot):
