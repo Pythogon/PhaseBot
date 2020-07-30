@@ -1,7 +1,12 @@
 import discord
 import glo
 
+from datetime import date
+from datetime import timedelta
 from discord.ext import commands
+from textgenrnn import textgenrnn
+
+textgen = textgenrnn("local_Store/weights.hdf5") # CommentGenRNN backend loaded
 
 class Generators(commands.Cog):
     def __init__(self, bot):

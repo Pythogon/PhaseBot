@@ -1,19 +1,7 @@
-import ast
-import asyncio # Imports
-import json
-import names
-import operator
-import os
-import random
-import time
-
 import discord
 import glo
 
-from datetime import date
-from datetime import timedelta
 from discord.ext import commands
-from textgenrnn import textgenrnn
 
 from Cog_Admin import Admin
 from Cog_GDPR import GDPR
@@ -21,8 +9,6 @@ from Cog_General import General
 from Cog_Generators import Generators
 from Cog_Instagram import Instagram
 from Cog_Starboard import Starboard
-
-textgen = textgenrnn("local_Store/weights.hdf5") # CommentGenRNN backend loaded
 
 def jsonRead(fpath):
     fpath = f"local_Store/{fpath}"

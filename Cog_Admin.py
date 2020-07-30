@@ -1,6 +1,9 @@
+import ast
 import discord
 import glo
 
+from datetime import date
+from datetime import timedelta
 from discord.ext import commands
 
 def insert_returns(body):
@@ -27,7 +30,7 @@ class Admin(commands.Cog):
     @commands.command(aliases = ["an"])
     @commands.is_owner()
     async def announce(ctx, *message):
-        gdpr_list = jsonRead("gdpr.json")
+        gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
         except:
@@ -40,35 +43,35 @@ class Admin(commands.Cog):
 
     @commands.command(aliases = ["id"])
     async def checkid(ctx, unkID: int, channelID = 1):
-        gdpr_list = jsonRead("gdpr.json")
+        gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
         except:
             return await ctx.send(embed = glo.GDPR())
         try:
             print("0a")
-            h = bot.get_channel(unkID)
+            h = self.bot.get_channel(unkID)
             if h == None: raise
             print("0b")
             case = 0
         except:
             try:
                 print("1a")
-                h = bot.get_user(unkID)
+                h = self.bot.get_user(unkID)
                 if h == None: raise
                 print("1b")
                 case = 1
             except:
                 try:
                     print("2a")
-                    h = bot.get_emoji(unkID)
+                    h = self.bot.get_emoji(unkID)
                     if h == None: raise
                     print("2b")
                     case = 2
                 except:
                     try:
                         print("3a")
-                        c = bot.get_channel(channelID.id)
+                        c = self.bot.get_channel(channelID.id)
                         h = await c.fetch_message(unkID)
                         if h == None: raise
                         print("3b")
@@ -76,7 +79,7 @@ class Admin(commands.Cog):
                     except:
                         try:
                             print("4a")
-                            g = bot.get_guild(709717828365844511)
+                            g = self.bot.get_guild(709717828365844511)
                             h = g.get_role(unkID)
                             if h == None: raise
                             print("4b")

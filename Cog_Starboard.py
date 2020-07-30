@@ -1,5 +1,6 @@
 import discord
 import glo
+import operator
 
 from discord.ext import commands
 

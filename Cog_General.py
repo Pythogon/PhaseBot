@@ -1,5 +1,6 @@
 import discord
 import glo
+import names
 
 from discord.ext import commands
 
@@ -46,7 +47,6 @@ votes|v <number of choices>
 votesraw|vr <letters to search for> [loose checking = False]""", inline = False
         ).add_field(name = "Starboard", value = """starcount|sc
 starinfo|si""", inline = False
-        ).add_field()
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = title) # Anabot help
 
