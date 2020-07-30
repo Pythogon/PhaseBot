@@ -10,7 +10,7 @@ class Instagram(commands.Cog):
         self.bot = bot
         self._last_member = None
 
-    @bot.command(aliases = ["c"])
+    @commands.command(aliases = ["c"])
     async def comments(ctx, user):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
@@ -31,7 +31,7 @@ class Instagram(commands.Cog):
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
 
-    @bot.command(aliases = ["r"])
+    @commands.command(aliases = ["r"])
     async def reload(ctx):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
@@ -50,7 +50,7 @@ class Instagram(commands.Cog):
         ).set_footer(text = glo.FOOTER())
         await message.edit(embed = new_embed)
 
-    @bot.command(aliases = ["v"])
+    @commands.command(aliases = ["v"])
     async def votes(self, ctx, to_check: int):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
@@ -89,7 +89,7 @@ class Instagram(commands.Cog):
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
 
-    @bot.command(aliases = ["vr"])
+    @commands.command(aliases = ["vr"])
     async def votesraw(ctx, to_check, loose_checking=False):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:

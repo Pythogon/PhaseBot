@@ -19,7 +19,7 @@ class Starboard(commands.Cog):
         print(f"Message {message.id} in {message.channel.id} added to starcastle")
         await glo.STAR(message, bot.get_channel(glo.STAR_CHANNEL_ID))
 
-    @bot.command(aliases = ["fs"])
+    @commands.command(aliases = ["fs"])
     @commands.is_owner()
     async def forcestar(self, ctx, channel: discord.TextChannel, message_id: int):
         gdpr_list = glo.FILEREAD("gdpr.json")
@@ -32,7 +32,7 @@ class Starboard(commands.Cog):
             await ctx.send(f"Message {message_id} starred.")
         except: await ctx.send("ERR. Invalid ID?")
 
-    @bot.command(aliases = ["ld"])
+    @commands.command(aliases = ["ld"])
     @commands.has_role(391598881009303562)
     async def leaderboard(self, ctx):
         gdpr_list = glo.JSONREAD("gdpr.json")
@@ -65,7 +65,7 @@ class Starboard(commands.Cog):
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
 
-    @bot.command(aliases = ["si"])
+    @commands.command(aliases = ["si"])
     async def starinfo(self, ctx):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
