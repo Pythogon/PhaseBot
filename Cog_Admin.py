@@ -29,7 +29,7 @@ class Admin(commands.Cog):
 
     @commands.command(aliases = ["an"])
     @commands.is_owner()
-    async def announce(ctx, *message):
+    async def announce(self, ctx, *message):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
@@ -42,7 +42,7 @@ class Admin(commands.Cog):
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["id"])
-    async def checkid(ctx, unkID: int, channelID = 1):
+    async def checkid(self, ctx, unkID: int, channelID = 1):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
@@ -95,7 +95,7 @@ class Admin(commands.Cog):
 
     @commands.command(aliases = ["eval"])
     @commands.is_owner()
-    async def eval_fn(ctx, *, cmd):
+    async def eval_fn(self, ctx, *, cmd):
         fn_name = "_eval_expr"
         cmd = cmd.strip("` ")
         # add a layer of indentation

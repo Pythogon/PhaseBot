@@ -16,7 +16,7 @@ class General(commands.Cog):
             return await message.add_reaction(emoji) # BEAN
 
     @commands.command(aliases = ["a"])
-    async def avatar(ctx, user: discord.User):
+    async def avatar(self, ctx, user: discord.User):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
@@ -25,7 +25,7 @@ class General(commands.Cog):
         await ctx.send(user.avatar_url) # Anabot avatar command
 
     @commands.command(name = 'help', aliases = ["?"]) # New help command (help is a registered keyword so we just need to pretend we have a function called 'help')
-    async def help_command(ctx):
+    async def help_command(self, ctx):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] is not 1: raise ValueError
@@ -43,15 +43,19 @@ name|n <m|f|n>
 poll|p "Question" answer1|answer2|answer3|answer4
 rate|sr <user>""", inline = False
         ).add_field(name = "Instagram", value = """comments|c <IG user>
+reload|r
 votes|v <number of choices>
 votesraw|vr <letters to search for> [loose checking = False]""", inline = False
         ).add_field(name = "Starboard", value = """starcount|sc
 starinfo|si""", inline = False
+        ).add_field(name = "Generators", value = """lifegen|lg
+stargen|sg""", inline = False
+        ).add_field(name = "GDPR", value = "accept\ngdpr"
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = title) # Anabot help
 
     @commands.command(aliases = ["i"])
-    async def info(ctx):
+    async def info(self, ctx):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
@@ -66,7 +70,7 @@ starinfo|si""", inline = False
         await ctx.send(embed = embed) # Credits :)
 
     @commands.command(aliases = ["n"])
-    async def name(ctx, gender):
+    async def name(self, ctx, gender):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
@@ -83,7 +87,7 @@ starinfo|si""", inline = False
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["p"])
-    async def poll(ctx, question, *answers):
+    async def poll(self, ctx, question, *answers):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
@@ -98,7 +102,7 @@ starinfo|si""", inline = False
         for x in range(len(answers)): await message.add_reaction(glo.GETEMOJI(x)) # GETEMOJI[x]
 
     @commands.command(aliases = ["sr"])
-    async def rate(ctx, user: discord.User):
+    async def rate(self, ctx, user: discord.User):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError

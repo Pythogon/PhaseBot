@@ -18,7 +18,7 @@ class Starboard(commands.Cog):
         print(f"User {user.id} reacted to {message.id} in {message.channel.id}")
         if reaction.count != glo.STAR_COUNT: return # NO NOT THE LIMIT!
         print(f"Message {message.id} in {message.channel.id} added to starcastle")
-        await glo.STAR(message, bot.get_channel(glo.STAR_CHANNEL_ID))
+        await glo.STAR(message, self.bot.get_channel(glo.STAR_CHANNEL_ID))
 
     @commands.command(aliases = ["fs"])
     @commands.is_owner()

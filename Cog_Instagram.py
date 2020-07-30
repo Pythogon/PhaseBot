@@ -90,7 +90,7 @@ class Instagram(commands.Cog):
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["vr"])
-    async def votesraw(ctx, to_check, loose_checking=False):
+    async def votesraw(self, ctx, to_check, loose_checking=False):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError

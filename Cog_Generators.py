@@ -14,7 +14,7 @@ class Generators(commands.Cog):
         self._last_member = None
 
     @commands.command(aliases = ["lg"])
-    async def lifegen(ctx):
+    async def lifegen(self, ctx):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
@@ -31,7 +31,7 @@ class Generators(commands.Cog):
         await message.edit(embed = new_embed) # CommentGenRNN integration
 
     @commands.command(aliases = ["sg"])
-    async def stargen(ctx):
+    async def stargen(self, ctx):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
