@@ -33,6 +33,7 @@ class Starboard(commands.Cog):
         except: await ctx.send("ERR. Invalid ID?")
 
     @bot.command(aliases = ["ld"])
+    @commands.has_role(391598881009303562)
     async def leaderboard(self, ctx):
         gdpr_list = glo.JSONREAD("gdpr.json")
         try:

@@ -16,9 +16,9 @@ from discord.ext import commands
 from logslist import getLogs
 from textgenrnn import textgenrnn
 
-from COGgdpr import GDPR
-from COGinstagram import Instagram
-from COGstarboard import Starboard
+from Cog_GDPR import GDPR
+from Cog_Instagram import Instagram
+from Cog_Starboard import Starboard
 
 textgen = textgenrnn("local_Store/weights.hdf5") # CommentGenRNN backend loaded
 
@@ -72,6 +72,7 @@ class PhaseBot(commands.Bot):
 
 bot = PhaseBot(command_prefix = glo.PREFIX) # Writing the embed
 bot.add_cog(GDPR(bot))
+bot.add_cog(Instagram(bot))
 bot.add_cog(Starboard(bot))
 bot.remove_command('help') # Removing default help (I don't like it)
 
@@ -83,22 +84,18 @@ async def help_command(ctx):
     except:
         return await ctx.send(embed = glo.GDPR())
     """ Basic bitch help command (by Ash) """
-    title = discord.Embed(title = 'Help', color = glo.COLOR)
-    title.add_field(name = 'Welcome to PhaseBot!', value = f"""
-Commands:
-{glo.PREFIX}starinfo|si
-{glo.PREFIX}avatar|a <user>
-{glo.PREFIX}rate|sr <user>
-{glo.PREFIX}poll|p \"Question\" answers|here
-{glo.PREFIX}info|i
-{glo.PREFIX}logs|l <version>
-{glo.PREFIX}generate|lg
-{glo.PREFIX}stargen|sg
-{glo.PREFIX}reload|r
-{glo.PREFIX}votes|v <number of choices>
-{glo.PREFIX}votesraw|vr <chars to check>
-{glo.PREFIX}name|n <m|f|n>
-{glo.PREFIX}comments|c <IG user>""", inline = True) # Help and informmation #
+    title = discord.Embed(title = 'Help', color = glo.COLOR
+    ).add_field(name = 'Welcome to PhaseBot!', value = f"""
+Welcome to the PhaseBot {glo.VERSION} help menu.
+All commands use the {glo.PREFIX} prefix.
+Below are commands listed by category.""", inline = False
+    ).add_field(name = "General", value = """avatar|a <user>
+info|i
+poll|p "Question" answer1|answer2|answer3|answer4
+rate|sr <user>""", inline = False
+    ).add_field(name = "Instagram", value = """comments|c <IG user>
+votes|v <number of choices>
+votesraw|vr <letters to search for> [loose checking = False]""", inline = False) # Help and informmation #
     title.set_footer(text = glo.FOOTER())
     await ctx.send(embed = title) # Anabot help
 
@@ -166,16 +163,6 @@ async def info(ctx):
     ).set_footer(text = glo.FOOTER())
     await ctx.send(embed = embed) # Credits :)
 
-@bot.command(aliases = ["l"])
-async def logs(ctx, v: str):
-    gdpr_list = jsonRead("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    embed = await getLogs(v)
-    await ctx.send(embed = embed) # See logsembed.py
-
 @bot.command(aliases = ["lg"])
 async def lifegen(ctx):
     gdpr_list = jsonRead("gdpr.json")
@@ -192,127 +179,6 @@ async def lifegen(ctx):
     ).add_field(name = "Results:", value = fileRead("holding.txt")
     ).set_footer(text = glo.FOOTER())
     await message.edit(embed = new_embed) # CommentGenRNN integration
-
-@bot.command(aliases = ["r"])
-async def reload(ctx):
-    gdpr_list = jsonRead("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    embed = discord.Embed(title = "Polling Instagram...", color = glo.COLOR
-    ).add_field(name = "It won't be a minute.", value = "Apologies for the wait!"
-    ).set_footer(text = glo.FOOTER())
-    message = await ctx.send(embed = embed)
-    await bot.change_presence(activity = discord.Activity(name = f"Instagram - Loading...", type = discord.ActivityType.watching)) # Simplistic help
-    os.system("scrape.bat")
-    await bot.change_presence(activity = discord.Activity(name = f"le noir | v{glo.VERSION}", type = discord.ActivityType.watching)) # Simplistic help
-    new_embed = discord.Embed(title = "Poll complete!", color = 0x00ff00
-    ).add_field(name = f"{glo.PREFIX}votes has now been filled with new information!", value = "You can see how this worked over at [InstaScrape](https://github.com/Pythogon/InstaScrape/)."
-    ).set_footer(text = glo.FOOTER())
-    await message.edit(embed = new_embed)
-
-@bot.command(aliases = ["v"])
-async def votes(ctx, to_check: int):
-    gdpr_list = jsonRead("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    letters = []
-    no = []
-    percentage = []
-    read = jsonRead("sole_nyu/sole_nyu.json")["GraphImages"][0]["comments"]["data"]
-    to_send = ""
-    total_percentage = 0.0
-    total_yes = 0.0
-    voted = []
-    yes = []
-
-    for x in range(to_check):
-        letters.append(chr(65 + x))
-        percentage.append("")
-        no.append(0)
-        yes.append(0)
-
-        for comment in read:
-            author = comment["owner"]["username"]
-            if author in voted: continue
-            if letters[x] == comment["text"][0].upper(): yes[x] += 1; voted.append(author)
-            else: no[x] += 1
-
-        percentage[x] = str((yes[x] / (yes[x] + no[x])) * 100)[:5]
-        total_percentage += float(percentage[x])
-        total_yes += yes[x]
-
-    for x in range(to_check): to_send += f"{letters[x]}: {str((yes[x] / total_yes) * 100)[:5]}% ({yes[x]} counted).\n"
-    embed = discord.Embed(title = "Lemme do the maths...", color = glo.COLOR
-    ).add_field(name = f"Running voting results for today:", value = to_send
-    ).set_footer(text = glo.FOOTER())
-    await ctx.send(embed = embed)
-
-@bot.command(aliases = ["vr"])
-async def votesraw(ctx, to_check, loose_checking=False):
-    gdpr_list = jsonRead("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    letters = list(to_check)
-    no = []
-    percentage = []
-    read = jsonRead("sole_nyu/sole_nyu.json")["GraphImages"][0]["comments"]["data"]
-    to_check = len(letters)
-    to_send = ""
-    total_percentage = 0.0
-    total_yes = 0.0
-    voted = []
-    yes = []
-    for x in range(to_check):
-        percentage.append("")
-        no.append(0)
-        yes.append(0)
-        voted.append([])
-        for comment in read:
-            author = comment["owner"]["username"]
-            is_yes = False
-            if author in voted: continue
-            if loose_checking == False:
-                if letters[x] == comment["text"][0].upper(): yes[x] += 1; voted[x].append(author); is_yes = True
-            else:
-                if letters[x] in comment["text"].upper(): yes[x] += 1; voted[x].append(author); is_yes = True
-            if is_yes == False: no[x] += 1
-        percentage[x] = str((yes[x] / (yes[x] + no[x])) * 100)[:5]
-        total_percentage += float(percentage[x])
-        total_yes += yes[x]
-
-    for x in range(to_check): to_send += f"{letters[x]}: {str((yes[x] / total_yes) * 100)[:5]}% ({yes[x]} counted).\n"
-    embed = discord.Embed(title = "Lemme do the maths...", color = glo.COLOR
-    ).add_field(name = f"Running voting results for today:", value = to_send
-    ).set_footer(text = glo.FOOTER())
-    await ctx.send(embed = embed)
-
-@bot.command(aliases = ["c"])
-async def comments(ctx, user):
-    gdpr_list = jsonRead("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    comments = ""
-    data = jsonRead("sole_nyu/sole_nyu.json")["GraphImages"][0]["comments"]["data"]
-    for comment in data:
-        if user == comment["owner"]["username"]: comments += comment["text"] + "\n"
-    if comments == "":
-        embed = discord.Embed(title = "No comments found!", color = 0xff0000
-        ).add_field(name = "Maybe they got dissolved by adimensia...", value = "Ensure you're typing the username correctly."
-        ).set_footer(text = glo.FOOTER())
-        return await ctx.send(embed = embed)
-    embed = discord.Embed(title = "Comments found!", color = glo.COLOR
-    ).add_field(name = f"{user}'s comments:", value = comments
-    ).set_footer(text = glo.FOOTER())
-    await ctx.send(embed = embed)
-
 
 @bot.command(aliases = ["an"])
 @commands.is_owner()

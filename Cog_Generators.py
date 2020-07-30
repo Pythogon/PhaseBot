@@ -3,10 +3,10 @@ import glo
 
 from discord import commands
 
-class Instagram(commands.Cog):
+class Generators(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
     """
-    TODO Instagram cog implementation
+    TODO Generators cog implementation
     """
