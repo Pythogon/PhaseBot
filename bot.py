@@ -15,27 +15,14 @@ from datetime import timedelta
 from discord.ext import commands
 from textgenrnn import textgenrnn
 
+from Cog_Admin import Admin
 from Cog_GDPR import GDPR
+from Cog_General import General
+from Cog_Generators import Generators
 from Cog_Instagram import Instagram
 from Cog_Starboard import Starboard
 
 textgen = textgenrnn("local_Store/weights.hdf5") # CommentGenRNN backend loaded
-
-def insert_returns(body):
-    # insert return stmt if the last expression is a expression statement
-    if isinstance(body[-1], ast.Expr):
-        body[-1] = ast.Return(body[-1].value)
-        ast.fix_missing_locations(body[-1])
-    # for if statements, we insert returns into the body and the orelse
-    if isinstance(body[-1], ast.If):
-        insert_returns(body[-1].body)
-        insert_returns(body[-1].orelse)
-    # for with blocks, again we insert returns into the body
-    if isinstance(body[-1], ast.With):
-        insert_returns(body[-1].body)
-    # for with blocks, again we insert returns into the body
-    if isinstance(body[-1], ast.AsyncWith):
-        insert_returns(body[-1].body)
 
 def jsonRead(fpath):
     fpath = f"local_Store/{fpath}"
@@ -70,232 +57,11 @@ class PhaseBot(commands.Bot):
 
 
 bot = PhaseBot(command_prefix = glo.PREFIX) # Writing the embed
+bot.remove_command('help') # Removing default help (I don't like it)
+bot.add_cog(Admin(bot)) # Cogs
 bot.add_cog(GDPR(bot))
+bot.add_cog(General(bot))
+bot.add_cog(Generators(bot))
 bot.add_cog(Instagram(bot))
 bot.add_cog(Starboard(bot))
-bot.remove_command('help') # Removing default help (I don't like it)
-
-@bot.command(name = 'help', aliases = ["?"]) # New help command (help is a registered keyword so we just need to pretend we have a function called 'help')
-async def help_command(ctx):
-    gdpr_list = jsonRead("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] is not 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    """ Basic bitch help command (by Ash) """
-    title = discord.Embed(title = 'Help', color = glo.COLOR
-    ).add_field(name = 'Welcome to PhaseBot!', value = f"""
-Welcome to the PhaseBot {glo.VERSION} help menu.
-All commands use the {glo.PREFIX} prefix.
-Below are commands listed by category.""", inline = False
-    ).add_field(name = "General", value = """avatar|a <user>
-info|i
-poll|p "Question" answer1|answer2|answer3|answer4
-rate|sr <user>""", inline = False
-    ).add_field(name = "Instagram", value = """comments|c <IG user>
-votes|v <number of choices>
-votesraw|vr <letters to search for> [loose checking = False]""", inline = False
-    ).add_field(name = "Starboard", value = """starcount|sc
-starinfo|si""", inline = False
-    ).set_footer(text = glo.FOOTER())
-    await ctx.send(embed = title) # Anabot help
-
-@bot.command(aliases = ["a"])
-async def avatar(ctx, user: discord.User):
-    gdpr_list = jsonRead("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    await ctx.send(user.avatar_url) # Anabot avatar command
-
-@bot.command(aliases = ["sr"])
-async def rate(ctx, user: discord.User):
-    gdpr_list = jsonRead("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    fpath = 'rate.json'
-    try: scores = jsonRead(fpath)
-    except: await ctx.send('ERR')
-    try:
-        score = int(scores[str(user.id)])
-        embed = discord.Embed(title=f"Someone's already asked about {user.name}. One moment...", color = 0xbdbdbd
-        ).add_field(name = 'Fetching...', value = "Please wait, this won't take long.")
-    except:
-        embed = discord.Embed(title=f"Nobody's asked me about {user.name} yet. Let's have a look.", color = 0xbdbdbd
-        ).add_field(name = 'Calculating...', value = "Please wait, this won't take long.")
-        score = random.randint(1,5)
-        scores[str(user.id)] = str(score)
-        jsonWrite(fpath, scores)
-    embed.set_footer(text = glo.FOOTER())
-    msg = await ctx.send(embed=embed)
-    await asyncio.sleep(2)
-    await msg.edit(embed = glo.GETRATE(score, user)) # Stolen from Anabot
-
-@bot.command(aliases = ["p"])
-async def poll(ctx, question, *answers):
-    gdpr_list = jsonRead("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    answers = " ".join(answers) # Anabot interpreter
-    answers = list(answers.split("|")) # Listify!
-    if len(answers) > 4: return await ctx.send("You can have a maximum of 4 answers.") # ERR
-    to_send = f"__New poll: **{question}**__"
-    for x in range(len(answers)): to_send += "\n" + glo.GETEMOJI(x) + ": " + answers[x]
-    message = await ctx.send(to_send)
-    for x in range(len(answers)): await message.add_reaction(glo.GETEMOJI(x)) # GETEMOJI[x]
-
-@bot.command(aliases = ["i"])
-async def info(ctx):
-    gdpr_list = jsonRead("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    embed = discord.Embed(title = "About PhaseBot", color = glo.COLOR
-    ).add_field(name = "Developer", value = "PhaseBot was created for LIFE: The Game by [Ash](https://kaidev.uk) on behalf of [Pythogon Technologies](https://github.com/Pythogon).", inline = False
-    ).add_field(name = "More Info", value = f"PhaseBot is currently on Version {glo.VERSION}. The project started on 2020-07-04.", inline = False
-    ).add_field(name = "Special Thanks", value = "Special thanks to all who worked on [Anabot](https://github.com/Pythogon/Anabot) and [CommentGenRNN](https://github.com/Pythogon/CommentGenRNN) for providing considerable contributions to PhaseBot.", inline = False
-    ).add_field(name = "GitHub.", value = "You can find PhaseBot's GitHub [here](https://github.com/Pythogon/PhaseBot) and take a look at its source code! If you posess developing talents, feel free to send a PR our way, we'd be happy to take on any suggestions.", inline = False
-    ).set_footer(text = glo.FOOTER())
-    await ctx.send(embed = embed) # Credits :)
-
-@bot.command(aliases = ["lg"])
-async def lifegen(ctx):
-    gdpr_list = jsonRead("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    embed = discord.Embed(title = "I'm thinking...", color = glo.COLOR
-    ).add_field(name = "Consulting CommentGenRNN...", value = "Just one moment."
-    ).set_footer(text = glo.FOOTER())
-    message = await ctx.send(embed = embed)
-    textgen.generate_to_file("local_Store/holding.txt", temperature = 1.0) # CommentGenRNN trained off of all LIFE until Kaiser
-    new_embed = discord.Embed(title = "I'm done!", color = 0x00ff00
-    ).add_field(name = "Results:", value = fileRead("holding.txt")
-    ).set_footer(text = glo.FOOTER())
-    await message.edit(embed = new_embed) # CommentGenRNN integration
-
-@bot.command(aliases = ["an"])
-@commands.is_owner()
-async def announce(ctx, *message):
-    gdpr_list = jsonRead("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    message = " ".join(message)
-    embed = discord.Embed(title = "An important update about PhaseBot.", color = glo.COLOR
-    ).add_field(name = "Announcement:", value = message
-    ).set_footer(text = glo.FOOTER())
-    await ctx.send(embed = embed)
-
-@bot.command(aliases = ["n"])
-async def name(ctx, gender):
-    gdpr_list = jsonRead("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    if gender == "m" or gender == "f":
-        name = names.get_full_name(gender = {"m": "male", "f": "female"}.get(gender))
-    else:
-        name = names.get_full_name()
-    label = {"m": "male", "f": "female"}.get(gender, "random")
-    embed = discord.Embed(title = f"Generating a {label} name...", color = glo.COLOR
-    ).add_field(name = f"The name I came up with is {name}.", value = "Feel free to run the command again!"
-    ).set_footer(text = glo.FOOTER())
-    await ctx.send(embed = embed)
-
-@bot.command(aliases = ["sg"])
-async def stargen(ctx):
-    gdpr_list = jsonRead("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    read = len(fileRead("starcastle.txt"))
-    percent = float('{:g}'.format(float('{:.{p}g}'.format((read / 100000) * 100, p=4))))
-    started = date(2020, 7, 4)
-    today = date.today()
-    diff = today - started
-    until = (started + timedelta(days = round(100 / (percent / diff.days)))).strftime('%Y-%m-%d')
-    print(until)
-    await ctx.send(f"This isn't available yet! We are {percent}% of the way towards having enough data to implement this command. ETA: {until}.")
-
-@bot.command(aliases = ["id"])
-async def checkid(ctx, unkID: int, channelID = 1):
-    gdpr_list = jsonRead("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    try:
-        print("0a")
-        h = bot.get_channel(unkID)
-        if h == None: raise
-        print("0b")
-        case = 0
-    except:
-        try:
-            print("1a")
-            h = bot.get_user(unkID)
-            if h == None: raise
-            print("1b")
-            case = 1
-        except:
-            try:
-                print("2a")
-                h = bot.get_emoji(unkID)
-                if h == None: raise
-                print("2b")
-                case = 2
-            except:
-                try:
-                    print("3a")
-                    c = bot.get_channel(channelID.id)
-                    h = await c.fetch_message(unkID)
-                    if h == None: raise
-                    print("3b")
-                    case = 3
-                except:
-                    try:
-                        print("4a")
-                        g = bot.get_guild(709717828365844511)
-                        h = g.get_role(unkID)
-                        if h == None: raise
-                        print("4b")
-                        case = 4
-                    except:
-                        print("5")
-                        case = 5
-    to_send = {0: "channel", 1: "user", 2: "emoji", 3: "message", 4: "role", 5: "unknown"}.get(case)
-    embed = discord.Embed(title = "Searching for ID...", color = glo.COLOR
-    ).add_field(name = f"Detected ID type: {to_send}.", value = "If this seems incorrect, check again! If it's suspected to be a message, ensure to add the channel."
-    ).set_footer(text = glo.FOOTER())
-    await ctx.send(embed = embed)
-
-@bot.command(aliases = ["eval"])
-@commands.is_owner()
-async def eval_fn(ctx, *, cmd):
-    fn_name = "_eval_expr"
-    cmd = cmd.strip("` ")
-    # add a layer of indentation
-    cmd = "\n".join(f"    {i}" for i in cmd.splitlines())
-    # wrap in async def body
-    body = f"async def {fn_name}():\n{cmd}"
-    parsed = ast.parse(body)
-    body = parsed.body[0].body
-    insert_returns(body)
-    env = {'bot': bot, 'discord': discord, 'commands': commands, 'ctx': ctx, '__import__': __import__, "date": date, "timedelta": timedelta, "glo": glo}
-    exec(compile(parsed, filename="<ast>", mode="exec"), env)
-    result = (await eval(f"{fn_name}()", env))
-    await ctx.send(result)
-
-
 bot.run(fileRead("token"))
