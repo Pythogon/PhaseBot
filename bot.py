@@ -50,9 +50,6 @@ class PhaseBot(commands.Bot):
 
     async def on_message(self, message):
         if message.author.bot: return # We don't like bots
-        if "214771884544229382" in message.content:
-            emoji = bot.get_emoji(710243429119950969)
-            return await message.add_reaction(emoji) # BEAN
         return await bot.process_commands(message)
 
 

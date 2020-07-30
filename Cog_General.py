@@ -8,14 +8,20 @@ class General(commands.Cog):
         self.bot = bot
         self._last_member = None
 
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if "214771884544229382" in message.content:
+            emoji = bot.get_emoji(710243429119950969)
+            return await message.add_reaction(emoji) # BEAN
+
     @commands.command(aliases = ["a"])
-async def avatar(ctx, user: discord.User):
-    gdpr_list = glo.JSONREAD("gdpr.json")
-    try:
-        if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-    except:
-        return await ctx.send(embed = glo.GDPR())
-    await ctx.send(user.avatar_url) # Anabot avatar command
+    async def avatar(ctx, user: discord.User):
+        gdpr_list = glo.JSONREAD("gdpr.json")
+        try:
+            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
+        except:
+            return await ctx.send(embed = glo.GDPR())
+        await ctx.send(user.avatar_url) # Anabot avatar command
 
     @commands.command(name = 'help', aliases = ["?"]) # New help command (help is a registered keyword so we just need to pretend we have a function called 'help')
     async def help_command(ctx):
