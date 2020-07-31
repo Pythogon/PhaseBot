@@ -11,6 +11,9 @@ STAR_CHANNEL_ID = 728440495105114173
 VERSION = "1.3"
 
 def FOOTER():
+    """
+    The random footer generator for PhaseBot embeds.
+    """
     return "PhaseBot v{} | Made by Pythogon Technologies {}".format(VERSION, {1: "with love. ❤",
                                                                               2: "in discord.py.",
                                                                               3: "on 2020-07-04.",
@@ -26,6 +29,9 @@ def FOOTER():
                                                                               13: "with thanks to our bug fixers: <insert them here>"}.get(random.randint(1,12)))  # Random footer <3
 
 def GDPR():
+    """
+    Privacy agreement not signed handling.
+    """
     return discord.Embed(title = "Sorry, but you need to agree to our privacy agreement!", color = 0xff0000
     ).add_field(name = "Your privacy is important to us...", value = f"""In compliance with the EU's General Data Protection Regulation (GDPR), we're requiring all users to agree to their data being stored.
     PhaseBot uses and stores only the data that is essential to its operaton.

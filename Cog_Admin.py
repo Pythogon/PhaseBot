@@ -99,11 +99,12 @@ class Admin(commands.Cog):
     @commands.command(aliases = ["dh"])
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def devhelp(self, ctx):
-        embed = discord.Embed(title = "Developer help panel.", color = glo.COLOR
-        ).add_field(name = "Developer only commands.", value = """checkid|id
+        embed = discord.Embed(title = "Developer help panel", color = glo.COLOR
+        ).add_field(name = "Developer only commands", value = """checkid|id
         devhelp|dh
-        leaderboard|ld""", inline = False
-        ).add_field(name = "Bot admin only commands.", value = """evaluate|eval <to eval>
+        leaderboard|ld
+        schedule_add|ssa <YYYY-MM-DD> <user>""", inline = False
+        ).add_field(name = "Bot admin only commands", value = """evaluate|eval <to eval>
         forcestar|fs <channel> <message ID>"""
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
@@ -134,7 +135,7 @@ class Admin(commands.Cog):
                 raise ValueError
         except:
             return await ctx.send(embed=glo.GDPR())
-        read = dict(sorted(glo.JSONREAD("starcount.json").items(),key=operator.itemgetter(1), reverse=True))
+        read = dict(sorted(glo.JSONREAD("starcount.json").items(), reverse=False))
         to_send = ""
         for key, value in read.items():
             name = await self.bot.fetch_user(int(key))
