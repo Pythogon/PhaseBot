@@ -19,10 +19,10 @@ class GDPR(commands.Cog):
     async def gdpr(self, ctx):
         await ctx.send(embed = discord.Embed(title = "GDPR", color = 0x00ff00
         ).add_field(name = "How we use your data.", value = """PhaseBot uses your data in several situations. Below is a full list.
-Anonymised tracking and raw counts of starboard statistics.
-Saving of internal data such as scores.
-Temporary storage of user avatars.
-Named and anonymised public information from Instagram from the last 24 hours.
+        Anonymised tracking and raw counts of starboard statistics.
+        Saving of internal data such as scores.
+        Temporary storage of user avatars.
+        Named and anonymised public information from Instagram from the last 24 hours.
 
-If you wish to use the bot, type )accept."""
+        If you wish to use the bot, type )accept."""
         ).set_footer(text = glo.FOOTER()))

@@ -12,22 +12,6 @@ from Cog_Generators import Generators
 from Cog_Instagram import Instagram
 from Cog_Starboard import Starboard
 
-def jsonRead(fpath):
-    fpath = f"local_Store/{fpath}"
-    with open(fpath, 'r', encoding = "utf-8") as json_file: return json.load(json_file) # Anabot JSON read
-
-def jsonWrite(fpath, data):
-    fpath = f"local_Store/{fpath}"
-    with open(fpath, 'w', encoding = "utf-8") as outfile: json.dump(data,outfile) # Anabot JSON write
-
-def fileRead(fpath):
-    fpath = f"local_Store/{fpath}"
-    with open(fpath, "r", encoding = "utf-8") as file: return file.read() # TXT read
-
-def fileAppend(fpath, data):
-    fpath = f"local_Store/{fpath}"
-    with open(fpath, "a", encoding = "utf-8") as file: file.write("\n" + data)
-
 class PhaseBot(commands.Bot):
     """ The bot """
     async def on_ready(self):
@@ -49,4 +33,4 @@ bot.add_cog(General(bot))
 bot.add_cog(Generators(bot))
 bot.add_cog(Instagram(bot))
 bot.add_cog(Starboard(bot))
-bot.run(fileRead("token"))
+bot.run(glo.FILEREAD("token"))

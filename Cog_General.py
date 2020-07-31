@@ -1,6 +1,8 @@
+import asyncio
 import discord
 import glo
 import names
+import random
 
 from discord.ext import commands
 
@@ -12,7 +14,7 @@ class General(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         if "214771884544229382" in message.content:
-            emoji = bot.get_emoji(710243429119950969)
+            emoji = self.bot.get_emoji(710243429119950969)
             return await message.add_reaction(emoji) # BEAN
 
     @commands.command(aliases = ["a"])
@@ -34,22 +36,22 @@ class General(commands.Cog):
         """ Basic bitch help command (by Ash) """
         title = discord.Embed(title = 'Help', color = glo.COLOR
         ).add_field(name = 'Welcome to PhaseBot!', value = f"""Welcome to the PhaseBot {glo.VERSION} help menu.
-All commands use the {glo.PREFIX} prefix.
-Below are commands listed by category.""", inline = False
+        All commands use the {glo.PREFIX} prefix.
+        Below are commands listed by category.""", inline = False
         ).add_field(name = "General", value = """avatar|a <user>
-help|?
-info|i
-name|n <m|f|n>
-poll|p "Question" answer1|answer2|answer3|answer4
-rate|sr <user>""", inline = False
+        help|?
+        info|i
+        name|n <m|f|n>
+        poll|p "Question" answer1|answer2|answer3|answer4
+        rate|sr <user>""", inline = False
         ).add_field(name = "Instagram", value = """comments|c <IG user>
-reload|r
-votes|v <number of choices>
-votesraw|vr <letters to search for> [loose checking = False]""", inline = False
+        reload|r
+        votes|v <number of choices>
+        votesraw|vr <letters to search for> [loose checking = False]""", inline = False
         ).add_field(name = "Starboard", value = """starcount|sc
-starinfo|si""", inline = False
+        starinfo|si""", inline = False
         ).add_field(name = "Generators", value = """lifegen|lg
-stargen|sg""", inline = False
+        stargen|sg""", inline = False
         ).add_field(name = "GDPR", value = "accept\ngdpr"
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = title) # Anabot help

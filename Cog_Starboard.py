@@ -11,8 +11,7 @@ class Starboard(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
-        message = reaction.message # Let's get the message reactions
-        star_list = glo.JSONREAD("starcount.json")
+        message = reaction.message # Let's get the message reaction
         if message.author.bot: return # NO BOTS
         if reaction.emoji != "⭐": return # NO ANYTHING BUT STAR BB
         print(f"User {user.id} reacted to {message.id} in {message.channel.id}")
@@ -31,24 +30,6 @@ class Starboard(commands.Cog):
         await glo.STAR(await channel.fetch_message(message_id), self.bot.get_channel(glo.STAR_CHANNEL_ID))
         await ctx.send(f"Message {message_id} starred.")
         await ctx.send("ERR. Invalid ID?")
-
-    @commands.command(aliases = ["ld"])
-    @commands.has_role(732384059191328809)
-    async def leaderboard(self, ctx):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
-        read = dict(sorted(glo.JSONREAD("starcount.json").items(), key=operator.itemgetter(1),reverse=True))
-        to_send = ""
-        for key, value in read.items():
-            name = await bot.fetch_user(int(key))
-            to_send += f"{name.name}: {value}\n"
-        embed = discord.Embed(title = "Starboard Leaderboard", color = glo.COLOR
-        ).add_field(name = "Scores:", value = to_send
-        ).set_footer(text = glo.FOOTER())
-        await ctx.send(embed = embed)
 
     @commands.command(aliases = ["sc"])
     async def starcount(self, ctx):
@@ -75,9 +56,9 @@ class Starboard(commands.Cog):
         """Starboard info"""
         embed = discord.Embed (title = "What the hell is a starboard?", color = glo.COLOR)
         embed.add_field(name = "The starboard", value = f"""The starboard is a way of saving messages that the community finds funny, clever, etc. It operates like the Quote Vault, but is purely democratic.
+        
+        You can add to the starboard by reacting to a message with the ⭐ emoji. If the message gets {glo.STAR_COUNT} ⭐s, it will be added to the starcastle channel automatically.
 
-You can add to the starboard by reacting to a message with the ⭐ emoji. If the message gets {glo.STAR_COUNT} ⭐s, it will be added to the starcastle channel automatically.
-
-If a message of your's that you don't like made it to the board, you can just ask Ash to delete it.""")
+        If one of your messages that you don't like made it to the board, you can just ask Ash to delete it.""")
         embed.set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed) # Starboard help

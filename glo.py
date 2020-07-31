@@ -3,6 +3,8 @@ import json
 import random
 
 COLOR = 0xff00ff
+DEVELOPER_ROLE_ID = 732384059191328809
+GUILD_ID = 709717828365844511
 PREFIX = ")"
 STAR_COUNT = 3
 STAR_CHANNEL_ID = 728440495105114173
@@ -26,8 +28,8 @@ def FOOTER():
 def GDPR():
     return discord.Embed(title = "Sorry, but you need to agree to our privacy agreement!", color = 0xff0000
     ).add_field(name = "Your privacy is important to us...", value = f"""In compliance with the EU's General Data Protection Regulation (GDPR), we're requiring all users to agree to their data being stored.
-PhaseBot uses and stores only the data that is essential to its operaton.
-You can learn more about the data we store by running {PREFIX}gdpr, or accept it by typing {PREFIX}accept."""
+    PhaseBot uses and stores only the data that is essential to its operaton.
+    You can learn more about the data we store by running {PREFIX}gdpr, or accept it by typing {PREFIX}accept."""
     ).set_footer(text = FOOTER())
 
 def GETEMOJI(l):
@@ -58,7 +60,8 @@ async def STAR(message, star_channel):
     except:
         star_list[str(message.author.id)] = 1
     JSONWRITE("starcount.json", star_list)
-# Local file mod functions
+
+# Global file mod functions
 
 def JSONREAD(fpath):
     fpath = f"local_Store/{fpath}"
