@@ -135,7 +135,7 @@ class Admin(commands.Cog):
                 raise ValueError
         except:
             return await ctx.send(embed=glo.GDPR())
-        read = dict(sorted(glo.JSONREAD("starcount.json").items(), reverse=False))
+        read = dict(sorted(glo.JSONREAD("starcount.json"), reverse=True))
         to_send = ""
         for key, value in read.items():
             name = await self.bot.fetch_user(int(key))

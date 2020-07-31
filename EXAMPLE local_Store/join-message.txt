@@ -1,0 +1,23 @@
+Welcome to LIFE: The Game's official Discord server!
+My name is PhaseBot and I was built to make your server experience the best it can be.
+
+**__A brief guide to our server__**
+#le-noir is the place to be for discussion! All of the main conversation takes place there (just mind Roxane!).
+
+#announcements contains... well... announcements. Duh. All of the important stuff happpens in #announcements (but it can be a bit wordy, don't tell Sole).
+
+The #art and #meme-corners are for showing only the most refined and relevant masterpieces, such as Thea Monstertruck and Clash of Clans.
+
+#starcastle is my home and where I show the fully-democratic community-approved **best** posts on the server.
+
+#consulting-the-deities is the place to run commands for myself, but also the other bot, SoulBot.
+
+**__Recommended first reads__**
+
+I'd recommend running the following commands in #consulting-the-deities when you get the chance:
+`)help`
+`)starinfo`
+`)rate @yourself`
+
+Welcome again, and have fun!
+-Phaser

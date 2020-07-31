@@ -11,22 +11,26 @@ class Scheduler(commands.Cog):
         self.bot = bot
         self._last_member = None
 
-    @commands.command(aliases = ["ssa"])
+    @commands.group(aliases = ["ss"])
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
-    async def schedule_add(self, ctx, day, user):
-        schedule = glo.JSONREAD("schedule.json")
+    async def schedule(self, ctx):
+        if ctx.invoked_subcommand is None:
+            await ctx.send(f"Correct usage is `{glo.PREFIX}schedule [add|remove]`.")
+
+    @schedule.command(aliases = ["a"])
+    async def add(self, ctx, day, user): 
+        scheduled = glo.JSONREAD("schedule.json")
         try: datetime.strptime(day, "%Y-%m-%d")
         except: return await ctx.send("The date isn't valid. Please try again (CORRECT FORMAT IS YYYY-MM-DD).")
-        schedule[day] = user
-        glo.JSONWRITE("schedule.json", schedule)
+        scheduled[day] = user
+        glo.JSONWRITE("schedule.json", scheduled)
         await ctx.send(f"Added {user} to schedule on {day}.")
-    
-    @commands.command(aliases = ["ssr"])
-    @commands.has_role(glo.DEVELOPER_ROLE_ID)
-    async def schedule_remove(self, ctx, day):
-        schedule = glo.JSONREAD("schedule.json")
-        schedule.pop(day)
-        glo.JSONWRITE("schedule.json", schedule)
+
+    @schedule.command(aliases = ["r"])
+    async def remove(self, ctx, day):
+        scheduled = glo.JSONREAD("schedule.json")
+        scheduled.pop(day)
+        glo.JSONWRITE("schedule.json", scheduled)
         await ctx.send("Attempted to remove that day. Please double check to see if it's been removed.")
 
     @commands.command(aliases = ["wd"])
@@ -42,7 +46,7 @@ class Scheduler(commands.Cog):
         transformed = dict(sorted(transformed.items()))
         for key, value in transformed.items():
             conjugated = {0: "today", 1: "tomorrow"}.get(key, f"in {key} days")
-            to_send += f"{value[0]} - {value[1]} ({conjugated})\n".replace("_", "\_")
+            to_send += f"{value[0]} - {value[1]} ({conjugated})\n".replace("_", "\_") #pylint: disable=anomalous-backslash-in-string
         embed = discord.Embed(title = "PROJECT WONDERLAND", color = glo.COLOR
         ).add_field(name = "Schedule:", value = to_send
         ).set_footer(text = f"PhaseBot v{glo.VERSION} | Made by Pythogon Technologies | Let it wonder...")
