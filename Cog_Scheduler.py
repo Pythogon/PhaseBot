@@ -30,7 +30,7 @@ class Scheduler(commands.Cog):
     async def purge(self, ctx):
         scheduled = glo.JSONREAD("schedule.json")
         today = date.today()
-        to_write = {k: v for k,v in scheduled.items() if (datetime.strptime(k, "%Y-%m-%d").date() - today).days >= 0}
+        to_write = {k: v for k,v in scheduled.items() if (datetime.strptime(k, glo.DATE_FORMAT_HOUR_EXCLUSIVE).date() - today).days >= 0}
         glo.JSONWRITE("schedule.json", to_write)
         await ctx.send("Purged old entries in the database.")
 
@@ -48,7 +48,7 @@ class Scheduler(commands.Cog):
         to_send = ""
         transformed = {}
         for key, value in scheduled.items():
-            diff = (datetime.strptime(key, "%Y-%m-%d").date() - today).days
+            diff = (datetime.strptime(key, glo.DATE_FORMAT_HOUR_EXCLUSIVE).date() - today).days
             if diff < 0: continue
             transformed[diff] = [key, value]
         transformed = dict(sorted(transformed.items()))

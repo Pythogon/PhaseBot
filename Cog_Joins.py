@@ -4,7 +4,6 @@ import glo
 from discord.ext import commands
 
 class Joins(commands.Cog):
-    #pylint: disable=unused-variable
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
@@ -25,11 +24,11 @@ class Joins(commands.Cog):
     @commands.Cog.listener()
     async def on_member_remove(self, member):
         channel = self.bot.get_channel(glo.MAIN_CHANNEL_ID) 
-        embed = discord.Embed(title = f"{member.name} is getting away!", color = glo.COLOR
-        ).add_field(name = "They left the server.", value = "Farewell, old friend..."
+        embed = discord.Embed(title = f"{member.name} left the server.", color = glo.COLOR
+        ).add_field(name = "Quick, someone go after them!", value = f"There are now {len(member.guild.members)} members in this server."
         ).set_footer(text = glo.FOOTER())
         await channel.send(embed = embed)
     
     @commands.command(aliases = ["jm"])
     async def joinmessage(self, ctx):
-        await ctx.send(glo.FILEREAD("join-message.txt"))
+        await ctx.send(glo.FILEREAD("join-message.txt")) 

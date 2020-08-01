@@ -4,6 +4,7 @@ import glo
 import operator
 
 from datetime import date
+from datetime import datetime
 from datetime import timedelta
 from discord.ext import commands
 
@@ -103,7 +104,8 @@ class Admin(commands.Cog):
         ).add_field(name = "Developer only commands", value = """checkid|id
         devhelp|dh
         leaderboard|ld
-        schedule_add|ssa <YYYY-MM-DD> <user>""", inline = False
+        metrics|met
+        schedule|ss <add|a, purge|p, remove|r>""", inline = False
         ).add_field(name = "Bot admin only commands", value = """evaluate|eval <to eval>
         forcestar|fs <channel> <message ID>"""
         ).set_footer(text = glo.FOOTER())
@@ -125,6 +127,35 @@ class Admin(commands.Cog):
         exec(compile(parsed, filename="<ast>", mode="exec"), env)
         result = (await eval(f"{fn_name}()", env))
         await ctx.send(result)
+    
+    @commands.group(aliases = ["met"])
+    async def metrics(self, ctx):
+        if ctx.invoked_subcommand == None:
+            await ctx.send(f"Correct usage is {glo.PREFIX}metrics <guild|user>.")
+    
+    @metrics.command(name = "guild", aliases = ["g"])
+    async def guild_metrics(self, ctx):
+        guild = ctx.guild
+        embed = discord.Embed(title = "Metrics for this guild", color = glo.COLOR
+        ).add_field(name = "User count", value = str(len(guild.members))
+        ).add_field(name = "Created at", value = guild.created_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE)
+        ).set_footer(text = glo.FOOTER())
+        await ctx.send(embed = embed)
+    
+    @metrics.command(name = "user", aliases = ["u"])
+    async def user_metrics(self, ctx, member: discord.Member):
+        try:
+            rate = str(glo.JSONREAD("rate.json")[f"{member.id}"])
+        except:
+            rate = "Unknown"
+        embed = discord.Embed(title = "Metrics for that user", color = glo.COLOR
+        ).add_field(name = "Username", value = member.name
+        ).add_field(name = "User ID", value = str(member.id)
+        ).add_field(name = "Account created at", value = member.created_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE)
+        ).add_field(name = "Joined guild at", value = member.joined_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE)
+        ).add_field(name = "Surreal rating", value = rate
+        ).set_footer(text = glo.FOOTER())
+        await ctx.send(embed = embed)
 
     @commands.command(aliases=["ld"])
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
