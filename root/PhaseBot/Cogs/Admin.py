@@ -1,8 +1,8 @@
 import ast
 import discord
-import glo
 import operator
 
+import glo #pylint: disable=import-error
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
@@ -105,6 +105,7 @@ class Admin(commands.Cog):
         devhelp|dh
         embed|eb "TITLE" "NAME,VALUE;NAME,VALUE" "FOOTER"
         leaderboard|ld
+        listall|la <channels|c, members|m, roles|r>
         metrics|met
         schedule|ss <add|a, purge|p, remove|r>""", inline = False
         ).add_field(name = "Bot admin only commands", value = """evaluate|eval <to eval>
@@ -119,7 +120,7 @@ class Admin(commands.Cog):
         embed_data = data.split(';')
         for s in embed_data:
             field = s.split(',')
-            embed.add_field(name = field[0], value = field[1])
+            embed.add_field(name = field[0], value = field[1], inline = False)
         embed.set_footer(text = footer)
         await ctx.send(embed = embed)
 
@@ -139,35 +140,6 @@ class Admin(commands.Cog):
         exec(compile(parsed, filename="<ast>", mode="exec"), env)
         result = (await eval(f"{fn_name}()", env))
         await ctx.send(result)
-    
-    @commands.group(aliases = ["met"])
-    async def metrics(self, ctx):
-        if ctx.invoked_subcommand == None:
-            await ctx.send(f"Correct usage is {glo.PREFIX}metrics <guild|user>.")
-    
-    @metrics.command(name = "guild", aliases = ["g"])
-    async def guild_metrics(self, ctx):
-        guild = ctx.guild
-        embed = discord.Embed(title = "Metrics for this guild", color = glo.COLOR
-        ).add_field(name = "User count", value = str(len(guild.members))
-        ).add_field(name = "Created at", value = guild.created_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE)
-        ).set_footer(text = glo.FOOTER())
-        await ctx.send(embed = embed)
-    
-    @metrics.command(name = "user", aliases = ["u"])
-    async def user_metrics(self, ctx, member: discord.Member):
-        try:
-            rate = str(glo.JSONREAD("rate.json")[f"{member.id}"])
-        except:
-            rate = "Unknown"
-        embed = discord.Embed(title = "Metrics for that user", color = glo.COLOR
-        ).add_field(name = "Username", value = member.name
-        ).add_field(name = "User ID", value = str(member.id)
-        ).add_field(name = "Account created at", value = member.created_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE)
-        ).add_field(name = "Joined guild at", value = member.joined_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE)
-        ).add_field(name = "Surreal rating", value = rate
-        ).set_footer(text = glo.FOOTER())
-        await ctx.send(embed = embed)
 
     @commands.command(aliases=["ld"])
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
@@ -186,4 +158,62 @@ class Admin(commands.Cog):
         embed = discord.Embed(title="Starboard Leaderboard", color=glo.COLOR
         ).add_field(name="Scores:", value=to_send
         ).set_footer(text=glo.FOOTER())
-        await ctx.send(embed=embed)
+        await ctx.send(embed=embed)  
+    
+    @commands.group(aliases = ["la"])
+    async def listall(self, ctx):
+        if ctx.invoked_subcommand == None:
+            await ctx.send(f"Correct usage is {glo.PREFIX}list all <channels|members|roles>.")
+    
+    @listall.command(name = "channels", aliases = ["c"])
+    async def listall_channels(self, ctx):
+        channel_list = ""
+        for channel in ctx.guild.chnanels:
+            chnanel_list += f"{channel.name}\n"
+        await ctx.send(channel_list)
+
+    @listall.command(name = "members", aliases = ["m"])
+    async def listall_members(self, ctx):
+        member_list = ""
+        for member in ctx.guild.members:
+            member_list += f"{member.name}\n"
+        await ctx.send(member_list)
+
+    @listall.command(name = "roles", aliases = ["r"])
+    async def listall_roles(self, ctx):
+        role_list = ""
+        for role in ctx.guild.roles:
+            role_list += f"{role.name}\n"
+        await ctx.send(role_list)
+
+    @commands.group(aliases = ["met"])
+    async def metrics(self, ctx):
+        if ctx.invoked_subcommand == None:
+            await ctx.send(f"Correct usage is {glo.PREFIX}metrics <guild|user>.")
+    
+    @metrics.command(name = "guild", aliases = ["g"])
+    async def metrics_guild(self, ctx):
+        guild = ctx.guild
+        embed = discord.Embed(title = "Metrics for this guild", color = glo.COLOR
+        ).add_field(name = "User count", value = str(len(guild.members))
+        ).add_field(name = "Created at", value = guild.created_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE)
+        ).add_field(name = "Channel count", value = str(len(guild.channels))
+        ).add_field(name = "Role count", value = str(len(guild.roles))
+        ).add_field(name = "Server owner", value = guild.owner.name
+        ).set_footer(text = glo.FOOTER())
+        await ctx.send(embed = embed)
+    
+    @metrics.command(name = "user", aliases = ["u"])
+    async def metrics_user(self, ctx, member: discord.Member):
+        try:
+            rate = str(glo.JSONREAD("rate.json")[f"{member.id}"])
+        except:
+            rate = "Unknown"
+        embed = discord.Embed(title = "Metrics for that user", color = glo.COLOR
+        ).add_field(name = "Username", value = member.name
+        ).add_field(name = "User ID", value = str(member.id)
+        ).add_field(name = "Account created at", value = member.created_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE)
+        ).add_field(name = "Joined guild at", value = member.joined_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE)
+        ).add_field(name = "Surreal rating", value = rate
+        ).set_footer(text = glo.FOOTER())
+        await ctx.send(embed = embed)

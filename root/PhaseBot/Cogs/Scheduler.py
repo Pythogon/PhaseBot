@@ -1,5 +1,5 @@
 import discord
-import glo
+import glo #pylint: disable=import-error
 
 from datetime import date
 from datetime import datetime

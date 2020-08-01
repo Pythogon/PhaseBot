@@ -1,6 +1,6 @@
 import asyncio
 import discord
-import glo
+import glo #pylint: disable=import-error
 import names
 import random
 
