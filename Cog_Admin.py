@@ -111,6 +111,19 @@ class Admin(commands.Cog):
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
 
+    @commands.command(aliases = ["eb"])
+    @commands.has_role(glo.DEVELOPER_ROLE_ID)
+    async def embed(self, ctx, title, data, footer):
+        embed = discord.Embed(title = title, color = glo.COLOR)
+        
+        embed_data = data.split(';')
+
+        for s in embed_data:
+            field = s.split(',')
+            embed.add_field(name = field[0], value = field[1])
+
+        await ctx.send(embed = embed)
+
     @commands.command(aliases = ["eval"])
     @commands.is_owner()
     async def evaluate(self, ctx, *, cmd):
