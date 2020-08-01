@@ -169,7 +169,7 @@ class Admin(commands.Cog):
     async def listall_channels(self, ctx):
         channel_list = ""
         for channel in ctx.guild.channels:
-            chnanel_list += f"{channel.name}\n"
+            channel_list += f"{channel.name}\n"
         await ctx.send(channel_list)
 
     @listall.command(name = "members", aliases = ["m"])
