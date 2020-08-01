@@ -103,6 +103,7 @@ class Admin(commands.Cog):
         embed = discord.Embed(title = "Developer help panel", color = glo.COLOR
         ).add_field(name = "Developer only commands", value = """checkid|id
         devhelp|dh
+        embed|eb "TITLE" "NAME,VALUE;NAME,VALUE" "FOOTER"
         leaderboard|ld
         metrics|met
         schedule|ss <add|a, purge|p, remove|r>""", inline = False
@@ -115,13 +116,11 @@ class Admin(commands.Cog):
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def embed(self, ctx, title, data, footer):
         embed = discord.Embed(title = title, color = glo.COLOR)
-        
         embed_data = data.split(';')
-
         for s in embed_data:
             field = s.split(',')
             embed.add_field(name = field[0], value = field[1])
-
+        embed.set_footer(text = footer)
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["eval"])
