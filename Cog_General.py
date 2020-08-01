@@ -53,7 +53,7 @@ class General(commands.Cog):
         ).add_field(name = "Generators", value = """lifegen|lg
         stargen|sg""", inline = False
         ).add_field(name = "Misc.", value = """joinmessage|jm
-        9wonderland|wd""", inline = False 
+        wonderland|wd""", inline = False 
         ).add_field(name = "GDPR", value = "accept\ngdpr", inline = False 
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = title) # Anabot help
