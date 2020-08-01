@@ -15,7 +15,7 @@ class Scheduler(commands.Cog):
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def schedule(self, ctx):
         if ctx.invoked_subcommand is None:
-            await ctx.send(f"Correct usage is `{glo.PREFIX}schedule [add|remove]`.")
+            await ctx.send(f"Correct usage is `{glo.PREFIX}schedule [add|purge|remove]`.")
 
     @schedule.command(aliases = ["a"])
     async def add(self, ctx, day, user): 
@@ -26,6 +26,14 @@ class Scheduler(commands.Cog):
         glo.JSONWRITE("schedule.json", scheduled)
         await ctx.send(f"Added {user} to schedule on {day}.")
 
+    @schedule.command(aliases = ["p"])
+    async def purge(self, ctx):
+        scheduled = glo.JSONREAD("schedule.json")
+        today = date.today()
+        to_write = {k: v for k,v in scheduled.items() if (datetime.strptime(k, "%Y-%m-%d").date() - today).days >= 0}
+        glo.JSONWRITE("schedule.json", to_write)
+        await ctx.send("Purged old entries in the database.")
+
     @schedule.command(aliases = ["r"])
     async def remove(self, ctx, day):
         scheduled = glo.JSONREAD("schedule.json")
@@ -35,13 +43,13 @@ class Scheduler(commands.Cog):
 
     @commands.command(aliases = ["wd"])
     async def wonderland(self, ctx):
-        schedule = glo.JSONREAD("schedule.json")
+        scheduled = glo.JSONREAD("schedule.json")
         today = date.today()
         to_send = ""
         transformed = {}
-        for key, value in schedule.items():
+        for key, value in scheduled.items():
             diff = (datetime.strptime(key, "%Y-%m-%d").date() - today).days
-            if diff < 0: schedule.pop(key)
+            if diff < 0: continue
             transformed[diff] = [key, value]
         transformed = dict(sorted(transformed.items()))
         for key, value in transformed.items():
@@ -51,11 +59,7 @@ class Scheduler(commands.Cog):
         ).add_field(name = "Schedule:", value = to_send
         ).set_footer(text = f"PhaseBot v{glo.VERSION} | Made by Pythogon Technologies | Let it wonder...")
         await ctx.send(embed = embed)
-        glo.JSONWRITE("schedule.json", schedule)
         
-
-
-
 
 
 

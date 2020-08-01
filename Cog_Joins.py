@@ -12,7 +12,7 @@ class Joins(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
         channel = self.bot.get_channel(glo.MAIN_CHANNEL_ID) 
-        join_message = glo.JSONREAD("join-message.txt")
+        join_message = glo.FILEREAD("join-message.txt")
         try:
             await member.send(join_message)
         except:
@@ -25,13 +25,11 @@ class Joins(commands.Cog):
     @commands.Cog.listener()
     async def on_member_remove(self, member):
         channel = self.bot.get_channel(glo.MAIN_CHANNEL_ID) 
-        """
-        TODO on_member_remove implementation
-        """
+        embed = discord.Embed(title = f"{member.name} is getting away!", color = glo.COLOR
+        ).add_field(name = "They left the server.", value = "Farewell, old friend..."
+        ).set_footer(text = glo.FOOTER())
+        await channel.send(embed = embed)
     
     @commands.command(aliases = ["jm"])
     async def joinmessage(self, ctx):
-        """
-        TODO jm implemenation
-        """
-        raise NotImplementedError
+        await ctx.send(glo.FILEREAD("join-message.txt"))

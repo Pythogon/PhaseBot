@@ -10,6 +10,7 @@ from Cog_GDPR import GDPR
 from Cog_General import General
 from Cog_Generators import Generators
 from Cog_Instagram import Instagram
+from Cog_Joins import Joins
 from Cog_Scheduler import Scheduler
 from Cog_Starboard import Starboard
 
@@ -33,6 +34,7 @@ bot.add_cog(GDPR(bot))
 bot.add_cog(General(bot))
 bot.add_cog(Generators(bot))
 bot.add_cog(Instagram(bot))
+bot.add_cog(Joins(bot))
 bot.add_cog(Scheduler(bot))
 bot.add_cog(Starboard(bot))
 bot.run(glo.FILEREAD("token"))
