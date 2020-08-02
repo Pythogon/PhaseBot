@@ -2,8 +2,11 @@ import discord
 import json
 import random
 
+from discord.ext import commands
+
 COLOR = 0xff00ff # Magenta, 255 0 255
 DEVELOPER_ROLE_ID = 732384059191328809 # Developer role
+ERROR_COLOR = 0xff0000
 GUILD_ID = 709717828365844511 # LIFE: The Game
 MAIN_CHANNEL_ID = 709717829112561776 #le-noir
 PREFIX = ")" 
@@ -82,3 +85,20 @@ def JSONREAD(fpath):
 def JSONWRITE(fpath, data):
     fpath = f"local_Store/{fpath}"
     with open(fpath, 'w', encoding = "utf-8") as outfile: json.dump(data,outfile)
+
+# Custom errors
+
+class GDPRFailError(commands.CommandError): pass
+
+# Custom checks
+
+def gdpr_check():
+    def predicate(ctx):
+        gdpr_list = JSONREAD("gdpr.json")
+        try:
+            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
+            return True
+        except:
+            return False
+    return commands.check(predicate)
+    

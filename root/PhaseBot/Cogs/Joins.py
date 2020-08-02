@@ -30,4 +30,5 @@ class Joins(commands.Cog):
         await channel.send(embed = embed)
     
     @commands.command(aliases = ["jm"])
+    @glo.gdpr_check()
     async def joinmessage(self, ctx): await ctx.send(glo.FILEREAD("join-message.txt")) # 1 liner pythonic solution

@@ -15,12 +15,8 @@ class Generators(commands.Cog):
         self._last_member = None
 
     @commands.command(aliases = ["lg"])
+    @glo.gdpr_check()
     async def lifegen(self, ctx):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
         embed = discord.Embed(title = "I'm thinking...", color = glo.COLOR
         ).add_field(name = "Consulting CommentGenRNN...", value = "Just one moment."
         ).set_footer(text = glo.FOOTER())
@@ -33,12 +29,8 @@ class Generators(commands.Cog):
         await message.edit(embed = new_embed) # CommentGenRNN integration
 
     @commands.command(aliases = ["sg"])
+    @glo.gdpr_check()
     async def stargen(self, ctx):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
         read = len(glo.FILEREAD("starcastle.txt"))
         percent = float('{:g}'.format(float('{:.{p}g}'.format((read / 100000) * 100, p=4)))) # Number to 4 s.f.
         started = date(2020, 7, 4) # Unchanging start date of development and collection of starboard entries

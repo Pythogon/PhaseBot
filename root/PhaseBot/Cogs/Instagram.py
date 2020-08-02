@@ -11,12 +11,8 @@ class Instagram(commands.Cog):
         self._last_member = None
 
     @commands.command(aliases = ["c"])
+    @glo.gdpr_check()
     async def comments(self, ctx, user):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
         comments = ""
         data = glo.JSONREAD("sole_nyu/sole_nyu.json")["GraphImages"][0]["comments"]["data"] # Storing only essential info in bot
         for comment in data:
@@ -32,12 +28,8 @@ class Instagram(commands.Cog):
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["r"])
+    @glo.gdpr_check()
     async def reload(self, ctx):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
         embed = discord.Embed(title = "Polling Instagram...", color = glo.COLOR
         ).add_field(name = "It won't be a minute.", value = "Apologies for the wait!"
         ).set_footer(text = glo.FOOTER())
@@ -51,12 +43,8 @@ class Instagram(commands.Cog):
         await message.edit(embed = new_embed)
 
     @commands.command(aliases = ["v"])
+    @glo.gdpr_check()
     async def votes(self, ctx, to_check: int):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
         letters = []
         no = []
         percentage = []
@@ -90,12 +78,8 @@ class Instagram(commands.Cog):
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["vr"])
+    @glo.gdpr_check()
     async def votesraw(self, ctx, to_check, loose_checking=False):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
         letters = list(to_check)
         no = []
         percentage = []

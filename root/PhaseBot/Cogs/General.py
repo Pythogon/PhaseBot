@@ -11,28 +11,14 @@ class General(commands.Cog):
         self.bot = bot
         self._last_member = None
 
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        if "214771884544229382" in message.content:
-            emoji = self.bot.get_emoji(710243429119950969)
-            return await message.add_reaction(emoji) # React bean
-
     @commands.command(aliases = ["a"])
+    @glo.gdpr_check()
     async def avatar(self, ctx, user: discord.User):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
         await ctx.send(user.avatar_url) # Anabot avatar command
 
     @commands.command(name = 'help', aliases = ["?"]) # New help command (help is a registered keyword so we just need to pretend we have a function called 'help')
+    @glo.gdpr_check()
     async def help_command(self, ctx):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] is not 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
         """ Basic bitch help command (by Ash) """
         title = discord.Embed(title = 'Help', color = glo.COLOR
         ).add_field(name = 'Welcome to PhaseBot!', value = f"""Welcome to the PhaseBot {glo.VERSION} help menu.
@@ -59,12 +45,8 @@ class General(commands.Cog):
         await ctx.send(embed = title) # Anabot help
 
     @commands.command(aliases = ["i"])
+    @glo.gdpr_check()
     async def info(self, ctx):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
         embed = discord.Embed(title = "About PhaseBot", color = glo.COLOR
         ).add_field(name = "Developer", value = "PhaseBot was created for LIFE: The Game by [Ash](https://kaidev.uk) on behalf of [Pythogon Technologies](https://github.com/Pythogon).", inline = False
         ).add_field(name = "More Info", value = f"PhaseBot is currently on Version {glo.VERSION}. The project started on 2020-07-04.", inline = False
@@ -74,12 +56,8 @@ class General(commands.Cog):
         await ctx.send(embed = embed) # Credits :)
 
     @commands.command(aliases = ["n"])
+    @glo.gdpr_check()
     async def name(self, ctx, gender):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
         if gender == "m" or gender == "f":
             name = names.get_full_name(gender = {"m": "male", "f": "female"}.get(gender)) # names module on PyPl
         else:
@@ -91,12 +69,8 @@ class General(commands.Cog):
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["p"])
+    @glo.gdpr_check()
     async def poll(self, ctx, question, *answers):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
         answers = " ".join(answers) # Anabot interpreter
         answers = list(answers.split("|")) # Listify!
         if len(answers) > 4: return await ctx.send("You can have a maximum of 4 answers.") # No overshooting
@@ -106,12 +80,8 @@ class General(commands.Cog):
         for x in range(len(answers)): await message.add_reaction(glo.GETEMOJI(x)) # GETEMOJI returns the Unicode for 1 of 4 shape emojis
 
     @commands.command(aliases = ["sr"])
+    @glo.gdpr_check()
     async def rate(self, ctx, user: discord.User):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
         fpath = 'rate.json'
         try: scores = glo.JSONREAD(fpath)
         except: await ctx.send('ERR')

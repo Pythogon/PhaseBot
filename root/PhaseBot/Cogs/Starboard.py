@@ -32,12 +32,8 @@ class Starboard(commands.Cog):
         except: await ctx.send("ERR. Invalid ID?")
 
     @commands.command(aliases = ["sc"])
+    @glo.gdpr_check()
     async def starcount(self, ctx):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
         star_list = glo.JSONREAD("starcount.json")
         try: count = star_list[str(ctx.author.id)]
         except: count = 0; star_list[str(ctx.author.id)] = 0; glo.JSONWRITE("starcount.json", star_list)
@@ -47,12 +43,8 @@ class Starboard(commands.Cog):
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["si"])
+    @glo.gdpr_check()
     async def starinfo(self, ctx):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
         """Starboard info"""
         embed = discord.Embed (title = "What the hell is a starboard?", color = glo.COLOR)
         embed.add_field(name = "The starboard", value = f"""The starboard is a way of saving messages that the community finds funny, clever, etc. It operates like the Quote Vault, but is purely democratic.
