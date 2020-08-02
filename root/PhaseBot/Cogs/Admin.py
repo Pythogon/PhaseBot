@@ -152,7 +152,7 @@ class Admin(commands.Cog):
     async def listall_channels(self, ctx):
         channel_list = ""
         for channel in ctx.guild.channels:
-            if type(channel) is type(discord.CategoryChannel): continue # Skipping all CategoryChannels
+            if isinstance(channel, discord.CategoryChannel): continue # Skipping all CategoryChannels
             channel_list += f"{channel.name}\n"
         await ctx.send(channel_list)
 

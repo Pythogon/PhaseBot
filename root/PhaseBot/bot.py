@@ -2,8 +2,8 @@ import os
 
 import discord
 
-import Cogs
-import glo
+import Cogs #pylint: disable=import-error
+import glo #pylint: disable=import-error
 
 from discord.ext import commands
 
