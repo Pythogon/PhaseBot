@@ -15,7 +15,7 @@ class General(commands.Cog):
     async def on_message(self, message):
         if "214771884544229382" in message.content:
             emoji = self.bot.get_emoji(710243429119950969)
-            return await message.add_reaction(emoji) # BEAN
+            return await message.add_reaction(emoji) # React bean
 
     @commands.command(aliases = ["a"])
     async def avatar(self, ctx, user: discord.User):
@@ -81,7 +81,7 @@ class General(commands.Cog):
         except:
             return await ctx.send(embed = glo.GDPR())
         if gender == "m" or gender == "f":
-            name = names.get_full_name(gender = {"m": "male", "f": "female"}.get(gender))
+            name = names.get_full_name(gender = {"m": "male", "f": "female"}.get(gender)) # names module on PyPl
         else:
             name = names.get_full_name()
         label = {"m": "male", "f": "female"}.get(gender, "random")
@@ -99,11 +99,11 @@ class General(commands.Cog):
             return await ctx.send(embed = glo.GDPR())
         answers = " ".join(answers) # Anabot interpreter
         answers = list(answers.split("|")) # Listify!
-        if len(answers) > 4: return await ctx.send("You can have a maximum of 4 answers.") # ERR
+        if len(answers) > 4: return await ctx.send("You can have a maximum of 4 answers.") # No overshooting
         to_send = f"__New poll: **{question}**__"
         for x in range(len(answers)): to_send += "\n" + glo.GETEMOJI(x) + ": " + answers[x]
         message = await ctx.send(to_send)
-        for x in range(len(answers)): await message.add_reaction(glo.GETEMOJI(x)) # GETEMOJI[x]
+        for x in range(len(answers)): await message.add_reaction(glo.GETEMOJI(x)) # GETEMOJI returns the Unicode for 1 of 4 shape emojis
 
     @commands.command(aliases = ["sr"])
     async def rate(self, ctx, user: discord.User):
@@ -116,13 +116,13 @@ class General(commands.Cog):
         try: scores = glo.JSONREAD(fpath)
         except: await ctx.send('ERR')
         try:
-            score = int(scores[str(user.id)])
+            score = int(scores[str(user.id)]) # Check to see if the user already has a rate.json value
             embed = discord.Embed(title=f"Someone's already asked about {user.name}. One moment...", color = 0xbdbdbd
             ).add_field(name = 'Fetching...', value = "Please wait, this won't take long.")
         except:
             embed = discord.Embed(title=f"Nobody's asked me about {user.name} yet. Let's have a look.", color = 0xbdbdbd
             ).add_field(name = 'Calculating...', value = "Please wait, this won't take long.")
-            score = random.randint(1,5)
+            score = random.randint(1,5) # Generate and write a rate.json value
             scores[str(user.id)] = str(score)
             glo.JSONWRITE(fpath, scores)
         embed.set_footer(text = glo.FOOTER())

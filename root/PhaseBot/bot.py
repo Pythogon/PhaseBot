@@ -2,8 +2,8 @@ import os
 
 import discord
 
-import Cogs
-import glo
+import Cogs #pylint: disable=import-error
+import glo #pylint: disable=import-error
 
 from discord.ext import commands
 
@@ -22,7 +22,7 @@ class PhaseBot(commands.Bot):
 
 bot = PhaseBot(command_prefix = glo.PREFIX) # Writing the embed
 bot.remove_command('help') # Removing default help (I don't like it)
-bot.add_cog(Cogs.Admin(bot)) # Cogs
+bot.add_cog(Cogs.Admin(bot)) # Importing all cogs
 bot.add_cog(Cogs.GDPR(bot))
 bot.add_cog(Cogs.General(bot))
 bot.add_cog(Cogs.Generators(bot))

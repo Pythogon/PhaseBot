@@ -23,13 +23,13 @@ class Starboard(commands.Cog):
     @commands.is_owner()
     async def forcestar(self, ctx, channel: discord.TextChannel, message_id: int):
         gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
+        try: 
             if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
-        await glo.STAR(await channel.fetch_message(message_id), self.bot.get_channel(glo.STAR_CHANNEL_ID))
-        await ctx.send(f"Message {message_id} starred.")
-        await ctx.send("ERR. Invalid ID?")
+        except: return await ctx.send(embed = glo.GDPR())
+        try: 
+            await glo.STAR(await channel.fetch_message(message_id), self.bot.get_channel(glo.STAR_CHANNEL_ID))
+            await ctx.send(f"Message {message_id} starred.")
+        except: await ctx.send("ERR. Invalid ID?")
 
     @commands.command(aliases = ["sc"])
     async def starcount(self, ctx):

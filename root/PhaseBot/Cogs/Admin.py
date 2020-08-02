@@ -26,17 +26,12 @@ def insert_returns(body):
 
 class Admin(commands.Cog):
     def __init__(self, bot):
-        self.bot = bot
+        self.bot = bot # Initception
         self._last_member = None
 
     @commands.command(aliases = ["an"])
     @commands.is_owner()
     async def announce(self, ctx, *message):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
         message = " ".join(message)
         embed = discord.Embed(title = "An important update about PhaseBot.", color = glo.COLOR
         ).add_field(name = "Announcement:", value = message
@@ -46,13 +41,7 @@ class Admin(commands.Cog):
     @commands.command(aliases = ["id"])
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def checkid(self, ctx, unkID: int, channelID = 1):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except:
-            return await ctx.send(embed = glo.GDPR())
-        
-        try:
+        try: # Simple type checker with deductive reasoning
             print("0a")
             h = self.bot.get_channel(unkID)
             if h == None: raise TypeError
@@ -113,13 +102,13 @@ class Admin(commands.Cog):
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
 
-    @commands.command(aliases = ["eb"])
+    @commands.command(aliases = ["eb"]) # Credit to Th3T3chn0G1t 
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
-    async def embed(self, ctx, title, data, footer):
-        embed = discord.Embed(title = title, color = glo.COLOR)
-        embed_data = data.split(';')
+    async def embed(self, ctx, title, data, footer=glo.FOOTER()):
+        embed = discord.Embed(title = title, color = glo.COLOR)  
+        embed_data = data.split(';') # Split into embed entries
         for s in embed_data:
-            field = s.split(',')
+            field = s.split(',') # Split into embed componants 
             embed.add_field(name = field[0], value = field[1], inline = False)
         embed.set_footer(text = footer)
         await ctx.send(embed = embed)
@@ -144,13 +133,7 @@ class Admin(commands.Cog):
     @commands.command(aliases=["ld"])
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def leaderboard(self, ctx):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try:
-            if gdpr_list[str(ctx.author.id)] != 1:
-                raise ValueError
-        except:
-            return await ctx.send(embed=glo.GDPR())
-        read = dict(sorted(glo.JSONREAD("starcount.json"), reverse=True))
+        read = dict(sorted(glo.JSONREAD("starcount.json"), reverse=True)) # Returns a descending-order sorted dict
         to_send = ""
         for key, value in read.items():
             name = await self.bot.fetch_user(int(key))
@@ -163,57 +146,56 @@ class Admin(commands.Cog):
     @commands.group(aliases = ["la"])
     async def listall(self, ctx):
         if ctx.invoked_subcommand == None:
-            await ctx.send(f"Correct usage is {glo.PREFIX}list all <channels|members|roles>.")
+            await ctx.send(f"Correct usage is {glo.PREFIX}list all <channels|members|roles>.") # Default case
     
     @listall.command(name = "channels", aliases = ["c"])
     async def listall_channels(self, ctx):
         channel_list = ""
         for channel in ctx.guild.channels:
+            if type(channel) is type(discord.CategoryChannel): continue # Skipping all CategoryChannels
             channel_list += f"{channel.name}\n"
         await ctx.send(channel_list)
 
     @listall.command(name = "members", aliases = ["m"])
     async def listall_members(self, ctx):
-        member_list = ""
-        for member in ctx.guild.members:
-            member_list += f"{member.name}\n"
+        member_list = "" 
+        for member in ctx.guild.members: member_list += f"{member.name}\n"
         await ctx.send(member_list)
 
     @listall.command(name = "roles", aliases = ["r"])
     async def listall_roles(self, ctx):
         role_list = ""
-        for role in ctx.guild.roles:
-            role_list += f"{role.name}\n"
+        for role in ctx.guild.roles: role_list += f"{role.name}\n"
         await ctx.send(role_list)
 
     @commands.group(aliases = ["met"])
     async def metrics(self, ctx):
         if ctx.invoked_subcommand == None:
-            await ctx.send(f"Correct usage is {glo.PREFIX}metrics <guild|user>.")
+            await ctx.send(f"Correct usage is {glo.PREFIX}metrics <guild|user>.") # Default case
     
     @metrics.command(name = "guild", aliases = ["g"])
     async def metrics_guild(self, ctx):
         guild = ctx.guild
         embed = discord.Embed(title = "Metrics for this guild", color = glo.COLOR
         ).add_field(name = "User count", value = str(len(guild.members))
-        ).add_field(name = "Created at", value = guild.created_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE)
+        ).add_field(name = "Created at", value = guild.created_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE) # HH:MM:SS on YYYY-MM-DD
         ).add_field(name = "Channel count", value = str(len(guild.channels))
         ).add_field(name = "Role count", value = str(len(guild.roles))
         ).add_field(name = "Server owner", value = guild.owner.name
         ).set_footer(text = glo.FOOTER())
-        await ctx.send(embed = embed)
+        await ctx.send(embed = embed) 
     
     @metrics.command(name = "user", aliases = ["u"])
     async def metrics_user(self, ctx, member: discord.Member):
         try:
-            rate = str(glo.JSONREAD("rate.json")[f"{member.id}"])
+            rate = str(glo.JSONREAD("rate.json")[f"{member.id}"]) # Checking if user has a rate.json value
         except:
             rate = "Unknown"
         embed = discord.Embed(title = "Metrics for that user", color = glo.COLOR
         ).add_field(name = "Username", value = member.name
         ).add_field(name = "User ID", value = str(member.id)
-        ).add_field(name = "Account created at", value = member.created_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE)
-        ).add_field(name = "Joined guild at", value = member.joined_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE)
+        ).add_field(name = "Account created at", value = member.created_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE) # HH:MM:SS on YYYY-MM-DD
+        ).add_field(name = "Joined guild at", value = member.joined_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE) # HH:MM:SS on YYYY-MM-DD
         ).add_field(name = "Surreal rating", value = rate
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)

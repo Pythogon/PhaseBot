@@ -2,21 +2,18 @@ import discord
 import json
 import random
 
-COLOR = 0xff00ff
-DEVELOPER_ROLE_ID = 732384059191328809
-GUILD_ID = 709717828365844511
-MAIN_CHANNEL_ID = 709717829112561776
-PREFIX = ")"
-STAR_COUNT = 3
-STAR_CHANNEL_ID = 728440495105114173
-DATE_FORMAT_HOUR_EXCLUSIVE = "%Y-%m-%d"
-DATE_FORMAT_HOUR_INCLUSIVE = "%H:%M:%S on %Y-%m-%d"
-VERSION = "2.0-pre"
+COLOR = 0xff00ff # Magenta, 255 0 255
+DEVELOPER_ROLE_ID = 732384059191328809 # Developer role
+GUILD_ID = 709717828365844511 # LIFE: The Game
+MAIN_CHANNEL_ID = 709717829112561776 #le-noir
+PREFIX = ")" 
+STAR_COUNT = 3 # Amount of stars needed for a message to get onto the starboard
+STAR_CHANNEL_ID = 728440495105114173 #starcastle
+DATE_FORMAT_HOUR_EXCLUSIVE = "%Y-%m-%d" # Day format
+DATE_FORMAT_HOUR_INCLUSIVE = "%H:%M:%S on %Y-%m-%d" # Time format
+VERSION = "2.0-pre" # Current version (entirely symbolic, means nothing)
 
-def FOOTER():
-    """
-    The random footer generator for PhaseBot embeds.
-    """
+def FOOTER(): # Random footer generator
     return "PhaseBot v{} | Made by Pythogon Technologies {}".format(VERSION, {1: "with love. ❤",
                                                                               2: "in discord.py.",
                                                                               3: "on 2020-07-04.",
@@ -31,10 +28,7 @@ def FOOTER():
                                                                               12: "| If you find a bug, feel free to report it!",
                                                                               13: "with thanks to our bug fixers: <insert them here>"}.get(random.randint(1,12)))  # Random footer <3
 
-def GDPR():
-    """
-    Privacy agreement not signed handling.
-    """
+def GDPR(): # Embed for GDPR handler (no relation to Cogs.GDPR or the command )gdpr)
     return discord.Embed(title = "Sorry, but you need to agree to our privacy agreement!", color = 0xff0000
     ).add_field(name = "Your privacy is important to us...", value = f"""In compliance with the EU's General Data Protection Regulation (GDPR), we're requiring all users to agree to their data being stored.
     PhaseBot uses and stores only the data that is essential to its operaton.
@@ -42,7 +36,7 @@ def GDPR():
     ).set_footer(text = FOOTER())
 
 def GETEMOJI(l):
-    return {0: u"\U0001F7E4", 1: u"\U0001F7E3", 2: u"\U0001F7E2", 3: u"\U0001F7E0"}.get(l) # My beautiful getEmoji
+    return {0: u"\U0001F7E4", 1: u"\U0001F7E3", 2: u"\U0001F7E2", 3: u"\U0001F7E0"}.get(l) # Returns unicode for coloured circles
 
 def GETRATE(l, user):
     varset = {1: ["{} is a lowly triangle, 1/10, not very surreal.",0x5fa8ff,'★☆☆☆☆'],
@@ -54,7 +48,7 @@ def GETRATE(l, user):
     embed = discord.Embed(title = varset[0].format(user.name), color = varset[1])
     embed.add_field(name = f'Rating: {varset[2]}', value = f'Do you want to know what I think about someone? Do {PREFIX}rate [@user].')
     embed.set_footer(text = FOOTER())
-    return embed # # Splitting code
+    return embed # Fully formed embed using a dictionary jump table
 
 async def STAR(message, star_channel):
     star_list = JSONREAD("starcount.json")
@@ -63,27 +57,28 @@ async def STAR(message, star_channel):
     ).add_field(name = "Jump link:", value = message.jump_url, inline = False
     ).set_footer(text = FOOTER())
     await star_channel.send(embed = embed) # PhaseBot class
-    FILEAPPEND("starcastle.txt", message.content.encode(encoding = "ascii", errors = "ignore").decode())
+    FILEAPPEND("starcastle.txt", message.content.encode(encoding = "ascii", errors = "ignore").decode().replace("\n", "")) # Adding to starcastle.txt
     try:
-        star_list[str(message.author.id)] += 1
+        star_list[str(message.author.id)] += 1 # Add 1
     except:
-        star_list[str(message.author.id)] = 1
-    JSONWRITE("starcount.json", star_list)
+        star_list[str(message.author.id)] = 1 # Create an entry for the user (they haven't run )sc or recieved a starboard msg before)
+    JSONWRITE("starcount.json", star_list) 
 
 # Global file mod functions
 
-def JSONREAD(fpath):
-    fpath = f"local_Store/{fpath}"
-    with open(fpath, 'r', encoding = "utf-8") as json_file: return json.load(json_file) # Anabot JSON read
-
-def JSONWRITE(fpath, data):
-    fpath = f"local_Store/{fpath}"
-    with open(fpath, 'w', encoding = "utf-8") as outfile: json.dump(data,outfile) # Anabot JSON write
-
-def FILEREAD(fpath):
-    fpath = f"local_Store/{fpath}"
-    with open(fpath, "r", encoding = "utf-8") as file: return file.read() # TXT read
 
 def FILEAPPEND(fpath, data):
     fpath = f"local_Store/{fpath}"
     with open(fpath, "a", encoding = "utf-8") as file: file.write("\n" + data)
+
+def FILEREAD(fpath):
+    fpath = f"local_Store/{fpath}"
+    with open(fpath, "r", encoding = "utf-8") as file: return file.read() 
+
+def JSONREAD(fpath):
+    fpath = f"local_Store/{fpath}"
+    with open(fpath, 'r', encoding = "utf-8") as json_file: return json.load(json_file) 
+
+def JSONWRITE(fpath, data):
+    fpath = f"local_Store/{fpath}"
+    with open(fpath, 'w', encoding = "utf-8") as outfile: json.dump(data,outfile)

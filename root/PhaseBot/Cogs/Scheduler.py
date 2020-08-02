@@ -43,6 +43,11 @@ class Scheduler(commands.Cog):
 
     @commands.command(aliases = ["wd"])
     async def wonderland(self, ctx):
+        gdpr_list = glo.JSONREAD("gdpr.json")
+        try:
+            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
+        except:
+            return await ctx.send(embed = glo.GDPR())
         scheduled = glo.JSONREAD("schedule.json")
         today = date.today()
         to_send = ""

@@ -7,7 +7,7 @@ from datetime import timedelta
 from discord.ext import commands
 from textgenrnn import textgenrnn
 
-Textgen_Life = textgenrnn("local_Store/weights.hdf5") # CommentGenRNN backend loaded
+Textgen_Life = textgenrnn("local_Store/weights.hdf5") # textgenrnn on PyPl, powered by Tensorflow
 
 class Generators(commands.Cog):
     def __init__(self, bot):
@@ -25,7 +25,8 @@ class Generators(commands.Cog):
         ).add_field(name = "Consulting CommentGenRNN...", value = "Just one moment."
         ).set_footer(text = glo.FOOTER())
         message = await ctx.send(embed = embed)
-        async with ctx.typing(): Textgen_Life.generate_to_file("local_Store/holding.txt", temperature = 1.0) # CommentGenRNN trained off of all LIFE until Kaise
+        async with ctx.typing(): 
+            Textgen_Life.generate_to_file("local_Store/holding.txt", temperature = 1.0) # async with typing to let user know bot is processing
         new_embed = discord.Embed(title = "I'm done!", color = 0x00ff00
         ).add_field(name = "Results:", value = glo.FILEREAD("holding.txt")
         ).set_footer(text = glo.FOOTER())
@@ -39,10 +40,10 @@ class Generators(commands.Cog):
         except:
             return await ctx.send(embed = glo.GDPR())
         read = len(glo.FILEREAD("starcastle.txt"))
-        percent = float('{:g}'.format(float('{:.{p}g}'.format((read / 100000) * 100, p=4))))
-        started = date(2020, 7, 4)
-        today = date.today()
+        percent = float('{:g}'.format(float('{:.{p}g}'.format((read / 100000) * 100, p=4)))) # Number to 4 s.f.
+        started = date(2020, 7, 4) # Unchanging start date of development and collection of starboard entries
+        today = date.today() 
         diff = today - started
-        until = (started + timedelta(days = round(100 / (percent / diff.days)))).strftime(glo.DATE_FORMAT_HOUR_EXCLUSIVE)
-        print(until)
+        until = (started + timedelta(days = round(100 / (percent / diff.days)))).strftime(glo.DATE_FORMAT_HOUR_EXCLUSIVE) # Calculus
+        # print(until) # Debug (kept for quick enable and disabling purposes)
         await ctx.send(f"This isn't available yet! We are {percent}% of the way towards having enough data to implement this command. ETA: {until}.")
