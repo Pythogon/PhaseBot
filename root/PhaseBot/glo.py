@@ -10,26 +10,27 @@ ERROR_COLOR = 0xff0000
 GUILD_ID = 709717828365844511 # LIFE: The Game
 MAIN_CHANNEL_ID = 709717829112561776 #le-noir
 PREFIX = ")" 
+RANDOM_FOOTERS = {1: "with love. ❤",
+2: "in discord.py.",
+3: "on 2020-07-04.",
+4: "| Error 404: Good code not found.",
+5: "with special thanks to SoleNyu!",
+6: "with Anabot.",
+7: "with CommentGenRNN.",
+8: "| It's nut free!",
+9: "with magic and rainbows.",
+10: "while consulting the deities.",
+11: "on behalf of a very caffeinated frog.",
+12: "| If you find a bug, feel free to report it!",
+13: "with thanks to bekano_cat for her artistic talent!"} 
 STAR_COUNT = 3 # Amount of stars needed for a message to get onto the starboard
 STAR_CHANNEL_ID = 728440495105114173 #starcastle
 DATE_FORMAT_HOUR_EXCLUSIVE = "%Y-%m-%d" # Day format
 DATE_FORMAT_HOUR_INCLUSIVE = "%H:%M:%S on %Y-%m-%d" # Time format
 VERSION = "2.0-pre" # Current version (entirely symbolic, means nothing)
 
-def FOOTER(): # Random footer generator
-    return "PhaseBot v{} | Made by Pythogon Technologies {}".format(VERSION, {1: "with love. ❤",
-                                                                              2: "in discord.py.",
-                                                                              3: "on 2020-07-04.",
-                                                                              4: "| Error 404: Good code not found.",
-                                                                              5: "with special thanks to SoleNyu!",
-                                                                              6: "with Anabot.",
-                                                                              7: "with CommentGenRNN.",
-                                                                              8: "| It's nut free!",
-                                                                              9: "with magic and rainbows.",
-                                                                              10: "while consulting the deities.",
-                                                                              11: "on behalf of a very caffeinated frog.",
-                                                                              12: "| If you find a bug, feel free to report it!",
-                                                                              13: "with thanks to our bug fixers: <insert them here>"}.get(random.randint(1,12)))  # Random footer <3
+def FOOTER(x = random.randint(1, len(RANDOM_FOOTERS))): # Random footer generator
+    return "PhaseBot v{} | Made by Pythogon Technologies {}".format(VERSION, RANDOM_FOOTERS.get(x))  # Random footer <3
 
 def GDPR(): # Embed for GDPR handler (no relation to Cogs.GDPR or the command )gdpr)
     return discord.Embed(title = "Sorry, but you need to agree to our privacy agreement!", color = 0xff0000

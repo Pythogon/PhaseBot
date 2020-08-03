@@ -2,8 +2,8 @@ import os
 
 import discord
 
-import Cogs #pylint: disable=import-error
-import glo #pylint: disable=import-error
+import Cogs
+import glo
 
 from discord.ext import commands
 
@@ -27,7 +27,6 @@ bot.add_cog(Cogs.GDPR(bot))
 bot.add_cog(Cogs.General(bot))
 bot.add_cog(Cogs.Generators(bot))
 bot.add_cog(Cogs.Instagram(bot))
-bot.add_cog(Cogs.Joins(bot))
 bot.add_cog(Cogs.Listeners(bot))
 bot.add_cog(Cogs.Scheduler(bot))
 bot.add_cog(Cogs.Starboard(bot))

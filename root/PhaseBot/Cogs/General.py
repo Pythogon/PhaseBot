@@ -22,24 +22,24 @@ class General(commands.Cog):
         """ Basic bitch help command (by Ash) """
         title = discord.Embed(title = 'Help', color = glo.COLOR
         ).add_field(name = 'Welcome to PhaseBot!', value = f"""Welcome to the PhaseBot {glo.VERSION} help menu.
-        All commands use the {glo.PREFIX} prefix.
-        Below are commands listed by category.""", inline = False
+All commands use the {glo.PREFIX} prefix.
+Below are commands listed by category.""", inline = False
         ).add_field(name = "General", value = """avatar|a <user>
-        help|?
-        info|i
-        name|n <m|f|n>
-        poll|p "Question" answer1|answer2|answer3|answer4
-        rate|sr <user>""", inline = False
+help|?
+info|i
+name|n <m|f|n>
+poll|p "Question" answer1|answer2|answer3|answer4
+rate|sr <user>""", inline = False
         ).add_field(name = "Instagram", value = """comments|c <IG user>
-        reload|r
-        votes|v <number of choices>
-        votesraw|vr <letters to search for> [loose checking = False]""", inline = False
+reload|r
+votes|v <number of choices>
+votesraw|vr <letters to search for> [loose checking = False]""", inline = False
         ).add_field(name = "Starboard", value = """starcount|sc
-        starinfo|si""", inline = False
+starinfo|si""", inline = False
         ).add_field(name = "Generators", value = """lifegen|lg
-        stargen|sg""", inline = False
+stargen|sg""", inline = False
         ).add_field(name = "Misc.", value = """joinmessage|jm
-        wonderland|wd""", inline = False 
+wonderland|wd""", inline = False 
         ).add_field(name = "GDPR", value = "accept\ngdpr", inline = False 
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = title) # Anabot help
@@ -47,19 +47,23 @@ class General(commands.Cog):
     @commands.command(aliases = ["i"])
     @glo.gdpr_check()
     async def info(self, ctx):
-        embed = discord.Embed(title = "About PhaseBot", color = glo.COLOR
+        embed = discord.Embed(title = f"About PhaseBot", color = glo.COLOR
         ).add_field(name = "Developer", value = "PhaseBot was created for LIFE: The Game by [Ash](https://kaidev.uk) on behalf of [Pythogon Technologies](https://github.com/Pythogon).", inline = False
         ).add_field(name = "More Info", value = f"PhaseBot is currently on Version {glo.VERSION}. The project started on 2020-07-04.", inline = False
-        ).add_field(name = "Special Thanks", value = "Special thanks to all who worked on [Anabot](https://github.com/Pythogon/Anabot) and [CommentGenRNN](https://github.com/Pythogon/CommentGenRNN) for providing considerable contributions to PhaseBot.", inline = False
+        ).add_field(name = "Special Thanks", value = """Many thanks to @bekano_cat for the permission to use her wonderful drawing of Phaser as the bot's avatar.""", inline = False
         ).add_field(name = "GitHub.", value = "You can find PhaseBot's GitHub [here](https://github.com/Pythogon/PhaseBot) and take a look at its source code! If you posess developing talents, feel free to send a PR our way, we'd be happy to take on any suggestions.", inline = False
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed) # Credits :)
+
+    @commands.command(aliases = ["jm"])
+    @glo.gdpr_check()
+    async def joinmessage(self, ctx): await ctx.send(glo.FILEREAD("join-message.txt")) # 1 liner pythonic solution
 
     @commands.command(aliases = ["n"])
     @glo.gdpr_check()
     async def name(self, ctx, gender):
         if gender == "m" or gender == "f":
-            name = names.get_full_name(gender = {"m": "male", "f": "female"}.get(gender)) # names module on PyPl
+            name = names.get_full_name(gender = {"m": "male", "f": "female"}.get(gender)) # names module on PyPI
         else:
             name = names.get_full_name()
         label = {"m": "male", "f": "female"}.get(gender, "random")
