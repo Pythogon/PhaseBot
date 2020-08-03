@@ -11,7 +11,7 @@ class Listeners(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        print(error)
+        print(f"Exception in {ctx.command}: {error}")
         embed = discord.Embed(title = "An error has occured!", color = glo.ERROR_COLOR).set_footer(text = glo.FOOTER())
 
         if isinstance(error, commands.CheckFailure):
@@ -58,9 +58,11 @@ You can learn more about the data we store by running {glo.PREFIX}gdpr, or accep
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
         message = reaction.message # Let's get the message reaction
+        if str(message.id) in glo.FILEREAD("starred.txt"): return # New feature (thanks to Ark for the bug report)
         if message.author.bot: return # NO BOTS
         if reaction.emoji != "⭐": return # NO ANYTHING BUT STAR BB
         print(f"User {user.id} reacted to {message.id} in {message.channel.id}")
         if reaction.count != glo.STAR_COUNT: return # NO NOT THE LIMIT!
         print(f"Message {message.id} in {message.channel.id} added to starcastle")
         await glo.STAR(message, self.bot.get_channel(glo.STAR_CHANNEL_ID))
+        glo.FILEAPPEND("starred.txt", str(message.id))

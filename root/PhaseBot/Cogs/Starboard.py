@@ -12,10 +12,6 @@ class Starboard(commands.Cog):
     @commands.command(aliases = ["fs"])
     @commands.is_owner()
     async def forcestar(self, ctx, channel: discord.TextChannel, message_id: int):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        try: 
-            if gdpr_list[str(ctx.author.id)] != 1: raise ValueError
-        except: return await ctx.send(embed = glo.GDPR())
         try: 
             await glo.STAR(await channel.fetch_message(message_id), self.bot.get_channel(glo.STAR_CHANNEL_ID))
             await ctx.send(f"Message {message_id} starred.")
@@ -24,9 +20,9 @@ class Starboard(commands.Cog):
     @commands.command(aliases = ["sc"])
     @glo.gdpr_check()
     async def starcount(self, ctx):
-        star_list = glo.JSONREAD("starcount.json")
-        try: count = star_list[str(ctx.author.id)]
-        except: count = 0; star_list[str(ctx.author.id)] = 0; glo.JSONWRITE("starcount.json", star_list)
+        userdata = glo.USERDATA_READ(ctx.author.id)
+        try: count = userdata["starcount"]
+        except: count = 0; userdata["starcount"] = 0; glo.USERDATA_WRITE(ctx.author.id, userdata)
         embed = discord.Embed(title = "Let me quickly check...", color = glo.COLOR
         ).add_field(name = f"You currently have {count} stars.", value = "Stars before 2020-07-11 weren't counted."
         ).set_footer(text = glo.FOOTER())

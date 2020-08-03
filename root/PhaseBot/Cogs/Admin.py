@@ -95,10 +95,11 @@ devhelp|dh
 embed|eb "TITLE" "NAME,VALUE;NAME,VALUE" "FOOTER"
 leaderboard|ld
 listall|la <channels|c, members|m, roles|r>
-metrics|met
+metrics|met <guild|g, user|u>
 schedule|ss <add|a, purge|p, remove|r>""", inline = False
         ).add_field(name = "Bot admin only commands", value = """evaluate|eval <to eval>
-forcestar|fs <channel> <message ID>"""
+forcestar|fs <channel> <message ID>
+modify <user> <aspect> <value>"""
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
 
@@ -133,9 +134,10 @@ forcestar|fs <channel> <message ID>"""
     @commands.command(aliases=["ld"])
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def leaderboard(self, ctx):
-        read = dict(sorted(glo.JSONREAD("starcount.json"), reverse=True)) # Returns a descending-order sorted dict
+        read = dict(sorted(glo.JSONREAD("userdata.json"), reverse=True)) # Returns a descending-order sorted dict
         to_send = ""
-        for key, value in read.items():
+        for key, value in {k:v for k, v in read.items() if v["starboard"] >= 1}.items():
+            value = value["starboard"]
             name = await self.bot.fetch_user(int(key))
             to_send += f"{name.name}: {value}\n"
         embed = discord.Embed(title="Starboard Leaderboard", color=glo.COLOR
@@ -188,7 +190,9 @@ forcestar|fs <channel> <message ID>"""
     @metrics.command(name = "user", aliases = ["u"])
     async def metrics_user(self, ctx, member: discord.Member):
         try:
-            rate = str(glo.JSONREAD("rate.json")[f"{member.id}"]) # Checking if user has a rate.json value
+            userdata = glo.USERDATA_READ(member.id)
+            if userdata["rate"] == None: raise ValueError
+            rate = userdata["rate"]
         except:
             rate = "Unknown"
         embed = discord.Embed(title = "Metrics for that user", color = glo.COLOR
@@ -199,3 +203,13 @@ forcestar|fs <channel> <message ID>"""
         ).add_field(name = "Surreal rating", value = rate
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
+    
+    @commands.command(aliases = ["mod"])
+    @commands.is_owner()
+    async def modify(self, ctx, user: discord.User, aspect, value: int):
+        if aspect not in glo.USERDATA_READ("default"):
+            return await ctx.send(f"Aspect {aspect} not found.")
+        userdata = glo.USERDATA_READ(user.id)
+        userdata[aspect] = value
+        glo.USERDATA_WRITE(user.id, userdata)
+        await ctx.send(f"Aspect {aspect} is now {value}.")

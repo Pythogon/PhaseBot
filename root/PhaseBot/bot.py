@@ -1,5 +1,6 @@
 import os
 
+#pylint: disable=import-error
 import discord
 
 import Cogs

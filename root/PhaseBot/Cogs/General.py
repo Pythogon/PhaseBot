@@ -86,19 +86,18 @@ wonderland|wd""", inline = False
     @commands.command(aliases = ["sr"])
     @glo.gdpr_check()
     async def rate(self, ctx, user: discord.User):
-        fpath = 'rate.json'
-        try: scores = glo.JSONREAD(fpath)
-        except: await ctx.send('ERR')
+        userdata = glo.USERDATA_READ(user.id)
         try:
-            score = int(scores[str(user.id)]) # Check to see if the user already has a rate.json value
+            score = userdata["rate"]
+            if score == None: raise ValueError
             embed = discord.Embed(title=f"Someone's already asked about {user.name}. One moment...", color = 0xbdbdbd
             ).add_field(name = 'Fetching...', value = "Please wait, this won't take long.")
         except:
             embed = discord.Embed(title=f"Nobody's asked me about {user.name} yet. Let's have a look.", color = 0xbdbdbd
             ).add_field(name = 'Calculating...', value = "Please wait, this won't take long.")
             score = random.randint(1,5) # Generate and write a rate.json value
-            scores[str(user.id)] = str(score)
-            glo.JSONWRITE(fpath, scores)
+            userdata["rate"] = score
+            glo.USERDATA_WRITE(user.id, userdata)
         embed.set_footer(text = glo.FOOTER())
         msg = await ctx.send(embed=embed)
         await asyncio.sleep(2)

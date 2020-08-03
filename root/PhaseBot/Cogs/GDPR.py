@@ -10,10 +10,10 @@ class GDPR(commands.Cog):
 
     @commands.command()
     async def accept(self, ctx):
-        gdpr_list = glo.JSONREAD("gdpr.json")
-        gdpr_list[str(ctx.author.id)] = 1
-        glo.JSONWRITE("gdpr.json", gdpr_list)
-        await ctx.send("Thank you for agreeing to our DCA. You can revoke your permission at any time by contacting Ashie#9999.")
+        userdata = glo.USERDATA_READ(ctx.author.id)
+        userdata["gdpr"] = 1
+        glo.USERDATA_WRITE(ctx.author.id, userdata)
+        await ctx.send("Thank you for agreeing to our DCA. You can revoke your permission at any time by contacting アシ#0001.")
 
     @commands.command()
     async def gdpr(self, ctx):
