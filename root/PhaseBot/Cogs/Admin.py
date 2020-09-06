@@ -67,7 +67,7 @@ class Admin(commands.Cog):
                         c = self.bot.get_channel(channelID.id)
                         h = await c.fetch_message(unkID)
                         if h == None: raise TypeError
-                        print("3b") 
+                        print("3b")
                         case = 3
                     except:
                         try:
@@ -85,7 +85,7 @@ class Admin(commands.Cog):
         ).add_field(name = f"Detected ID type: {to_send}.", value = "If this seems incorrect, check again! If it's suspected to be a message, ensure to add the channel."
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
-    
+
     @commands.command(aliases = ["dh"])
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def devhelp(self, ctx):
@@ -103,13 +103,13 @@ modify <user> <aspect> <value>"""
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
 
-    @commands.command(aliases = ["eb"]) # Credit to Th3T3chn0G1t 
+    @commands.command(aliases = ["eb"]) # Credit to Th3T3chn0G1t
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def embed(self, ctx, title, data, footer=glo.FOOTER()):
-        embed = discord.Embed(title = title, color = glo.COLOR)  
+        embed = discord.Embed(title = title, color = glo.COLOR)
         embed_data = data.split(';') # Split into embed entries
         for s in embed_data:
-            field = s.split(',') # Split into embed componants 
+            field = s.split(',') # Split into embed componants
             embed.add_field(name = field[0], value = field[1], inline = False)
         embed.set_footer(text = footer)
         await ctx.send(embed = embed)
@@ -136,20 +136,21 @@ modify <user> <aspect> <value>"""
     async def leaderboard(self, ctx):
         read = dict(sorted(glo.JSONREAD("userdata.json"), reverse=True)) # Returns a descending-order sorted dict
         to_send = ""
-        for key, value in {k:v for k, v in read.items() if v["starboard"] >= 1}.items():
+        filter = {k:v for k, v in read.items() if v["starboard"] >= 1}
+        for key, value in filter.items():
             value = value["starboard"]
             name = await self.bot.fetch_user(int(key))
             to_send += f"{name.name}: {value}\n"
         embed = discord.Embed(title="Starboard Leaderboard", color=glo.COLOR
         ).add_field(name="Scores:", value=to_send
         ).set_footer(text=glo.FOOTER())
-        await ctx.send(embed=embed)  
-    
+        await ctx.send(embed=embed)
+
     @commands.group(aliases = ["la"])
     async def listall(self, ctx):
         if ctx.invoked_subcommand == None:
             await ctx.send(f"Correct usage is {glo.PREFIX}list all <channels|members|roles>.") # Default case
-    
+
     @listall.command(name = "channels", aliases = ["c"])
     async def listall_channels(self, ctx):
         channel_list = ""
@@ -160,7 +161,7 @@ modify <user> <aspect> <value>"""
 
     @listall.command(name = "members", aliases = ["m"])
     async def listall_members(self, ctx):
-        member_list = "" 
+        member_list = ""
         for member in ctx.guild.members: member_list += f"{member.name}\n"
         await ctx.send(member_list)
 
@@ -174,7 +175,7 @@ modify <user> <aspect> <value>"""
     async def metrics(self, ctx):
         if ctx.invoked_subcommand == None:
             await ctx.send(f"Correct usage is {glo.PREFIX}metrics <guild|user>.") # Default case
-    
+
     @metrics.command(name = "guild", aliases = ["g"])
     async def metrics_guild(self, ctx):
         guild = ctx.guild
@@ -185,8 +186,8 @@ modify <user> <aspect> <value>"""
         ).add_field(name = "Role count", value = str(len(guild.roles))
         ).add_field(name = "Server owner", value = guild.owner.name
         ).set_footer(text = glo.FOOTER())
-        await ctx.send(embed = embed) 
-    
+        await ctx.send(embed = embed)
+
     @metrics.command(name = "user", aliases = ["u"])
     async def metrics_user(self, ctx, member: discord.Member):
         try:
@@ -203,7 +204,7 @@ modify <user> <aspect> <value>"""
         ).add_field(name = "Surreal rating", value = rate
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
-    
+
     @commands.command(aliases = ["mod"])
     @commands.is_owner()
     async def modify(self, ctx, user: discord.User, aspect, value: int):
