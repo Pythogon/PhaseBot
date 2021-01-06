@@ -48,7 +48,7 @@ wonderland|wd""", inline = False
         await ctx.send(embed = embed) # Credits :)
 
     @commands.command(aliases = ["jm"])
-    async def joinmessage(self, ctx): await ctx.send(glo.FILEREAD("join-message.txt")) # 1 liner pythonic solution
+    async def joinmessage(self, ctx): await ctx.send(glo.FILEREAD("join-message.txt")) 
 
     @commands.command(aliases = ["n"])
     async def name(self, ctx, gender):
