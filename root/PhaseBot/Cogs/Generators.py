@@ -12,7 +12,6 @@ class Generators(commands.Cog):
         self._last_member = None
 
     @commands.command(aliases = ["star"])
-    @glo.gdpr_check()
     async def startotal(self, ctx):
         read = len(glo.FILEREAD("starcastle.txt"))
         percent = float('{:g}'.format(float('{:.{p}g}'.format((read / 100000) * 100, p=4)))) # Number to 4 s.f.

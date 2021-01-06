@@ -18,7 +18,6 @@ class Starboard(commands.Cog):
         except: await ctx.send("ERR. Invalid ID?")
 
     @commands.command(aliases = ["sc"])
-    @glo.gdpr_check()
     async def starcount(self, ctx):
         userdata = glo.USERDATA_READ(ctx.author.id)
         try: count = userdata["starcount"]
@@ -29,7 +28,6 @@ class Starboard(commands.Cog):
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["si"])
-    @glo.gdpr_check()
     async def starinfo(self, ctx):
         """Starboard info"""
         embed = discord.Embed (title = "What the hell is a starboard?", color = glo.COLOR)

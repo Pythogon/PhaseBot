@@ -12,12 +12,10 @@ class General(commands.Cog):
         self._last_member = None
 
     @commands.command(aliases = ["a"])
-    @glo.gdpr_check()
     async def avatar(self, ctx, user: discord.User):
         await ctx.send(user.avatar_url) # Anabot avatar command
 
     @commands.command(name = 'help', aliases = ["?"]) # New help command (help is a registered keyword so we just need to pretend we have a function called 'help')
-    @glo.gdpr_check()
     async def help_command(self, ctx):
         """ Basic bitch help command (by Ash) """
         title = discord.Embed(title = 'Help', color = glo.COLOR
@@ -36,12 +34,10 @@ starinfo|si
 startotal|star""", inline = False
         ).add_field(name = "Misc.", value = """joinmessage|jm
 wonderland|wd""", inline = False 
-        ).add_field(name = "GDPR", value = "accept\ngdpr", inline = False 
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = title) # Anabot help
 
     @commands.command(aliases = ["i"])
-    @glo.gdpr_check()
     async def info(self, ctx):
         embed = discord.Embed(title = f"About PhaseBot", color = glo.COLOR
         ).add_field(name = "Developer", value = "PhaseBot was created for LIFE: The Game by [Ash](https://kaidev.uk) on behalf of [Pythogon Technologies](https://github.com/Pythogon).", inline = False
@@ -52,11 +48,9 @@ wonderland|wd""", inline = False
         await ctx.send(embed = embed) # Credits :)
 
     @commands.command(aliases = ["jm"])
-    @glo.gdpr_check()
     async def joinmessage(self, ctx): await ctx.send(glo.FILEREAD("join-message.txt")) # 1 liner pythonic solution
 
     @commands.command(aliases = ["n"])
-    @glo.gdpr_check()
     async def name(self, ctx, gender):
         if gender == "m" or gender == "f":
             name = names.get_full_name(gender = {"m": "male", "f": "female"}.get(gender)) # names module on PyPI
@@ -69,7 +63,6 @@ wonderland|wd""", inline = False
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["p"])
-    @glo.gdpr_check()
     async def poll(self, ctx, question, *answers):
         answers = " ".join(answers) # Anabot interpreter
         answers = list(answers.split("|")) # Listify!
@@ -80,7 +73,6 @@ wonderland|wd""", inline = False
         for x in range(len(answers)): await message.add_reaction(glo.GETEMOJI(x)) # GETEMOJI returns the Unicode for 1 of 4 shape emojis
 
     @commands.command(aliases = ["sr"])
-    @glo.gdpr_check()
     async def rate(self, ctx, user: discord.User):
         userdata = glo.USERDATA_READ(user.id)
         try:
@@ -100,7 +92,6 @@ wonderland|wd""", inline = False
         await msg.edit(embed = glo.GETRATE(score, user)) # Stolen from Anabot
 
     @commands.command(aliases = ["clr","color"])
-    @glo.gdpr_check()
     async def colour(self, ctx, h):
          rgb = tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
          print("pr")

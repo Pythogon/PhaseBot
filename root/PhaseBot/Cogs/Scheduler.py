@@ -42,7 +42,6 @@ class Scheduler(commands.Cog):
         await ctx.send("Attempted to remove that day. Please double check to see if it's been removed.")
 
     @commands.command(aliases = ["wd"])
-    @glo.gdpr_check()
     async def wonderland(self, ctx):
         scheduled = glo.JSONREAD("schedule.json")
         today = date.today()
