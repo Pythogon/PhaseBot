@@ -25,6 +25,7 @@ class General(commands.Cog):
 All commands use the {glo.PREFIX} prefix.
 Below are commands listed by category.""", inline = False
         ).add_field(name = "General", value = """avatar|a <user>
+"colour|color|clr <hex code>"
 help|?
 info|i
 name|n <m|f|n>
@@ -35,9 +36,8 @@ reload|r
 votes|v <number of choices>
 votesraw|vr <letters to search for> [loose checking = False]""", inline = False
         ).add_field(name = "Starboard", value = """starcount|sc
-starinfo|si""", inline = False
-        ).add_field(name = "Generators", value = """lifegen|lg
-stargen|sg""", inline = False
+starinfo|si
+startotal|star""", inline = False
         ).add_field(name = "Misc.", value = """joinmessage|jm
 wonderland|wd""", inline = False 
         ).add_field(name = "GDPR", value = "accept\ngdpr", inline = False 
