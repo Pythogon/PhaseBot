@@ -102,3 +102,23 @@ wonderland|wd""", inline = False
         msg = await ctx.send(embed=embed)
         await asyncio.sleep(2)
         await msg.edit(embed = glo.GETRATE(score, user)) # Stolen from Anabot
+
+    @commands.command(aliases = ["clr","color"])
+    @glo.gdpr_check()
+    async def colour(self, ctx, h):
+         rgb = tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
+         print("pr")
+         color = discord.Color.from_rgb(rgb[0], rgb[1], rgb[2])
+         userdata = glo.USERDATA_READ(ctx.author.id)
+         print("pr")
+         if userdata["role"] == None:
+             role = await ctx.guild.create_role(name = str(ctx.author.id))
+             await ctx.author.add_roles(role)
+             await role.edit(position = ctx.me.top_role.position - 1, color = color)
+             userdata["role"] = role.id
+             glo.USERDATA_WRITE(ctx.author.id, userdata)
+             await ctx.send("New user detected. Modification complete.")
+             return
+         role = ctx.guild.get_role(userdata["role"])
+         await role.edit(color = color)
+         await ctx.send("Modification complete.")
