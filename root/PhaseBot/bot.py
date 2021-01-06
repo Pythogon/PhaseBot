@@ -12,8 +12,6 @@ class PhaseBot(commands.Bot):
     """ The bot """
     async def on_ready(self):
         print("LOAD") # Great, it's working
-        await bot.change_presence(activity = discord.Activity(name = f"Instagram - Loading...", type = discord.ActivityType.watching)) # Simplistic help
-        os.system("scrape.bat")
         await bot.change_presence(activity = discord.Activity(name = f"le noir | v{glo.VERSION}", type = discord.ActivityType.watching)) # Simplistic help
 
     async def on_message(self, message):
