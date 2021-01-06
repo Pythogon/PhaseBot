@@ -15,6 +15,11 @@ class PhaseBot(commands.Bot):
         await bot.change_presence(activity = discord.Activity(name = f"le noir | v{glo.VERSION}", type = discord.ActivityType.watching)) # Simplistic help
 
     async def on_message(self, message):
+        if message.channel.id == 796374619900084255:
+            c = message.guild.get_channel(755525197821640725)
+            await c.send("🔄 An update has been detected. Restarting...")
+            os.system("git pull")
+            os.system("pm2 restart phase")
         if message.author.bot: return # We don't like bots
         return await bot.process_commands(message)
 
