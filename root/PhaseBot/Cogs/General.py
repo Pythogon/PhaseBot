@@ -31,10 +31,6 @@ info|i
 name|n <m|f|n>
 poll|p "Question" answer1|answer2|answer3|answer4
 rate|sr <user>""", inline = False
-        ).add_field(name = "Instagram", value = """comments|c <IG user>
-reload|r
-votes|v <number of choices>
-votesraw|vr <letters to search for> [loose checking = False]""", inline = False
         ).add_field(name = "Starboard", value = """starcount|sc
 starinfo|si
 startotal|star""", inline = False
