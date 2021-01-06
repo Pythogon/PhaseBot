@@ -1,7 +1,6 @@
 import asyncio
 import discord
 import glo #pylint: disable=import-error
-import names
 import random
 
 from discord.ext import commands
@@ -26,7 +25,6 @@ Below are commands listed by category.""", inline = False
 "colour|color|clr <hex code>"
 help|?
 info|i
-name|n <m|f|n>
 poll|p "Question" answer1|answer2|answer3|answer4
 rate|sr <user>""", inline = False
         ).add_field(name = "Starboard", value = """starcount|sc
@@ -49,18 +47,6 @@ wonderland|wd""", inline = False
 
     @commands.command(aliases = ["jm"])
     async def joinmessage(self, ctx): await ctx.send(glo.FILEREAD("join-message.txt")) 
-
-    @commands.command(aliases = ["n"])
-    async def name(self, ctx, gender):
-        if gender == "m" or gender == "f":
-            name = names.get_full_name(gender = {"m": "male", "f": "female"}.get(gender)) # names module on PyPI
-        else:
-            name = names.get_full_name()
-        label = {"m": "male", "f": "female"}.get(gender, "random")
-        embed = discord.Embed(title = f"Generating a {label} name...", color = glo.COLOR
-        ).add_field(name = f"The name I came up with is {name}.", value = "Feel free to run the command again!"
-        ).set_footer(text = glo.FOOTER())
-        await ctx.send(embed = embed)
 
     @commands.command(aliases = ["p"])
     async def poll(self, ctx, question, *answers):
