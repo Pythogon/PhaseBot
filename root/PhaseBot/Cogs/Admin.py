@@ -140,7 +140,7 @@ modify <user> <aspect> <value>"""
         for k, v in read.items():
             if v["starcount"] < 1:
                 pass
-            else: filt[k] = v["starboard"]
+            else: filt[k] = v["starcount"]
         filt = dict(sorted(filt, reverse = True))
         for key, value in filt.items():
             value = value["starcount"]
