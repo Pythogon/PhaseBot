@@ -134,10 +134,14 @@ modify <user> <aspect> <value>"""
     @commands.command(aliases=["ld"])
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def leaderboard(self, ctx):
+        filt = {}
         read = dict(sorted(glo.JSONREAD("userdata.json"), reverse=True)) # Returns a descending-order sorted dict
         to_send = ""
-        filter = {k:v for k, v in read.items() if v["starboard"] >= 1}
-        for key, value in filter.items():
+        for k, v in read.items():
+            if v["starboard"] < 1:
+                pass
+            else: filt[k] = v
+        for key, value in filt.items():
             value = value["starboard"]
             name = await self.bot.fetch_user(int(key))
             to_send += f"{name.name}: {value}\n"
