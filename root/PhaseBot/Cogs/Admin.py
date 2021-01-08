@@ -138,12 +138,12 @@ modify <user> <aspect> <value>"""
         read = glo.JSONREAD("userdata.json")
         to_send = ""
         for k, v in read.items():
-            if v["starboard"] < 1:
+            if v["starcount"] < 1:
                 pass
             else: filt[k] = v["starboard"]
         filt = dict(sorted(filt, reverse = True))
         for key, value in filt.items():
-            value = value["starboard"]
+            value = value["starcount"]
             name = await self.bot.fetch_user(int(key))
             to_send += f"{name.name}: {value}\n"
         embed = discord.Embed(title="Starboard Leaderboard", color=glo.COLOR
