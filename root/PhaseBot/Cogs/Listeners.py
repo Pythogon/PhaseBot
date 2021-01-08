@@ -14,12 +14,7 @@ class Listeners(commands.Cog):
         print(f"Exception in {ctx.command}: {error}")
         embed = discord.Embed(title = "An error has occured!", color = glo.ERROR_COLOR).set_footer(text = glo.FOOTER())
 
-        if isinstance(error, commands.CheckFailure):
-            embed.add_field(name = "You need to read our data collection agreement.", value = f"""In compliance with the EU's General Data Protection Regulation (GDPR), we're requiring all users to agree to their data being stored.
-PhaseBot uses and stores only the data that is essential to its operaton.
-You can learn more about the data we store by running {glo.PREFIX}gdpr, or accept it by typing {glo.PREFIX}accept.""")
-
-        elif isinstance(error, commands.MissingRequiredArgument):
+        if isinstance(error, commands.MissingRequiredArgument):
             embed.add_field(name = f"You are missing a required argument.", value = "If the error persists, please contact Ash.")
 
         elif isinstance(error, commands.MissingRole) or isinstance(error, commands.NotOwner) or isinstance(error, commands.MissingPermissions):

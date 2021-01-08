@@ -30,7 +30,8 @@ STAR_CHANNEL_ID = 728440495105114173 #starcastle
 TEMP_MESSAGE_LIST = []
 VERSION = "2.0-pre" # Current version (entirely symbolic, means nothing)
 
-def FOOTER(x = random.randint(1, len(RANDOM_FOOTERS))): # Random footer generator
+def FOOTER(): # Random footer generator
+    x = random.randint(1, len(RANDOM_FOOTERS))
     return "PhaseBot v{} | Made by Pythogon Technologies {}".format(VERSION, RANDOM_FOOTERS.get(x))  # Random footer <3
 
 def GDPR(): # Embed for GDPR handler (no relation to Cogs.GDPR or the command )gdpr)
