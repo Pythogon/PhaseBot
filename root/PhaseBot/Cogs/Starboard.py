@@ -2,6 +2,8 @@ import discord
 import glo #pylint: disable=import-error
 import operator
 
+from datetime import date
+from datetime import timedelta
 from discord.ext import commands
 
 class Starboard(commands.Cog):
@@ -38,3 +40,14 @@ class Starboard(commands.Cog):
         If one of your messages that you don't like made it to the board, you can just ask Ash to delete it.""")
         embed.set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed) # Starboard help
+
+    @commands.command(aliases = ["st"])
+    async def startotal(self, ctx):
+        read = len(glo.FILEREAD("starcastle.txt")) + 55610
+        percent = float('{:g}'.format(float('{:.{p}g}'.format((read / 100000) * 100, p=4)))) # Number to 4 s.f.
+        started = date(2020, 7, 4) # Unchanging start date of development and collection of starboard entries
+        today = date.today() 
+        diff = today - started
+        until = (started + timedelta(days = round(100 / (percent / diff.days)))).strftime(glo.DATE_FORMAT_HOUR_EXCLUSIVE) # Calculus
+        # print(until) # Debug (kept for quick enable and disabling purposes)
+        await ctx.send(f"We are {percent}% of the way towards getting 100000 characters. ETA: {until}.")
