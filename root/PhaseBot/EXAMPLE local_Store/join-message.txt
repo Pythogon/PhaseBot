@@ -4,7 +4,7 @@ My name is PhaseBot and I was built to make your server experience the best it c
 **__A brief guide to our server__**
 #le-noir is the place to be for discussion! All of the main conversation takes place there (just mind Roxane!).
 
-#announcements contains... well... announcements. Duh. All of the important stuff happpens in #announcements (but it can be a bit wordy, don't tell Sole).
+#announcements contains... well... announcements. Duh. All of the important stuff happpens in #announcements.
 
 The #art and #meme-corners are for showing only the most refined and relevant masterpieces, such as Thea Monstertruck and Clash of Clans.
 
