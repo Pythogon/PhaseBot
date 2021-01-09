@@ -17,6 +17,7 @@ class Starboard(commands.Cog):
         try: 
             await glo.STAR(await channel.fetch_message(message_id), self.bot.get_channel(glo.STAR_CHANNEL_ID))
             await ctx.send(f"Message {message_id} starred.")
+            glo.FILEAPPEND("starred.txt", str(message_id))
         except: await ctx.send("ERR. Invalid ID?")
 
     @commands.command(aliases = ["sc"])
