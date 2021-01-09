@@ -16,30 +16,25 @@ RANDOM_FOOTERS = {1: "with love. ❤",
 2: "in discord.py.",
 3: "on 2020-07-04.",
 4: "| Error 404: Good code not found.",
-5: "with special thanks to SoleNyu!",
+5: "with special thanks to Erika!",
 6: "with Anabot.",
-7: "with CommentGenRNN.",
+7: "with no added sugar!",
 8: "| It's nut free!",
 9: "with magic and rainbows.",
 10: "while consulting the deities.",
 11: "on behalf of a very caffeinated frog.",
 12: "| If you find a bug, feel free to report it!",
-13: "with thanks to bekano_cat for her artistic talent!"} 
+13: "with thanks to bekano_cat for her artistic talent!",
+14: "because even monsters deserve love. ❤",
+15: "rising from the ashes."} 
 STAR_COUNT = 4 # Amount of stars needed for a message to get onto the starboard
 STAR_CHANNEL_ID = 728440495105114173 #starcastle
 TEMP_MESSAGE_LIST = []
-VERSION = "2.0-pre" # Current version (entirely symbolic, means nothing)
+VERSION = "3.0" # Current version (entirely symbolic, means nothing)
 
 def FOOTER(): # Random footer generator
     x = random.randint(1, len(RANDOM_FOOTERS))
     return "PhaseBot v{} | Made by Pythogon Technologies {}".format(VERSION, RANDOM_FOOTERS.get(x))  # Random footer <3
-
-def GDPR(): # Embed for GDPR handler (no relation to Cogs.GDPR or the command )gdpr)
-    return discord.Embed(title = "Sorry, but you need to agree to our privacy agreement!", color = 0xff0000
-    ).add_field(name = "Your privacy is important to us...", value = f"""In compliance with the EU's General Data Protection Regulation (GDPR), we're requiring all users to agree to their data being stored.
-    PhaseBot uses and stores only the data that is essential to its operaton.
-    You can learn more about the data we store by running {PREFIX}gdpr, or accept it by typing {PREFIX}accept."""
-    ).set_footer(text = FOOTER())
 
 def GETEMOJI(l):
     return {0: u"\U0001F7E4", 1: u"\U0001F7E3", 2: u"\U0001F7E2", 3: u"\U0001F7E0"}.get(l) # Returns unicode for coloured circles
