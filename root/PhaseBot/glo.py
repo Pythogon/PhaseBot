@@ -25,7 +25,7 @@ RANDOM_FOOTERS = {1: "with love. ❤",
 11: "on behalf of a very caffeinated frog.",
 12: "| If you find a bug, feel free to report it!",
 13: "with thanks to bekano_cat for her artistic talent!"} 
-STAR_COUNT = 1 # Amount of stars needed for a message to get onto the starboard
+STAR_COUNT = 4 # Amount of stars needed for a message to get onto the starboard
 STAR_CHANNEL_ID = 728440495105114173 #starcastle
 TEMP_MESSAGE_LIST = []
 VERSION = "2.0-pre" # Current version (entirely symbolic, means nothing)
