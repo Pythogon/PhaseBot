@@ -4,7 +4,8 @@ import random
 
 from discord.ext import commands
 
-COLOR = 0xff00ff # Magenta, 255 0 255
+ANNOUNCEMENT_CHANNEL_ID = 797176212594098187 #phasebot_announcements
+COLOR = 0xff00ff
 DATE_FORMAT_HOUR_EXCLUSIVE = "%Y-%m-%d" # Day format
 DATE_FORMAT_HOUR_INCLUSIVE = "%H:%M:%S on %Y-%m-%d" # Time format
 DEVELOPER_ROLE_ID = 732384059191328809 # Developer role
@@ -27,7 +28,7 @@ RANDOM_FOOTERS = {1: "with love. ❤",
 13: "with thanks to bekano_cat for her artistic talent!",
 14: "because even monsters deserve love. ❤",
 15: "rising from the ashes."} 
-STAR_COUNT = 4 # Amount of stars needed for a message to get onto the starboard
+STAR_COUNT = 3 # Amount of stars needed for a message to get onto the starboard
 STAR_CHANNEL_ID = 728440495105114173 #starcastle
 TEMP_MESSAGE_LIST = []
 VERSION = "3.0" # Current version (entirely symbolic, means nothing)

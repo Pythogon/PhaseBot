@@ -32,11 +32,14 @@ class Admin(commands.Cog):
     @commands.command(aliases = ["an"])
     @commands.is_owner()
     async def announce(self, ctx, *message):
+        le_noir = ctx.guild.get_channel(glo.MAIN_CHANNEL_ID)
+        announcement_channel = ctx.guild.get_channel(glo.ANNOUNCEMENT_CHANNEL_ID)
         message = " ".join(message)
         embed = discord.Embed(title = f"An important update about PhaseBot.", color = glo.COLOR
         ).add_field(name = "Announcement:", value = message
         ).set_footer(text = glo.FOOTER())
-        await ctx.send(embed = embed)
+        await le_noir.send(embed = embed)
+        await announcement_channel.send(embed = embed)
 
     @commands.command(aliases = ["id"])
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
