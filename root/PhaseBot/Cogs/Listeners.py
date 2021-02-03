@@ -52,6 +52,7 @@ class Listeners(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, p):
+        if p.message_id in glo.FILEREAD("starred.txt"): return
         if p.emoji.name != "⭐": return 
         channel = self.bot.get_channel(p.channel_id)
         message = await channel.fetch_message(p.message_id)
