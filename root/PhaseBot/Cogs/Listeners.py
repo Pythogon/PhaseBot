@@ -62,7 +62,6 @@ class Listeners(commands.Cog):
         if reaction.count != glo.STAR_COUNT: return
         print(f"Message {message.id} in {message.channel.id} added to starcastle")
         await glo.STAR(message, self.bot.get_channel(glo.STAR_CHANNEL_ID))
-        glo.FILEAPPEND("starred.txt", str(message.id))        
 
 
 
