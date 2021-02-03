@@ -56,12 +56,12 @@ class Listeners(commands.Cog):
         channel = self.bot.get_channel(p.channel_id)
         message = await channel.fetch_message(p.message_id)
         if message.author.bot: return 
-        if discord.utils.get(message.reactions, me = True, emoji = ":white_check_mark:") is not None: return
+        if discord.utils.get(message.reactions, me = True, emoji = "✅") is not None: return
         reaction = discord.utils.get(message.reactions, emoji = "⭐")
         print(f"User {p.user_id} reacted to {p.message_id} in {p.channel_id}")
         if reaction.count != glo.STAR_COUNT: return
         print(f"Message {message.id} in {message.channel.id} added to starcastle")
         await glo.STAR(message, self.bot.get_channel(glo.STAR_CHANNEL_ID))
-        await message.add_reaction(":white_check_mark:")
+        await message.add_reaction("✅")
 
 

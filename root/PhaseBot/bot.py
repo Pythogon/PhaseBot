@@ -17,7 +17,7 @@ class PhaseBot(commands.Bot):
     async def on_message(self, message):
         if message.channel.id == 796374619900084255:
             os.system("git pull")
-            os.system("pm2 restart phase")
+            os.system("pm2 restart Phase")
         if message.author.bot: return # We don't like bots
         return await bot.process_commands(message)
 
