@@ -64,3 +64,4 @@ class Starboard(commands.Cog):
         userdata["laststar"] = time.time()
         glo.USERDATA_WRITE(ctx.author.id, userdata)
         await message.add_reaction("⭐")
+        await ctx.send("Star added successfully.")
