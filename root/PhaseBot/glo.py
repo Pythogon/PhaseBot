@@ -31,7 +31,7 @@ RANDOM_FOOTERS = {1: "with love. ❤",
 STAR_COUNT = 3 # Amount of stars needed for a message to get onto the starboard
 STAR_CHANNEL_ID = 728440495105114173 #starcastle
 TEMP_MESSAGE_LIST = []
-VERSION = "3.0.1-hf-5-2" # Current version (entirely symbolic, means nothing)
+VERSION = "3.1-pre1" # Current version (entirely symbolic, means nothing)
 
 def FOOTER(): # Random footer generator
     x = random.randint(1, len(RANDOM_FOOTERS))
@@ -83,6 +83,9 @@ def JSONWRITE(fpath, data):
     with open(fpath, 'w', encoding = "utf-8") as outfile: json.dump(data,outfile)
 
 def USERDATA_READ(user):
+    """
+    Usage: "user" = ctx.author.id
+    """
     full_data = JSONREAD("userdata.json")
     try:
         return full_data[str(user)]
