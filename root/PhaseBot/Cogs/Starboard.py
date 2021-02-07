@@ -60,7 +60,7 @@ class Starboard(commands.Cog):
         message = await channel.fetch_message(message_id)
         userdata = glo.USERDATA_READ(ctx.author.id)
         if discord.utils.get(message.reactions, me = True, emoji = "⭐") is not None: return await ctx.send("I have already reacted to this message.")
-        if (userdata["laststar"] - time.time()) < 86400: return await ctx.send("This command is on cooldown. Come back soon!")
+        if (time.time() - userdata["laststar"]) < 86400: return await ctx.send("This command is on cooldown. Come back soon!")
         userdata["laststar"] = time.time()
         glo.USERDATA_WRITE(ctx.author.id, userdata)
         await message.add_reaction("⭐")
