@@ -31,7 +31,7 @@ RANDOM_FOOTERS = {1: "with love. ❤",
 STAR_COUNT = 3 # Amount of stars needed for a message to get onto the starboard
 STAR_CHANNEL_ID = 728440495105114173 #starcastle
 TEMP_MESSAGE_LIST = []
-VERSION = "3.1-pre1" # Current version (entirely symbolic, means nothing)
+VERSION = "3.0.2" # Current version (entirely symbolic, means nothing)
 
 def FOOTER(): # Random footer generator
     x = random.randint(1, len(RANDOM_FOOTERS))

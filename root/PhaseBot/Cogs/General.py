@@ -29,7 +29,8 @@ poll|p "Question" answer1|answer2|answer3|answer4
 rate|sr <user>""", inline = False
         ).add_field(name = "Starboard", value = """starcount|sc
 starinfo|si
-startotal|star""", inline = False
+startotal|star
+superstar|super #channel <message id>""", inline = False
         ).add_field(name = "Misc.", value = """joinmessage|jm
 wonderland|wd""", inline = False 
         ).set_footer(text = glo.FOOTER())
