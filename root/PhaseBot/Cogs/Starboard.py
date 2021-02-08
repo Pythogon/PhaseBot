@@ -55,7 +55,6 @@ class Starboard(commands.Cog):
         await ctx.send(f"We are {percent}% of the way towards getting 100000 characters. ETA: {until}.")
 
     @commands.command(aliases = ["super"])
-    @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def superstar(self, ctx, channel: discord.TextChannel, message_id: int):
         message = await channel.fetch_message(message_id)
         userdata = glo.USERDATA_READ(ctx.author.id)
