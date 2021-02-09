@@ -1,5 +1,6 @@
 import discord
 import glo #pylint: disable=import-error
+import math
 import operator
 import time
 
@@ -60,7 +61,7 @@ class Starboard(commands.Cog):
         userdata = glo.USERDATA_READ(ctx.author.id)
         if discord.utils.get(message.reactions, me = True, emoji = "⭐") is not None: return await ctx.send("I have already reacted to this message.")
         if (time.time() - userdata["laststar"]) < 86400: return await ctx.send("This command is on cooldown. Come back soon!")
-        userdata["laststar"] = time.time()
+        userdata["laststar"] = math.floor(time.time())
         glo.USERDATA_WRITE(ctx.author.id, userdata)
         await message.add_reaction("⭐")
         await ctx.send("Star added successfully.")

@@ -198,18 +198,26 @@ modify <user> <aspect> <value>"""
 
     @metrics.command(name = "user", aliases = ["u"])
     async def metrics_user(self, ctx, member: discord.Member):
-        try:
-            userdata = glo.USERDATA_READ(member.id)
-            if userdata["rate"] == None: raise ValueError
-            rate = userdata["rate"]
-        except:
+        userdata = glo.USERDATA_READ(member.id)
+        if userdata["rate"] == None:
             rate = "Unknown"
+        else: 
+            rate = userdata["rate"]
+        if userdata["role"] == None:
+            role = "None"
+        else:
+            role = userdata["role"]
+        
         embed = discord.Embed(title = "Metrics for that user", color = glo.COLOR
         ).add_field(name = "Username", value = member.name
         ).add_field(name = "User ID", value = str(member.id)
         ).add_field(name = "Account created at", value = member.created_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE) # HH:MM:SS on YYYY-MM-DD
         ).add_field(name = "Joined guild at", value = member.joined_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE) # HH:MM:SS on YYYY-MM-DD
         ).add_field(name = "Surreal rating", value = rate
+        ).add_field(name = "Role ID", value = role
+        ).add_field(name = "Last )superstar", value = userdata["laststar"]
+        ).add_field(name = "Starcount", value = userdata["starcount"]
+        ).add_field(name = "Balance", value = userdata["currency"]
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
 
