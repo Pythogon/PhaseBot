@@ -88,7 +88,7 @@ wonderland|wd""", inline = False
          if userdata["role"] == None:
              role = await ctx.guild.create_role(name = str(ctx.author.id))
              await ctx.author.add_roles(role)
-             await role.edit(position = ctx.me.top_role.position - 1, color = color)
+             await role.edit(position = ctx.me.top_role.position - 2, color = color)
              userdata["role"] = role.id
              glo.USERDATA_WRITE(ctx.author.id, userdata)
              await ctx.send("New user detected. Modification complete.")
