@@ -9,8 +9,8 @@ from discord.ext import commands
 bankdb = "local_Store/bank.txt"
 
 class Currency(commands.Cog):
-    account: list = []
-    data: list = []
+    account = list()
+    data = list()
 
     def readfsdb(self):
         with open(bankdb, 'r') as bankdb_r:
@@ -46,10 +46,11 @@ class Currency(commands.Cog):
             await ctx.send("You don't have an account yet!")
 
     @commands.command(aliases = ["setbal"])
-    async def setbalance(self, ctx, value):
+    @commands.has_role(glo.DEVELOPER_ROLE_ID)
+    async def setbalance(self, ctx, user: discord.User, value):
         try:
-            self.data[self.getaccountidx(ctx.author.id)] = int(value)
-            await ctx.send("Your balance has been updated")
+            self.data[self.getaccountidx(user.id)] = int(value)
+            await ctx.send(f"{user.name}'s balance has been updated.")
             self.syncfsdb()        
         except IndexError:
-            await ctx.send("You don't have an account yet!")
+            await ctx.send(f"{user.name} doesn't have an account yet!")
