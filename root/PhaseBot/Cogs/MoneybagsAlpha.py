@@ -39,14 +39,14 @@ class Currency(commands.Cog):
         self.readfsdb()
 
     @commands.command(aliases = ["bal"])
-    async def balance(self, ctx: Context):
+    async def balance(self, ctx):
         try:
             await ctx.send(self.data[self.getaccountidx(ctx.author.id)])
         except IndexError:
             await ctx.send("You don't have an account yet!")
 
     @commands.command(aliases = ["setbal"])
-    async def setbalance(self, ctx: Context, value):
+    async def setbalance(self, ctx, value):
         try:
             self.data[self.getaccountidx(ctx.author.id)] = int(value)
             await ctx.send("Your balance has been updated")
