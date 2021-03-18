@@ -228,6 +228,7 @@ modify <user> <aspect> <value>"""
         ).add_field(name = "Last )superstar", value = userdata["laststar"]
         ).add_field(name = "Starcount", value = userdata["starcount"]
         ).add_field(name = "Balance", value = userdata["currency"]
+        ).add_field(name = "Inventory", value = str(userdata["inventory"])
         ).set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
 

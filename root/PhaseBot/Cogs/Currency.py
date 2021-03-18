@@ -40,21 +40,37 @@ def randomise():
     if(len(current_items) == 0):
         current_items.append(items[len(items) - 1])
 
-def purchase(uid, item):
+def purchase(uid, item, steal = False):
     global purchases
-    if int(glo.USERDATA_READ(uid)["currency"]) >= getprice(item):
-        purchases += 1
-        if purchases == glo.RANDOM_SHOP_THRESHOLD:
+    if steal:
+        successful = random.randint(0, getprice(item)) < (getprice(item) / 4)
+        if successful:
+            data = glo.USERDATA_READ(uid)
+            data["inventory"].append(item)
+            glo.USERDATA_WRITE(uid, data)
+            return 0
+        else:
             purchases = 0
+            data = glo.USERDATA_READ(uid)
+            data["currency"] = str(int(data["currency"]) - (getprice(item) * 2))
+            glo.USERDATA_WRITE(uid, data)
             randomise()
-        data = glo.USERDATA_READ(uid)
-        data["currency"] = str(int(data["currency"]) - getprice(item))
-        glo.USERDATA_WRITE(uid, data)
-        return True
+            return getprice(item) * 2
     else:
-        return False
+        if int(glo.USERDATA_READ(uid)["currency"]) >= getprice(item):
+            purchases += 1
+            if purchases == glo.RANDOM_SHOP_THRESHOLD:
+                purchases = 0
+                randomise()
+            data = glo.USERDATA_READ(uid)
+            data["currency"] = str(int(data["currency"]) - getprice(item))
+            data["inventory"].append(item)
+            glo.USERDATA_WRITE(uid, data)
+            return True
+        else:
+            return False
 
-class Currency(commands.Cog):
+class Bank(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
@@ -64,12 +80,6 @@ class Currency(commands.Cog):
     async def balance(self, ctx):
         bal = glo.USERDATA_READ(ctx.author.id)["currency"]
         return await ctx.send(f"Your current balance is {bal}.")
-
-    @commands.command(aliases = ["setbal"])
-    async def setbalance(self, ctx, value):
-        data = glo.USERDATA_READ(ctx.author.id)
-        data["currency"] = str(value)
-        glo.USERDATA_WRITE(ctx.author.id, data)
 
     @commands.command(aliases = ["sh"])
     async def shop(self, ctx):
@@ -84,3 +94,17 @@ class Currency(commands.Cog):
         msg: discord.Message = await ctx.send(embed = ebd)
         for r in current_items:
             await msg.add_reaction(r)
+
+    @commands.command()
+    async def steal(self, ctx):
+        global current_items
+        current_price = list()
+        for item in current_items:
+            current_price.append(str(getprice(item)))
+        ebd = discord.Embed(title = "Steal from Shop", color = glo.COLOR) \
+            .add_field(name = "Hey, psst!", value = "You can steal from the shop too, just don't get caught! React to the item you want to try to steal", inline = False) \
+            .add_field(name = "Item", value = '\n'.join(current_items), inline = True)
+        msg: discord.Message = await ctx.send(embed = ebd)
+        for r in current_items:
+            await msg.add_reaction(r)
+
