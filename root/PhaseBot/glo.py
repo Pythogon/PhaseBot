@@ -36,7 +36,7 @@ SHOP_RARITY_EXPONENT = 2
 STAR_COUNT = 3 # Amount of stars needed for a message to get onto the starboard
 STAR_CHANNEL_ID = 728440495105114173 #starcastle
 TEMP_MESSAGE_LIST = []
-VERSION = "3.1-alpha1" # Current version (entirely symbolic, means nothing)
+VERSION = "3.1-alpha2" # Current version (entirely symbolic, means nothing)
 
 def FOOTER(): # Random footer generator
     x = random.randint(1, len(RANDOM_FOOTERS))
@@ -102,16 +102,4 @@ def USERDATA_WRITE(user, data):
     full_data[str(user)] = data
     JSONWRITE("userdata.json", full_data)
 
-# Custom errors
-
-class GDPRFailError(commands.CommandError): pass
-
-# Custom checks
-
-def gdpr_check():
-    def predicate(ctx):
-        userdata = USERDATA_READ(ctx.author.id)
-        if userdata["gdpr"] == 0: return False
-        return True
-    return commands.check(predicate)
     
