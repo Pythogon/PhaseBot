@@ -1,6 +1,6 @@
 from .Admin import Admin
+from .CurrencyAlpha import Currency
 from .General import General
 from .Listeners import Listeners
-from .Scheduler import Scheduler
 from .Starboard import Starboard
-from .MoneybagsAlpha import Currency
+

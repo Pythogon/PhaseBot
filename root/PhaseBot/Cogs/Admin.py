@@ -32,13 +32,17 @@ class Admin(commands.Cog):
     @commands.command(aliases = ["an"])
     @commands.is_owner()
     async def announce(self, ctx, *message):
-        le_noir = ctx.guild.get_channel(glo.MAIN_CHANNEL_ID)
+        # Channel fetching
+        main_channel = ctx.guild.get_channel(glo.MAIN_CHANNEL_ID)
         announcement_channel = ctx.guild.get_channel(glo.ANNOUNCEMENT_CHANNEL_ID)
+        # Join message
         message = " ".join(message)
+        # Construct embed
         embed = discord.Embed(title = f"An important update about PhaseBot.", color = glo.COLOR
         ).add_field(name = "Announcement:", value = message
         ).set_footer(text = glo.FOOTER())
-        await le_noir.send(embed = embed)
+        # Send to main_channel and announcement_channel
+        await main_channel.send(embed = embed)
         await announcement_channel.send(embed = embed)
 
     @commands.command(aliases = ["id"])
@@ -92,6 +96,7 @@ class Admin(commands.Cog):
     @commands.command(aliases = ["dh"])
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def devhelp(self, ctx):
+        # Embed contructor
         embed = discord.Embed(title = "Developer help panel", color = glo.COLOR
         ).add_field(name = "Developer only commands", value = """checkid|id
 devhelp|dh
@@ -137,24 +142,28 @@ modify <user> <aspect> <value>"""
     @commands.command(aliases=["ld"])
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def leaderboard(self, ctx):
-        filt = {}
+        filtered = {}
+        # Read all userdata
         read = glo.JSONREAD("userdata.json")
         to_send = ""
+        # Remove all 0 entries
         for k, v in read.items():
             if v["starcount"] < 1:
                 pass
-            else: filt[k] = v["starcount"]
-        filt = dict(sorted(filt, reverse = True))
-        for key, value in filt.items():
-            value = value["starcount"]
+            else: 
+                # Store as {user_id: starcount}
+                filtered[k] = v["starcount"]
+        # Sort high to low
+        filtered = dict(sorted(filtered, reverse = True))
+        # Generate full list for ordered values
+        for key, value in filtered.items():
             name = await self.bot.fetch_user(int(key))
             to_send += f"{name.name}: {value}\n"
-        embed = discord.Embed(title="Starboard Leaderboard", color=glo.COLOR
-        ).add_field(name="Scores:", value=to_send
-        ).set_footer(text=glo.FOOTER())
-        await ctx.send(embed=embed)
+        # Send end
+        await ctx.send(to_send)
 
     @commands.group(aliases = ["la"])
+    @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def listall(self, ctx):
         if ctx.invoked_subcommand == None:
             await ctx.send(f"Correct usage is {glo.PREFIX}list all <channels|members|roles>.") # Default case
@@ -163,7 +172,8 @@ modify <user> <aspect> <value>"""
     async def listall_channels(self, ctx):
         channel_list = ""
         for channel in ctx.guild.channels:
-            if isinstance(channel, discord.CategoryChannel): continue # Skipping all CategoryChannels
+            # Skipping all CategoryChannels
+            if isinstance(channel, discord.CategoryChannel): continue 
             channel_list += f"{channel.name}\n"
         await ctx.send(channel_list)
 
@@ -224,8 +234,10 @@ modify <user> <aspect> <value>"""
     @commands.command(aliases = ["mod"])
     @commands.is_owner()
     async def modify(self, ctx, user: discord.User, aspect, value: int):
+        # Error check to deal with typos (which happen too often)
         if aspect not in glo.USERDATA_READ("default"):
             return await ctx.send(f"Aspect {aspect} not found.")
+        # Do a RW
         userdata = glo.USERDATA_READ(user.id)
         userdata[aspect] = value
         glo.USERDATA_WRITE(user.id, userdata)

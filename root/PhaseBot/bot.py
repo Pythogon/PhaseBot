@@ -25,9 +25,8 @@ class PhaseBot(commands.Bot):
 bot = PhaseBot(command_prefix = glo.PREFIX) # Writing the embed
 bot.remove_command('help') # Removing default help (I don't like it)
 bot.add_cog(Cogs.Admin(bot)) # Many cog
+bot.add_cog(Cogs.Currency(bot))
 bot.add_cog(Cogs.General(bot))
 bot.add_cog(Cogs.Listeners(bot))
-bot.add_cog(Cogs.Scheduler(bot))
 bot.add_cog(Cogs.Starboard(bot))
-bot.add_cog(Cogs.Currency(bot))
 bot.run(glo.FILEREAD("token"))
