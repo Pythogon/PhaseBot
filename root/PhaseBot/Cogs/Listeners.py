@@ -4,7 +4,7 @@ import traceback
 
 from discord.ext import commands
 
-import Cogs.CurrencyAlpha #pylint: disable=import-error
+import Cogs.Currency #pylint: disable=import-error
 
 class Listeners(commands.Cog):
     def __init__(self, bot):
@@ -60,9 +60,9 @@ class Listeners(commands.Cog):
 
         if len(message.embeds) > 0:
             if str(message.embeds[0].title) == ("Shop") and not p.member.bot:
-                if p.emoji.name in Cogs.CurrencyAlpha.current_items:
-                    if Cogs.CurrencyAlpha.purchase(p.user_id, p.emoji.name):
-                        await channel.send("Thank you for purchasing " + p.emoji.name + "!")
+                if p.emoji.name in Cogs.Currency.current_items:
+                    if Cogs.Currency.purchase(p.user_id, p.emoji.name):
+                        await channel.send(f"Thank you for purchasing {p.emoji.name}!")
                     else:
                         await channel.send("You don't have enough money to buy that!")
                 else:
