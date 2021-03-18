@@ -29,6 +29,7 @@ RANDOM_FOOTERS = {1: "with love. ❤",
 14: "because even monsters deserve love. ❤",
 15: "rising from the ashes.",
 16: "with unintentional help from distopioid!"} 
+RANDOM_CURRENCY_CHANCE = 100
 RANDOM_SHOP_THRESHOLD = 2
 SHOP_BASE_PRICE = 10
 SHOP_ITEM_COUNT = 4

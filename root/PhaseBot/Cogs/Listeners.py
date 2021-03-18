@@ -1,6 +1,7 @@
 import discord
 import glo #pylint: disable=import-error
 import traceback
+import random
 
 from discord.ext import commands
 
@@ -58,6 +59,39 @@ class Listeners(commands.Cog):
         channel: discord.TextChannel = self.bot.get_channel(p.channel_id)
         message = await channel.fetch_message(p.message_id)
 
+        if p.emoji.name == "⭐":
+            # Check the legacy system to ensure a previously starred message isn't restarred
+            # Preprocessing
+            if str(p.message_id) in glo.FILEREAD("starred.txt"): return
+            # Bot messages banned from starcastle
+            if message.author.bot: return 
+            # Check new system to ensure a previously starred message isn't restarred
+            if discord.utils.get(message.reactions, me = True, emoji = "✅") is not None: return
+            reaction = discord.utils.get(message.reactions, emoji = "⭐")
+            print(f"User {p.user_id} reacted to {p.message_id} in {p.channel_id}")
+            if reaction.count != glo.STAR_COUNT: return
+            print(f"Message {message.id} in {message.channel.id} added to starcastle")
+            # Send to star handler
+            await glo.STAR(message, self.bot.get_channel(glo.STAR_CHANNEL_ID))
+            await message.add_reaction("✅")
+
+    @commands.Cog.listener(name = "on_message")
+    async def shop_money_message_handler(self, message):
+        if message.author.bot:
+            return
+
+        if random.randint(1, glo.RANDOM_CURRENCY_CHANCE) == 1:
+            data = glo.USERDATA_READ(message.author.id)
+            currency = random.randint(3, 10)
+            data["currency"] = str(int(data["currency"]) + currency)
+            glo.USERDATA_WRITE(message.author.id, data)
+            await message.channel.send(f"You earned {currency} <:bean:710243429119950969> from speaking!")
+
+    @commands.Cog.listener(name = "on_raw_reaction_add")
+    async def shop_reaction_handler(self, p: discord.RawReactionActionEvent):
+        channel: discord.TextChannel = self.bot.get_channel(p.channel_id)
+        message = await channel.fetch_message(p.message_id)
+
         if len(message.embeds) > 0:
             if str(message.embeds[0].title) == ("Shop") and not p.member.bot:
                 if p.emoji.name in Cogs.Currency.current_items:
@@ -67,19 +101,15 @@ class Listeners(commands.Cog):
                         await channel.send("You don't have enough money to buy that!")
                 else:
                     await channel.send("We don't have that for sale right now!")
-        else:
-            if p.emoji.name == "⭐":
-                # Check the legacy system to ensure a previously starred message isn't restarred
-                # Preprocessing
-                if str(p.message_id) in glo.FILEREAD("starred.txt"): return
-                # Bot messages banned from starcastle
-                if message.author.bot: return 
-                # Check new system to ensure a previously starred message isn't restarred
-                if discord.utils.get(message.reactions, me = True, emoji = "✅") is not None: return
-                reaction = discord.utils.get(message.reactions, emoji = "⭐")
-                print(f"User {p.user_id} reacted to {p.message_id} in {p.channel_id}")
-                if reaction.count != glo.STAR_COUNT: return
-                print(f"Message {message.id} in {message.channel.id} added to starcastle")
-                # Send to star handler
-                await glo.STAR(message, self.bot.get_channel(glo.STAR_CHANNEL_ID))
-                await message.add_reaction("✅")
+            elif str(message.embeds[0].title) == ("Steal from Shop") and not p.member.bot:
+                if p.emoji.name in Cogs.Currency.current_items:
+                    if int(glo.USERDATA_READ(p.user_id)["currency"]) < Cogs.Currency.getprice(p.emoji.name):
+                        await channel.send(f"You can't steal that, you could end up in debt!")
+                    else:
+                        stole = Cogs.Currency.purchase(p.user_id, p.emoji.name, steal=True)
+                        if stole == 0:
+                            await channel.send(f"You stole {p.emoji.name}!")
+                        else:
+                            await channel.send(f"You got caught! You lost {stole} <:bean:710243429119950969>")
+                else:
+                    await channel.send("That's not for sale right now!")
