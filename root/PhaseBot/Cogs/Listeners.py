@@ -15,7 +15,11 @@ class Listeners(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         # Error messages
-        print(f"Exception in {ctx.command}: {error}")
+        try:
+            print(f"Exception in {ctx.command}: {error.with_traceback()}")
+        except:
+            print(f"Exception in {ctx.command}: {error}")
+
         embed = discord.Embed(title = "An error has occured!", color = glo.ERROR_COLOR).set_footer(text = glo.FOOTER())
 
         if isinstance(error, commands.MissingRequiredArgument):
@@ -101,10 +105,14 @@ class Listeners(commands.Cog):
             if str(message.embeds[0].title) == ("Shop") and not p.member.bot:
                 if p.emoji.name in Cogs.Currency.current_items:
                     if Cogs.Currency.purchase(p.user_id, p.emoji.name):
-                        await channel.send(f"Thank you for purchasing {p.emoji.name}!")
+                        if p.emoji.name in Cogs.Currency.custom_emoji_map.keys():
+                            await channel.send(f"Thank you for purchasing {Cogs.Currency.custom_emoji_map[p.emoji.name]}!")
+                        else:
+                            await channel.send(f"Thank you for purchasing {p.emoji.name}!")
                     else:
                         await channel.send("You don't have enough money to buy that!")
                 else:
+                    await channel.send(p.emoji.name)
                     await channel.send("We don't have that for sale right now!")
             elif str(message.embeds[0].title) == ("Steal from Shop") and not p.member.bot:
                 if p.emoji.name in Cogs.Currency.current_items:
@@ -113,7 +121,10 @@ class Listeners(commands.Cog):
                     else:
                         stole = Cogs.Currency.purchase(p.user_id, p.emoji.name, steal=True)
                         if stole == 0:
-                            await channel.send(f"You stole {p.emoji.name}!")
+                            if p.emoji.name in Cogs.Currency.custom_emoji_map.keys():
+                                await channel.send(f"You stole {Cogs.Currency.custom_emoji_map[p.emoji.name]}!")
+                            else:
+                                await channel.send(f"You stole {p.emoji.name}!")
                         else:
                             await channel.send(f"You got caught! You have been fined {stole} {glo.BANKFORMAT(stole)}.")
                 else:
