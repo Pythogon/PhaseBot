@@ -157,8 +157,7 @@ modify <user> <aspect> <value>"""
         filtered = {k: v for k, v in sorted(filtered.items(), key=lambda item: item[1], reverse = True)}
         # Generate full list for ordered values
         for key, value in filtered.items():
-            name = await self.bot.fetch_user(int(key))
-            to_send += f"{name.name}: {value}\n"
+            to_send += f"{key}: {value}\n"
         to_send += "```"
         # Send end
         await ctx.send(to_send)
