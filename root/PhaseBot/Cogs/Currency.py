@@ -118,3 +118,4 @@ class Bank(commands.Cog):
         userdata["currency"] += amount
         userdata["last_daily"] = math.floor(time.time())
         await ctx.send(f"You've earned {amount} {glo.BANKFORMAT(amount)} today! Come back tomorrow for more.")
+        glo.USERDATA_WRITE(ctx.author.id, userdata)
