@@ -145,7 +145,7 @@ modify <user> <aspect> <value>"""
         filtered = {}
         # Read all userdata
         read = glo.JSONREAD("userdata.json")
-        to_send = ""
+        to_send = "```"
         # Remove all 0 entries
         for k, v in read.items():
             if v["starcount"] < 1:
@@ -159,6 +159,7 @@ modify <user> <aspect> <value>"""
         for key, value in filtered.items():
             name = await self.bot.fetch_user(int(key))
             to_send += f"{name.name}: {value}\n"
+        to_send += "```"
         # Send end
         await ctx.send(to_send)
 
