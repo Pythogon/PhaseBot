@@ -14,8 +14,8 @@ DEVELOPER_ROLE_ID = 732384059191328809 # Developer role
 ERROR_COLOR = 0xff0000
 GUILD_ID = 709717828365844511 # LIFE: The Game
 MAIN_CHANNEL_ID = 709717829112561776 #le-noir
-MONEY_MESSAGE_MIN = 10
-MONEY_MESSAGE_MAX = 40
+MONEY_MESSAGE_MIN = 5
+MONEY_MESSAGE_MAX = 25
 PREFIX = ")" 
 RANDOM_FOOTERS = {1: "with love. ❤",
 2: "in discord.py.",
@@ -40,6 +40,8 @@ SHOP_ITEM_COUNT = 4
 SHOP_RARITY_EXPONENT = 2
 STAR_COUNT = 3 # Amount of stars needed for a message to get onto the starboard
 STAR_CHANNEL_ID = 728440495105114173 #starcastle
+STAR_MESSAGE_MIN = 15
+STAR_MESSAGE_MAX = 50
 TEMP_MESSAGE_LIST = []
 VERSION = "3.1-alpha2" # Current version (entirely symbolic, means nothing)
 
@@ -68,7 +70,7 @@ def GETRATE(l, user):
     return embed # Fully formed embed using a dictionary jump table
 
 async def STAR(message, star_channel):
-    reward = random.randint(MONEY_MESSAGE_MIN, MONEY_MESSAGE_MAX)
+    reward = random.randint(STAR_MESSAGE_MIN, STAR_MESSAGE_MAX)
     userdata = USERDATA_READ(message.author.id)
     embed = discord.Embed(title = f"⭐ | {message.author}", color = COLOR
     ).add_field(name = "Message:", value = message.content, inline = False
