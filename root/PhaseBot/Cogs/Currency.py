@@ -65,7 +65,7 @@ def purchase(uid, item, steal = False):
                 purchases = 0
                 randomise()
             data = glo.USERDATA_READ(uid)
-            data["currency"] = data["currency"] - getprice(item))
+            data["currency"] = data["currency"] - getprice(item)
             data["inventory"].append(item)
             glo.USERDATA_WRITE(uid, data)
             return True
