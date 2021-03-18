@@ -4,6 +4,8 @@ import traceback
 
 from discord.ext import commands
 
+import Cogs.CurrencyAlpha #pylint: disable=import-error
+
 class Listeners(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -52,23 +54,32 @@ class Listeners(commands.Cog):
             return await message.add_reaction(emoji) # React bean
 
     @commands.Cog.listener()
-    async def on_raw_reaction_add(self, p):
-        # Check the legacy system to ensure a previously starred message isn't restarred
-        # Preprocessing
-        if str(p.message_id) in glo.FILEREAD("starred.txt"): return
-        if p.emoji.name != "⭐": return 
-        channel = self.bot.get_channel(p.channel_id)
+    async def on_raw_reaction_add(self, p: discord.RawReactionActionEvent):
+        channel: discord.TextChannel = self.bot.get_channel(p.channel_id)
         message = await channel.fetch_message(p.message_id)
-        # Bot messages banned from starcastle
-        if message.author.bot: return 
-        # Check new system to ensure a previously starred message isn't restarred
-        if discord.utils.get(message.reactions, me = True, emoji = "✅") is not None: return
-        reaction = discord.utils.get(message.reactions, emoji = "⭐")
-        print(f"User {p.user_id} reacted to {p.message_id} in {p.channel_id}")
-        if reaction.count != glo.STAR_COUNT: return
-        print(f"Message {message.id} in {message.channel.id} added to starcastle")
-        # Send to star handler
-        await glo.STAR(message, self.bot.get_channel(glo.STAR_CHANNEL_ID))
-        await message.add_reaction("✅")
 
-
+        if len(message.embeds) > 0:
+            if str(message.embeds[0].title) == ("Shop") and not p.member.bot:
+                if p.emoji.name in Cogs.CurrencyAlpha.current_items:
+                    if Cogs.CurrencyAlpha.purchase(p.user_id, p.emoji.name):
+                        await channel.send("Thank you for purchasing " + p.emoji.name + "!")
+                    else:
+                        await channel.send("You don't have enough money to buy that!")
+                else:
+                    await channel.send("We don't have that for sale right now!")
+        else:
+            if p.emoji.name == "⭐":
+                # Check the legacy system to ensure a previously starred message isn't restarred
+                # Preprocessing
+                if str(p.message_id) in glo.FILEREAD("starred.txt"): return
+                # Bot messages banned from starcastle
+                if message.author.bot: return 
+                # Check new system to ensure a previously starred message isn't restarred
+                if discord.utils.get(message.reactions, me = True, emoji = "✅") is not None: return
+                reaction = discord.utils.get(message.reactions, emoji = "⭐")
+                print(f"User {p.user_id} reacted to {p.message_id} in {p.channel_id}")
+                if reaction.count != glo.STAR_COUNT: return
+                print(f"Message {message.id} in {message.channel.id} added to starcastle")
+                # Send to star handler
+                await glo.STAR(message, self.bot.get_channel(glo.STAR_CHANNEL_ID))
+                await message.add_reaction("✅")
