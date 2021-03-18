@@ -29,6 +29,10 @@ RANDOM_FOOTERS = {1: "with love. ❤",
 14: "because even monsters deserve love. ❤",
 15: "rising from the ashes.",
 16: "with unintentional help from distopioid!"} 
+RANDOM_SHOP_THRESHOLD = 2
+SHOP_BASE_PRICE = 10
+SHOP_ITEM_COUNT = 4
+SHOP_RARITY_EXPONENT = 2
 STAR_COUNT = 3 # Amount of stars needed for a message to get onto the starboard
 STAR_CHANNEL_ID = 728440495105114173 #starcastle
 TEMP_MESSAGE_LIST = []
