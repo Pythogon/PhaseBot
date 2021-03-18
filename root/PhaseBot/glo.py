@@ -6,12 +6,16 @@ from discord.ext import commands
 
 ANNOUNCEMENT_CHANNEL_ID = 797176212594098187 #phasebot_announcements
 COLOR = 0xff00ff
+DAILY_MIN = 15 # Dailies
+DAILY_MAX = 40
 DATE_FORMAT_HOUR_EXCLUSIVE = "%Y-%m-%d" # Day format
 DATE_FORMAT_HOUR_INCLUSIVE = "%H:%M:%S on %Y-%m-%d" # Time format
 DEVELOPER_ROLE_ID = 732384059191328809 # Developer role
 ERROR_COLOR = 0xff0000
 GUILD_ID = 709717828365844511 # LIFE: The Game
 MAIN_CHANNEL_ID = 709717829112561776 #le-noir
+MONEY_MESSAGE_MIN = 10
+MONEY_MESSAGE_MAX = 40
 PREFIX = ")" 
 RANDOM_FOOTERS = {1: "with love. ❤",
 2: "in discord.py.",
@@ -39,6 +43,11 @@ STAR_CHANNEL_ID = 728440495105114173 #starcastle
 TEMP_MESSAGE_LIST = []
 VERSION = "3.1-alpha2" # Current version (entirely symbolic, means nothing)
 
+def BANKFORMAT(num):
+    if num == 1: out = "<:bean:710243429119950969>"
+    else: out = "<:bean:710243429119950969>s"
+    return out
+
 def FOOTER(): # Random footer generator
     x = random.randint(1, len(RANDOM_FOOTERS))
     return "PhaseBot v{} | Made by Pythogon Technologies {}".format(VERSION, RANDOM_FOOTERS.get(x))  # Random footer <3
@@ -59,14 +68,17 @@ def GETRATE(l, user):
     return embed # Fully formed embed using a dictionary jump table
 
 async def STAR(message, star_channel):
+    reward = random.randint(MONEY_MESSAGE_MIN, MONEY_MESSAGE_MAX)
     userdata = USERDATA_READ(message.author.id)
     embed = discord.Embed(title = f"⭐ | {message.author}", color = COLOR
     ).add_field(name = "Message:", value = message.content, inline = False
     ).add_field(name = "Jump link:", value = message.jump_url, inline = False
+    ).add_field(name = "Reward given:", value = f"{reward} {BANKFORMAT(reward)}", inline=False
     ).set_footer(text = FOOTER())
     await star_channel.send(embed = embed) # PhaseBot class
     FILEAPPEND("starcastle.txt", message.content.encode(encoding = "ascii", errors = "ignore").decode().replace("\n", "")) # Adding to starcastle.txt
     userdata["starcount"] += 1
+    userdata["currency"] += reward
     USERDATA_WRITE(message.author.id, userdata)
 
 # Global file mod functions

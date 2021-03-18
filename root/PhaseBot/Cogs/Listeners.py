@@ -82,10 +82,10 @@ class Listeners(commands.Cog):
 
         if random.randint(1, glo.RANDOM_CURRENCY_CHANCE) == 1:
             data = glo.USERDATA_READ(message.author.id)
-            currency = random.randint(3, 10)
+            currency = random.randint(glo.MONEY_MESSAGE_MIN, glo.MONEY_MESSAGE_MAX)
             data["currency"] = str(int(data["currency"]) + currency)
             glo.USERDATA_WRITE(message.author.id, data)
-            await message.channel.send(f"You earned {currency} <:bean:710243429119950969> from speaking!")
+            await message.channel.send(f"You earned {currency} {glo.BANKFORMAT(currency)} from speaking!")
 
     @commands.Cog.listener(name = "on_raw_reaction_add")
     async def shop_reaction_handler(self, p: discord.RawReactionActionEvent):
@@ -110,6 +110,6 @@ class Listeners(commands.Cog):
                         if stole == 0:
                             await channel.send(f"You stole {p.emoji.name}!")
                         else:
-                            await channel.send(f"You got caught! You lost {stole} <:bean:710243429119950969>")
+                            await channel.send(f"You got caught! You have been fined {stole} {glo.BANKFORMAT(stole)}.")
                 else:
                     await channel.send("That's not for sale right now!")

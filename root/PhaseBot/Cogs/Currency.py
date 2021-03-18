@@ -1,7 +1,9 @@
 import asyncio
 import discord
 import glo #pylint: disable=import-error
+import math
 import random
+import time
 
 from discord.ext import commands
 from discord.utils import get
@@ -79,7 +81,7 @@ class Bank(commands.Cog):
     @commands.command(aliases = ["bal"])
     async def balance(self, ctx):
         bal = glo.USERDATA_READ(ctx.author.id)["currency"]
-        return await ctx.send(f"Your current balance is {bal}.")
+        return await ctx.send(f"Your current balance is {bal} {glo.BANKFORMAT(bal)}.")
 
     @commands.command(aliases = ["sh"])
     async def shop(self, ctx):
@@ -108,3 +110,11 @@ class Bank(commands.Cog):
         for r in current_items:
             await msg.add_reaction(r)
 
+    @commands.command()
+    async def daily(self, ctx):
+        userdata = glo.USERDATA_READ(ctx.author.id)
+        if (time.time() - userdata["last_daily"]) < 86400: return await ctx.send("You've already claimed your daily today!")
+        amount = random.randint(glo.DAILY_MIN, glo.DAILY_MAX)
+        userdata["currency"] += amount
+        userdata["last_daily"] = math.floor(time.time())
+        await ctx.send(f"You've earned {amount} {glo.BANKFORMAT(amount)} today! Come back tomorrow for more.")
