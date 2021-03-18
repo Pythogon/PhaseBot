@@ -154,7 +154,7 @@ modify <user> <aspect> <value>"""
                 # Store as {user_id: starcount}
                 filtered[k] = v["starcount"]
         # Sort high to low
-        filtered = dict(sorted(filtered, reverse = True))
+        filtered = {k: v for k, v in sorted(filtered.items(), key=lambda item: item[1], reverse = True)}
         # Generate full list for ordered values
         for key, value in filtered.items():
             name = await self.bot.fetch_user(int(key))
