@@ -83,7 +83,7 @@ class Listeners(commands.Cog):
         if random.randint(1, glo.RANDOM_CURRENCY_CHANCE) == 1:
             data = glo.USERDATA_READ(message.author.id)
             currency = random.randint(glo.MONEY_MESSAGE_MIN, glo.MONEY_MESSAGE_MAX)
-            data["currency"] = str(int(data["currency"]) + currency)
+            data["currency"] = data["currency"] + currency
             glo.USERDATA_WRITE(message.author.id, data)
             await message.channel.send(f"You earned {currency} {glo.BANKFORMAT(currency)} from speaking!")
 

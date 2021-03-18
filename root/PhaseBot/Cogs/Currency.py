@@ -54,18 +54,18 @@ def purchase(uid, item, steal = False):
         else:
             purchases = 0
             data = glo.USERDATA_READ(uid)
-            data["currency"] = str(int(data["currency"]) - (getprice(item) * 2))
+            data["currency"] = data["currency"] - (getprice(item) * 2)
             glo.USERDATA_WRITE(uid, data)
             randomise()
             return getprice(item) * 2
     else:
-        if int(glo.USERDATA_READ(uid)["currency"]) >= getprice(item):
+        if glo.USERDATA_READ(uid)["currency"] >= getprice(item):
             purchases += 1
             if purchases == glo.RANDOM_SHOP_THRESHOLD:
                 purchases = 0
                 randomise()
             data = glo.USERDATA_READ(uid)
-            data["currency"] = str(int(data["currency"]) - getprice(item))
+            data["currency"] = data["currency"] - getprice(item))
             data["inventory"].append(item)
             glo.USERDATA_WRITE(uid, data)
             return True
