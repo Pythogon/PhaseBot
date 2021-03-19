@@ -22,12 +22,20 @@ items = [
     "⭐",
     "🌟",
     "🗡️",
-    "👑"
+    "👑",
+    "bean"
 ]
+global custom_emoji_map 
+custom_emoji_map = {
+    "bean": "710243429119950969"
+}
+
 global current_items
 current_items = list()
 
 def getprice(item):
+    if item in custom_emoji_map.values():
+        return glo.SHOP_BASE_PRICE + (pow(items.index(custom_emoji_map.values()[list(custom_emoji_map.keys()).index(item)]), glo.SHOP_RARITY_EXPONENT))
     return glo.SHOP_BASE_PRICE + (pow(items.index(item), glo.SHOP_RARITY_EXPONENT))
 
 def randomise():
@@ -38,9 +46,16 @@ def randomise():
         if(len(current_items) == glo.SHOP_ITEM_COUNT):
             return
         elif(random.randint(0, 100) < 20):
-            current_items.append(item)
+            if item in custom_emoji_map.keys():
+                current_items.append(custom_emoji_map[item])
+            else:
+                current_items.append(item)
     if(len(current_items) == 0):
-        current_items.append(items[len(items) - 1])
+        item = items[len(items) - 1]
+        if item in custom_emoji_map.keys():
+            current_items.append(item)
+        else:
+            current_items.append(item)
 
 def purchase(uid, item, steal = False):
     global purchases
@@ -54,7 +69,7 @@ def purchase(uid, item, steal = False):
         else:
             purchases = 0
             data = glo.USERDATA_READ(uid)
-            data["currency"] = data["currency"] - (getprice(item) * 2)
+            data["currency"] = int(data["currency"] - (getprice(item) * 2))
             glo.USERDATA_WRITE(uid, data)
             randomise()
             return getprice(item) * 2
@@ -65,7 +80,7 @@ def purchase(uid, item, steal = False):
                 purchases = 0
                 randomise()
             data = glo.USERDATA_READ(uid)
-            data["currency"] = data["currency"] - getprice(item)
+            data["currency"] = int(data["currency"] - getprice(item))
             data["inventory"].append(item)
             glo.USERDATA_WRITE(uid, data)
             return True
@@ -95,11 +110,15 @@ class Bank(commands.Cog):
             .add_field(name = "Price", value = '\n'.join(current_price), inline = True)
         msg: discord.Message = await ctx.send(embed = ebd)
         for r in current_items:
-            await msg.add_reaction(r)
+            if r in custom_emoji_map:
+                await msg.add_reaction(f"{await ctx.guild.fetch_emoji(int(custom_emoji_map[r]))}")
+            else:
+                await msg.add_reaction(r)
 
     @commands.command()
     async def steal(self, ctx):
         global current_items
+        global custom_emoji_map
         current_price = list()
         for item in current_items:
             current_price.append(str(getprice(item)))
@@ -108,7 +127,10 @@ class Bank(commands.Cog):
             .add_field(name = "Item", value = '\n'.join(current_items), inline = True)
         msg: discord.Message = await ctx.send(embed = ebd)
         for r in current_items:
-            await msg.add_reaction(r)
+            if r in custom_emoji_map:
+                await msg.add_reaction(f"{r}:{custom_emoji_map[r]}")
+            else:
+                await msg.add_reaction(r)
 
     @commands.command()
     async def daily(self, ctx):
