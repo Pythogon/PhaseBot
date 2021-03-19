@@ -18,8 +18,10 @@ class PhaseBot(commands.Bot):
         for k in ud:
             k = int(k)
             u = bot.get_user(k)
-            if u is None: name = "Member left"
-            else: name = u.name
+            if u is None: 
+                name = "Member left"
+            else: 
+                name = u.name
             glo.SETNAME(k, name)
         await bot.change_presence(activity = discord.Activity(name = f"le noir | v{glo.VERSION}", type = discord.ActivityType.watching)) # Simplistic help
 
