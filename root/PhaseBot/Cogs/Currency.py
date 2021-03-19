@@ -134,6 +134,12 @@ class Bank(commands.Cog):
         await ctx.send(f"You've earned {amount} {glo.BANKFORMAT(amount)} today! Come back tomorrow for more.")
         glo.USERDATA_WRITE(ctx.author.id, userdata)
 
+    @commands.command(aliases = ["randomise"])
+    @commands.has_role(glo.DEVELOPER_ROLE_ID)
+    async def randomize(self, ctx):
+        randomise()
+        await ctx.send("Randomised shop items!")
+
     @commands.command(aliases = ["sh"])
     async def shop(self, ctx):
         global current_items
