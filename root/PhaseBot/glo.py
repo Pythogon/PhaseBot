@@ -65,9 +65,9 @@ def GETRATE(l, user):
     4: ["I think {} is a sphere. Solidly surreal.", 0xff6000,'★★★★☆'],
     5: ['{} is a hypercube, probably working with the surreal council (hide your illegalities).',0xff3030,'★★★★★'],
     6: ['{} is the void itself. What did you expect?',0xff0000,'★★★★★★']}.get(l)
-    embed = discord.Embed(title = varset[0].format(user.name), color = varset[1])
-    embed.add_field(name = f'Rating: {varset[2]}', value = f'Do you want to know what I think about someone? Do {PREFIX}rate [@user].')
-    embed.set_footer(text = FOOTER())
+    embed = discord.Embed(title = varset[0].format(user.name), color = varset[1]) \
+    .add_field(name = f'Rating: {varset[2]}', value = f'Do you want to know what I think about someone? Do {PREFIX}rate [@user].') \
+    .set_footer(text = FOOTER())
     return embed # Fully formed embed using a dictionary jump table
 
 def SETNAME(user, name):
@@ -77,11 +77,11 @@ def SETNAME(user, name):
 async def STAR(message, star_channel):
     reward = random.randint(STAR_MESSAGE_MIN, STAR_MESSAGE_MAX)
     userdata = USERDATA_READ(message.author.id)
-    embed = discord.Embed(title = f"⭐ | {message.author}", color = COLOR
-    ).add_field(name = "Message:", value = message.content, inline = False
-    ).add_field(name = "Jump link:", value = message.jump_url, inline = False
-    ).add_field(name = "Reward given:", value = f"{reward} {BANKFORMAT(reward)}", inline=False
-    ).set_footer(text = FOOTER())
+    embed = discord.Embed(title = f"⭐ | {message.author}", color = COLOR) \
+    .add_field(name = "Message:", value = message.content, inline = False) \
+    .add_field(name = "Jump link:", value = message.jump_url, inline = False) \
+    .add_field(name = "Reward given:", value = f"{reward} {BANKFORMAT(reward)}", inline=False) \
+    .set_footer(text = FOOTER())
     await star_channel.send(embed = embed) # PhaseBot class
     FILEAPPEND("starcastle.txt", message.content.encode(encoding = "ascii", errors = "ignore").decode().replace("\n", "")) # Adding to starcastle.txt
     userdata["starcount"] += 1
