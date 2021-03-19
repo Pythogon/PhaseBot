@@ -47,9 +47,9 @@ help|?
 info|i
 poll|p "Question" answer1|answer2|answer3|answer4
 rate|sr <user>""", inline = False) \
-        .add_field(name = "Starboard", value = """startop|top
-starcount|sc
+        .add_field(name = "Starboard", value = """starcount|sc
 starinfo|si
+startop|top
 startotal|st
 superstar|super #channel <message id>""", inline = False) \
         .add_field(name = "Economy [ALPHA]", value = """balance|bal
