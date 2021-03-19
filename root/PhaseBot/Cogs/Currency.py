@@ -13,23 +13,22 @@ purchases = 0
 # Items further down the list are rarer
 global items
 items = [
-    "📱",
-    "🪓",
-    "💡",
-    "📀",
-    "🛡️",
-    "🔮",
-    "⭐",
-    "🌟",
-    "🗡️",
-    "👑",
-    "🍪",
-    "TheaPixel"
+    #"📱",
+    #"🪓",
+    #"💡",
+    #"📀",
+    #"🛡️",
+    #"🔮",
+    #"⭐",
+    #"🌟",
+    #"🗡️",
+    #"👑",
+    #"🍪",
+    "bean"
 ]
 global custom_emoji_map 
 custom_emoji_map = {
-    "bean": "710243429119950969",
-    "TheaPixel": "800019320859394088"
+    "bean": "710243429119950969"
 }
 
 global current_items
