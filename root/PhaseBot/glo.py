@@ -59,7 +59,7 @@ def GETEMOJI(l):
     return {0: u"\U0001F7E4", 1: u"\U0001F7E3", 2: u"\U0001F7E2", 3: u"\U0001F7E0"}.get(l) # Returns unicode for coloured circles
 
 def GETRATE(l, user):
-    varset = -1: ['Error 404: {} not found.', 0xffffff, '☆'],
+    varset = {-1: ['Error 404: {} not found.', 0xffffff, '☆'],
     1: ["{} is a lowly triangle, 1/10, not very surreal.",0x5fa8ff,'★☆☆☆☆'],
     2: ["{} seems to be a square - they should visit the Void more often.",0xfffc00,'★★☆☆☆'],
     3: ["{} is a line. Infinite potential for surrealitude, but they're trapped behind their one dimensional view.", 0xffc000,'★★★☆☆'],
