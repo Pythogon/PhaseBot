@@ -157,7 +157,7 @@ modify <user> <aspect> <value>""") \
         filtered = {k: v for k, v in sorted(filtered.items(), key=lambda item: item[1], reverse = True)}
         # Generate full list for ordered values
         for key, value in filtered.items():
-            to_send += f"{glo.CURRENT_NAMES[key]}: {value}\n"
+            to_send += f"{glo.CURRENT_NAMES[int(key)]}: {value}\n"
         to_send += "```"
         # Send end
         await ctx.send(to_send)
