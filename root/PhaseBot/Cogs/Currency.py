@@ -28,7 +28,7 @@ items = [
 ]
 global custom_emoji_map 
 custom_emoji_map = {
-    "bean": "822199099101020171"
+    "bean": "710243429119950969"
 }
 
 global current_items
