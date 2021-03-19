@@ -16,7 +16,7 @@ class PhaseBot(commands.Bot):
         ud = glo.JSONREAD("userdata.json")
         del ud["default"]
         for k in ud:
-            int(k)
+            k = int(k)
             u = bot.get_user(k)
             if u is None: name = "Member left"
             else: name = u.name
