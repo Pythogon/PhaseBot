@@ -33,7 +33,6 @@ class Listeners(commands.Cog):
         
         return await ctx.send(embed = embed)
         
-        
     @commands.Cog.listener()
     async def on_member_join(self, member):
         channel = self.bot.get_channel(glo.MAIN_CHANNEL_ID) 
@@ -106,13 +105,12 @@ class Listeners(commands.Cog):
                 if p.emoji.name in Cogs.Currency.current_items:
                     if Cogs.Currency.purchase(p.user_id, p.emoji.name):
                         if p.emoji.name in Cogs.Currency.custom_emoji_map.keys():
-                            await channel.send(f"Thank you for purchasing {Cogs.Currency.custom_emoji_map[p.emoji.name]}!")
+                            await channel.send(f"Thank you for purchasing <:{p.emoji.name}:{Cogs.Currency.custom_emoji_map[p.emoji.name]}>!")
                         else:
                             await channel.send(f"Thank you for purchasing {p.emoji.name}!")
                     else:
                         await channel.send("You don't have enough money to buy that!")
                 else:
-                    await channel.send(p.emoji.name)
                     await channel.send("We don't have that for sale right now!")
             elif str(message.embeds[0].title) == ("Steal from Shop") and not p.member.bot:
                 if p.emoji.name in Cogs.Currency.current_items:
@@ -122,7 +120,7 @@ class Listeners(commands.Cog):
                         stole = Cogs.Currency.purchase(p.user_id, p.emoji.name, steal=True)
                         if stole == 0:
                             if p.emoji.name in Cogs.Currency.custom_emoji_map.keys():
-                                await channel.send(f"You stole {Cogs.Currency.custom_emoji_map[p.emoji.name]}!")
+                                await channel.send(f"You stole <:{p.emoji.name}:{Cogs.Currency.custom_emoji_map[p.emoji.name]}>!")
                             else:
                                 await channel.send(f"You stole {p.emoji.name}!")
                         else:
