@@ -19,7 +19,7 @@ items = [
     "📀",
     "🛡️",
     "🔮",
-    "TheaPixel"
+    "TheaPixel",
     "⭐",
     "🌟",
     "🗡️",
@@ -39,7 +39,7 @@ current_items = list()
 def getprice(item):
     if item in custom_emoji_map.values():
         return glo.SHOP_BASE_PRICE + (pow(items.index(list(custom_emoji_map.keys())[list(custom_emoji_map.values()).index(str(item))]), glo.SHOP_RARITY_EXPONENT))
-    return glo.SHOP_BASE_PRICE + (pow(items.index(item), glo.SHOP_RARITY_EXPONENT))
+    return math.floor(glo.SHOP_BASE_PRICE + (pow(items.index(item), glo.SHOP_RARITY_EXPONENT)))
 
 def randomise():
     global current_items
