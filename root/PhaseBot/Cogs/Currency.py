@@ -99,6 +99,16 @@ class Bank(commands.Cog):
         bal = glo.USERDATA_READ(ctx.author.id)["currency"]
         return await ctx.send(f"Your current balance is {bal} {glo.BANKFORMAT(bal)}.")
 
+    @commands.command()
+    async def daily(self, ctx):
+        userdata = glo.USERDATA_READ(ctx.author.id)
+        if (time.time() - userdata["last_daily"]) < 86400: return await ctx.send("You've already claimed your daily today!")
+        amount = random.randint(glo.DAILY_MIN, glo.DAILY_MAX)
+        userdata["currency"] += amount
+        userdata["last_daily"] = math.floor(time.time())
+        await ctx.send(f"You've earned {amount} {glo.BANKFORMAT(amount)} today! Come back tomorrow for more.")
+        glo.USERDATA_WRITE(ctx.author.id, userdata)
+
     @commands.command(aliases = ["sh"])
     async def shop(self, ctx):
         global current_items
@@ -145,12 +155,3 @@ class Bank(commands.Cog):
             else:
                 await msg.add_reaction(r)
 
-    @commands.command()
-    async def daily(self, ctx):
-        userdata = glo.USERDATA_READ(ctx.author.id)
-        if (time.time() - userdata["last_daily"]) < 86400: return await ctx.send("You've already claimed your daily today!")
-        amount = random.randint(glo.DAILY_MIN, glo.DAILY_MAX)
-        userdata["currency"] += amount
-        userdata["last_daily"] = math.floor(time.time())
-        await ctx.send(f"You've earned {amount} {glo.BANKFORMAT(amount)} today! Come back tomorrow for more.")
-        glo.USERDATA_WRITE(ctx.author.id, userdata)
