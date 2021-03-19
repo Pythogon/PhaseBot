@@ -12,26 +12,26 @@ class Listeners(commands.Cog):
         self.bot = bot
         self._last_member = None
 
-    @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
-        # Error messages
-        try:
-            print(f"Exception in {ctx.command}: {error.with_traceback()}")
-        except:
-            print(f"Exception in {ctx.command}: {error}")
-
-        embed = discord.Embed(title = "An error has occured!", color = glo.ERROR_COLOR).set_footer(text = glo.FOOTER())
-
-        if isinstance(error, commands.MissingRequiredArgument):
-            embed.add_field(name = f"You are missing a required argument.", value = "If the error persists, please contact Ash.")
-
-        elif isinstance(error, commands.MissingRole) or isinstance(error, commands.NotOwner) or isinstance(error, commands.MissingPermissions):
-            embed.add_field(name = "You don't have permission to run that command.", value = "If you believe you should have permission, please contact Ash.")
-        
-        else:
-            embed.add_field(name = error, value = "If the error persists, please contact Ash.")
-        
-        return await ctx.send(embed = embed)
+#    @commands.Cog.listener()
+#    async def on_command_error(self, ctx, error):
+#        # Error messages
+#        try:
+#            print(f"Exception in {ctx.command}: {error.with_traceback()}")
+#        except:
+#            print(f"Exception in {ctx.command}: {error}")
+#
+#        embed = discord.Embed(title = "An error has occured!", color = glo.ERROR_COLOR).set_footer(text = glo.FOOTER())
+#
+#        if isinstance(error, commands.MissingRequiredArgument):
+#            embed.add_field(name = f"You are missing a required argument.", value = "If the error persists, please contact Ash.")
+#
+#        elif isinstance(error, commands.MissingRole) or isinstance(error, commands.NotOwner) or isinstance(error, commands.MissingPermissions):
+#            embed.add_field(name = "You don't have permission to run that command.", value = "If you believe you should have permission, please contact Ash.")
+#        
+#        else:
+#            embed.add_field(name = error, value = "If the error persists, please contact Ash.")
+#        
+#        return await ctx.send(embed = embed)
         
     @commands.Cog.listener()
     async def on_member_join(self, member):

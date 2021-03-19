@@ -13,21 +13,21 @@ purchases = 0
 # Items further down the list are rarer
 global items
 items = [
-    "📱",
-    "🪓",
-    "💡",
-    "📀",
-    "🛡️",
-    "🔮",
-    "⭐",
-    "🌟",
-    "🗡️",
+#    "📱",
+#    "🪓",
+#    "💡",
+#    "📀",
+#    "🛡️",
+#    "🔮",
+#    "⭐",
+#    "🌟",
+#    "🗡️",
     "👑",
     "bean"
 ]
 global custom_emoji_map 
 custom_emoji_map = {
-    "bean": "710243429119950969"
+    "bean": "822199099101020171"
 }
 
 global current_items
@@ -35,7 +35,7 @@ current_items = list()
 
 def getprice(item):
     if item in custom_emoji_map.values():
-        return glo.SHOP_BASE_PRICE + (pow(items.index(custom_emoji_map.values()[list(custom_emoji_map.keys()).index(item)]), glo.SHOP_RARITY_EXPONENT))
+        return glo.SHOP_BASE_PRICE + (pow(items.index(list(custom_emoji_map.keys())[list(custom_emoji_map.values()).index(str(item))]), glo.SHOP_RARITY_EXPONENT))
     return glo.SHOP_BASE_PRICE + (pow(items.index(item), glo.SHOP_RARITY_EXPONENT))
 
 def randomise():
@@ -104,9 +104,15 @@ class Bank(commands.Cog):
         current_price = list()
         for item in current_items:
             current_price.append(str(getprice(item)))
+        display = list()
+        for item in current_items:
+            if item in custom_emoji_map:
+                display.append(f"<:{item}:{custom_emoji_map[item]}>")
+            else:
+                display.append(item)
         ebd = discord.Embed(title = "Shop", color = glo.COLOR) \
             .add_field(name = "Greetings!", value = "Welcome to shop, react with the item you want to purchase!", inline = False) \
-            .add_field(name = "Item", value = '\n'.join(current_items), inline = True) \
+            .add_field(name = "Item", value = '\n'.join(display), inline = True) \
             .add_field(name = "Price", value = '\n'.join(current_price), inline = True)
         msg: discord.Message = await ctx.send(embed = ebd)
         for r in current_items:
@@ -122,9 +128,15 @@ class Bank(commands.Cog):
         current_price = list()
         for item in current_items:
             current_price.append(str(getprice(item)))
+        display = list()
+        for item in current_items:
+            if item in custom_emoji_map:
+                display.append(f"<{list(custom_emoji_map.keys())[list(custom_emoji_map.values()).index(str(item))]}:{item}>")
+            else:
+                display.append(item)
         ebd = discord.Embed(title = "Steal from Shop", color = glo.COLOR) \
             .add_field(name = "Hey, psst!", value = "You can steal from the shop too, just don't get caught! React to the item you want to try to steal", inline = False) \
-            .add_field(name = "Item", value = '\n'.join(current_items), inline = True)
+            .add_field(name = "Item", value = '\n'.join(display), inline = True)
         msg: discord.Message = await ctx.send(embed = ebd)
         for r in current_items:
             if r in custom_emoji_map:
