@@ -14,8 +14,9 @@ class PhaseBot(commands.Bot):
         print("LOAD") # Great, it's working
         await bot.change_presence(activity = discord.Activity(name = f"my startup...", type = discord.ActivityType.watching)) # Simplistic help
         ud = glo.JSONREAD("userdata.json")
+        del ud["default"]
         for k in ud:
-            print(k)
+            int(k)
             u = bot.get_user(k)
             if u is None: name = "Member left"
             else: name = u.name
