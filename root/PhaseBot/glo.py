@@ -6,6 +6,7 @@ from discord.ext import commands
 
 ANNOUNCEMENT_CHANNEL_ID = 797176212594098187 #phasebot_announcements
 COLOR = 0xff00ff
+CURRENT_NAMES = {}
 DAILY_MIN = 15 # Dailies
 DAILY_MAX = 40
 DATE_FORMAT_HOUR_EXCLUSIVE = "%Y-%m-%d" # Day format
@@ -68,6 +69,10 @@ def GETRATE(l, user):
     embed.add_field(name = f'Rating: {varset[2]}', value = f'Do you want to know what I think about someone? Do {PREFIX}rate [@user].')
     embed.set_footer(text = FOOTER())
     return embed # Fully formed embed using a dictionary jump table
+
+def SETNAME(user, name):
+    global CURRENT_NAMES
+    CURRENT_NAMES[user] = name
 
 async def STAR(message, star_channel):
     reward = random.randint(STAR_MESSAGE_MIN, STAR_MESSAGE_MAX)

@@ -12,6 +12,13 @@ class PhaseBot(commands.Bot):
     """ The bot """
     async def on_ready(self):
         print("LOAD") # Great, it's working
+        await bot.change_presence(activity = discord.Activity(name = f"my startup...", type = discord.ActivityType.watching)) # Simplistic help
+        ud = glo.JSONREAD("userdata.json")
+        for k in ud:
+            u = bot.get_user(k)
+            if u is None: name = "Member left"
+            else: name = u.name
+            glo.SETNAME(k, name)
         await bot.change_presence(activity = discord.Activity(name = f"le noir | v{glo.VERSION}", type = discord.ActivityType.watching)) # Simplistic help
 
     async def on_message(self, message):
