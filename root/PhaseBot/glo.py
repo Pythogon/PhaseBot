@@ -44,7 +44,7 @@ STAR_CHANNEL_ID = 728440495105114173 #starcastle
 STAR_MESSAGE_MIN = 15
 STAR_MESSAGE_MAX = 50
 TEMP_MESSAGE_LIST = []
-VERSION = "3.1-alpha2" # Current version (entirely symbolic, means nothing)
+VERSION = "3.1-alpha3" # Current version (entirely symbolic, means nothing)
 
 def BANKFORMAT(num):
     if num == 1: out = "<:bean:710243429119950969>"
