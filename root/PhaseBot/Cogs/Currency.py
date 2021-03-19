@@ -24,11 +24,12 @@ items = [
     "🗡️",
     "👑",
     "🍪",
-    "bean"
+    "TheaPixel"
 ]
 global custom_emoji_map 
 custom_emoji_map = {
-    "bean": "710243429119950969"
+    "bean": "710243429119950969",
+    "TheaPixel": "800019320859394088"
 }
 
 global current_items
