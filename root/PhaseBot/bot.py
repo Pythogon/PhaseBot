@@ -33,7 +33,7 @@ class PhaseBot(commands.Bot):
         return await bot.process_commands(message)
 
 
-bot = PhaseBot(command_prefix = glo.PREFIX) # Writing the embed
+bot = PhaseBot(command_prefix = glo.PREFIX, intents = discord.Intents(messages=True, guilds=True)) # Writing the embed
 bot.remove_command('help') # Removing default help (I don't like it)
 bot.add_cog(Cogs.Admin(bot)) # Many cog
 bot.add_cog(Cogs.Bank(bot))
