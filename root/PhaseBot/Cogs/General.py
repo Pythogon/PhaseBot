@@ -37,31 +37,31 @@ class General(commands.Cog):
 
     @commands.command(name = 'help', aliases = ["?"]) 
     async def help_command(self, ctx):
-        title = discord.Embed(title = 'Help', color = glo.COLOR
-        ).add_field(name = 'Welcome to PhaseBot!', value = f"""Welcome to the PhaseBot {glo.VERSION} help menu.
+        title = discord.Embed(title = 'Help', color = glo.COLOR) \
+        .add_field(name = 'Welcome to PhaseBot!', value = f"""Welcome to the PhaseBot {glo.VERSION} help menu.
 All commands use the {glo.PREFIX} prefix.
-Below are commands listed by category.""", inline = False
-        ).add_field(name = "General", value = """avatar|a <user>
+Below are commands listed by category.""", inline = False) \
+        .add_field(name = "General", value = """avatar|a <user>
 "colour|color|clr <hex code>"
 help|?
 info|i
 poll|p "Question" answer1|answer2|answer3|answer4
-rate|sr <user>""", inline = False
-        ).add_field(name = "Starboard", value = """starcount|sc
+rate|sr <user>""", inline = False) \
+        .add_field(name = "Starboard", value = """starcount|sc
 starinfo|si
 startotal|star
-superstar|super #channel <message id>""", inline = False
-        ).set_footer(text = glo.FOOTER())
+superstar|super #channel <message id>""", inline = False) \
+        .set_footer(text = glo.FOOTER())
         await ctx.send(embed = title) # Anabot help
 
     @commands.command(aliases = ["i"])
     async def info(self, ctx):
-        embed = discord.Embed(title = f"About PhaseBot", color = glo.COLOR
-        ).add_field(name = "Developer", value = "PhaseBot was created for LIFE: The Game by Ash on behalf of [Pythogon Technologies](https://github.com/Pythogon).", inline = False
-        ).add_field(name = "More Info", value = f"PhaseBot is currently on Version {glo.VERSION}. The project started on 2020-07-04.", inline = False
-        ).add_field(name = "Special Thanks", value = """Many thanks to @bekano_cat for the permission to use her wonderful drawing of Phaser as the bot's avatar.""", inline = False
-        ).add_field(name = "GitHub.", value = "You can find PhaseBot's GitHub [here](https://github.com/Pythogon/PhaseBot) and take a look at its source code! If you're a dev, feel free to send a PR our way! We'd be happy to take on any suggestions.", inline = False
-        ).set_footer(text = glo.FOOTER())
+        embed = discord.Embed(title = f"About PhaseBot", color = glo.COLOR) \
+        .add_field(name = "Developer", value = "PhaseBot was created for LIFE: The Game by Ash on behalf of [Pythogon Technologies](https://github.com/Pythogon).", inline = False) \
+        .add_field(name = "More Info", value = f"PhaseBot is currently on Version {glo.VERSION}. The project started on 2020-07-04.", inline = False) \
+        .add_field(name = "Special Thanks", value = """Many thanks to @bekano_cat for the permission to use her wonderful drawing of Phaser as the bot's avatar.""", inline = False) \
+        .add_field(name = "GitHub.", value = "You can find PhaseBot's GitHub [here](https://github.com/Pythogon/PhaseBot) and take a look at its source code! If you're a dev, feel free to send a PR our way! We'd be happy to take on any suggestions.", inline = False) \
+        .set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed) # Credits
 
     @commands.command(aliases = ["jm"])
@@ -86,11 +86,11 @@ superstar|super #channel <message id>""", inline = False
         try:
             score = userdata["rate"]
             if score == None: raise ValueError
-            embed = discord.Embed(title=f"Someone's already asked about {user.name}. One moment...", color = 0xbdbdbd
-            ).add_field(name = 'Fetching...', value = "Please wait, this won't take long.")
+            embed = discord.Embed(title=f"Someone's already asked about {user.name}. One moment...", color = 0xbdbdbd) \
+            .add_field(name = 'Fetching...', value = "Please wait, this won't take long.")
         except:
-            embed = discord.Embed(title=f"Nobody's asked me about {user.name} yet. Let's have a look.", color = 0xbdbdbd
-            ).add_field(name = 'Calculating...', value = "Please wait, this won't take long.")
+            embed = discord.Embed(title=f"Nobody's asked me about {user.name} yet. Let's have a look.", color = 0xbdbdbd) \
+            .add_field(name = 'Calculating...', value = "Please wait, this won't take long.")
             score = random.randint(1,5) 
             userdata["rate"] = score
             glo.USERDATA_WRITE(user.id, userdata)

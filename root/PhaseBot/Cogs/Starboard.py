@@ -27,9 +27,9 @@ class Starboard(commands.Cog):
         userdata = glo.USERDATA_READ(ctx.author.id)
         try: count = userdata["starcount"]
         except: count = 0; userdata["starcount"] = 0; glo.USERDATA_WRITE(ctx.author.id, userdata)
-        embed = discord.Embed(title = "Let me quickly check...", color = glo.COLOR
-        ).add_field(name = f"You currently have {count} stars.", value = "Stars before 2021-01-06 weren't counted."
-        ).set_footer(text = glo.FOOTER())
+        embed = discord.Embed(title = "Let me quickly check...", color = glo.COLOR) \
+        .add_field(name = f"You currently have {count} stars.", value = "Stars before 2021-01-06 weren't counted.") \
+        .set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["si"])

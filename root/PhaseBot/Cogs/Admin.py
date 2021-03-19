@@ -88,9 +88,9 @@ class Admin(commands.Cog):
                             print("5")
                             case = 5
         to_send = {0: "channel", 1: "user", 2: "emoji", 3: "message", 4: "role", 5: "unknown"}.get(case)
-        embed = discord.Embed(title = "Searching for ID...", color = glo.COLOR
-        ).add_field(name = f"Detected ID type: {to_send}.", value = "If this seems incorrect, check again! If it's suspected to be a message, ensure to add the channel."
-        ).set_footer(text = glo.FOOTER())
+        embed = discord.Embed(title = "Searching for ID...", color = glo.COLOR) \
+        .add_field(name = f"Detected ID type: {to_send}.", value = "If this seems incorrect, check again! If it's suspected to be a message, ensure to add the channel.") \
+        .set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["dh"])
@@ -104,11 +104,11 @@ embed|eb "TITLE" "NAME,VALUE;NAME,VALUE" "FOOTER"
 leaderboard|ld
 listall|la <channels|c, members|m, roles|r>
 metrics|met <guild|g, user|u>
-schedule|ss <add|a, purge|p, remove|r>""", inline = False
-        ).add_field(name = "Bot admin only commands", value = """evaluate|eval <to eval>
+schedule|ss <add|a, purge|p, remove|r>""", inline = False) \
+.add_field(name = "Bot admin only commands", value = """evaluate|eval <to eval>
 forcestar|fs <channel> <message ID>
-modify <user> <aspect> <value>"""
-        ).set_footer(text = glo.FOOTER())
+modify <user> <aspect> <value>""") \
+        .set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["eb"]) # Credit to Th3T3chn0G1t
@@ -197,13 +197,13 @@ modify <user> <aspect> <value>"""
     @metrics.command(name = "guild", aliases = ["g"])
     async def metrics_guild(self, ctx):
         guild = ctx.guild
-        embed = discord.Embed(title = "Metrics for this guild", color = glo.COLOR
-        ).add_field(name = "User count", value = str(len(guild.members))
-        ).add_field(name = "Created at", value = guild.created_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE) # HH:MM:SS on YYYY-MM-DD
-        ).add_field(name = "Channel count", value = str(len(guild.channels))
-        ).add_field(name = "Role count", value = str(len(guild.roles))
-        ).add_field(name = "Server owner", value = guild.owner.name
-        ).set_footer(text = glo.FOOTER())
+        embed = discord.Embed(title = "Metrics for this guild", color = glo.COLOR) \
+        .add_field(name = "User count", value = str(len(guild.members))) \
+        .add_field(name = "Created at", value = guild.created_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE)) \
+        .add_field(name = "Channel count", value = str(len(guild.channels))) \
+        .add_field(name = "Role count", value = str(len(guild.roles))) \
+        .add_field(name = "Server owner", value = guild.owner.name) \
+        .set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
 
     @metrics.command(name = "user", aliases = ["u"])
@@ -218,18 +218,18 @@ modify <user> <aspect> <value>"""
         else:
             role = userdata["role"]
         
-        embed = discord.Embed(title = "Metrics for that user", color = glo.COLOR
-        ).add_field(name = "Username", value = member.name
-        ).add_field(name = "User ID", value = str(member.id)
-        ).add_field(name = "Account created at", value = member.created_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE) # HH:MM:SS on YYYY-MM-DD
-        ).add_field(name = "Joined guild at", value = member.joined_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE) # HH:MM:SS on YYYY-MM-DD
-        ).add_field(name = "Surreal rating", value = rate
-        ).add_field(name = "Role ID", value = role
-        ).add_field(name = "Last )superstar", value = userdata["laststar"]
-        ).add_field(name = "Starcount", value = userdata["starcount"]
-        ).add_field(name = "Balance", value = userdata["currency"]
-        ).add_field(name = "Inventory", value = str(userdata["inventory"])
-        ).set_footer(text = glo.FOOTER())
+        embed = discord.Embed(title = "Metrics for that user", color = glo.COLOR) \
+        .add_field(name = "Username", value = member.name) \
+        .add_field(name = "User ID", value = str(member.id)) \
+        .add_field(name = "Account created at", value = member.created_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE)) \
+        .add_field(name = "Joined guild at", value = member.joined_at.strftime(glo.DATE_FORMAT_HOUR_INCLUSIVE)) \
+        .add_field(name = "Surreal rating", value = rate) \
+        .add_field(name = "Role ID", value = role) \
+        .add_field(name = "Last )superstar", value = userdata["laststar"]) \
+        .add_field(name = "Starcount", value = userdata["starcount"]) \
+        .add_field(name = "Balance", value = userdata["currency"]) \
+        .add_field(name = "Inventory", value = str(userdata["inventory"])) \
+        .set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["mod"])
