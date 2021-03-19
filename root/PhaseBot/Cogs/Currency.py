@@ -19,12 +19,13 @@ items = [
     "📀",
     "🛡️",
     "🔮",
+    "TheaPixel"
     "⭐",
     "🌟",
     "🗡️",
     "👑",
     "🍪",
-    "TheaPixel"
+    "bean"
 ]
 global custom_emoji_map 
 custom_emoji_map = {
