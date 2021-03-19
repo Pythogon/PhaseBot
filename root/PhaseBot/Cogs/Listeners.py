@@ -47,7 +47,12 @@ class Listeners(commands.Cog):
     async def on_member_remove(self, member):
         # TODO on_member_remove implementation
         pass
-       
+
+    @commands.Cog.listener()
+    async def on_member_update(self, before, after):
+        if before.name != after.name:
+            glo.SETNAME(after.id, after.name)
+
     @commands.Cog.listener()
     async def on_message(self, message):
         if "214771884544229382" in message.content:
