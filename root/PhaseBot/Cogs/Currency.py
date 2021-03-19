@@ -151,7 +151,8 @@ class Bank(commands.Cog):
         msg: discord.Message = await ctx.send(embed = ebd)
         for r in current_items:
             if r in custom_emoji_map:
-                await msg.add_reaction(await ctx.guild.fetch_emoji(int(custom_emoji_map[r])))
+                custom_emoji = await ctx.guild.fetch_emoji(int(custom_emoji_map[r]))
+                await msg.add_reaction(custom_emoji)
             else:
                 await msg.add_reaction(r)
 
