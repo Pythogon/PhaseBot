@@ -42,15 +42,21 @@ class General(commands.Cog):
 All commands use the {glo.PREFIX} prefix.
 Below are commands listed by category.""", inline = False) \
         .add_field(name = "General", value = """avatar|a <user>
-"colour|color|clr <hex code>"
+colour|color|clr <hex code>
 help|?
 info|i
 poll|p "Question" answer1|answer2|answer3|answer4
 rate|sr <user>""", inline = False) \
-        .add_field(name = "Starboard", value = """starcount|sc
+        .add_field(name = "Starboard", value = """startop|top
+starcount|sc
 starinfo|si
-startotal|star
+startotal|st
 superstar|super #channel <message id>""", inline = False) \
+        .add_field(name = "Economy [ALPHA]", value = """balance|bal
+balancetop|baltop|bt
+daily
+shop
+steal""", inline=False) \
         .set_footer(text = glo.FOOTER())
         await ctx.send(embed = title) # Anabot help
 

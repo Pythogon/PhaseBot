@@ -99,6 +99,29 @@ class Bank(commands.Cog):
         bal = glo.USERDATA_READ(ctx.author.id)["currency"]
         return await ctx.send(f"Your current balance is {bal} {glo.BANKFORMAT(bal)}.")
 
+    @commands.command(aliases=["baltop", "bt"])
+    async def balancetop(self, ctx):
+        filtered = {}
+        # Read all userdata
+        read = glo.JSONREAD("userdata.json")
+        to_send = "```Top balances\n\n"
+        # Remove all 0 entries
+        for k, v in read.items():
+            if v["currency"] < 1:
+                pass
+            else: 
+                # Store as {user_id: currency}
+                filtered[k] = v["currency"]
+        # Sort high to low
+        filtered = {k: v for k, v in sorted(filtered.items(), key=lambda item: item[1], reverse = True)}
+        # Generate full list for ordered values
+        for key, value in filtered.items():
+            name = glo.CURRENT_NAMES[int(key)]
+            to_send += f"{name}: {value}\n"
+        to_send += "```"
+        # Send end
+        await ctx.send(to_send)
+
     @commands.command()
     async def daily(self, ctx):
         userdata = glo.USERDATA_READ(ctx.author.id)

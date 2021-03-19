@@ -101,7 +101,6 @@ class Admin(commands.Cog):
         ).add_field(name = "Developer only commands", value = """checkid|id
 devhelp|dh
 embed|eb "TITLE" "NAME,VALUE;NAME,VALUE" "FOOTER"
-leaderboard|ld
 listall|la <channels|c, members|m, roles|r>
 metrics|met <guild|g, user|u>
 schedule|ss <add|a, purge|p, remove|r>""", inline = False) \
@@ -138,30 +137,6 @@ modify <user> <aspect> <value>""") \
         exec(compile(parsed, filename="<ast>", mode="exec"), env)
         result = (await eval(f"{fn_name}()", env))
         await ctx.send(result)
-
-    @commands.command(aliases=["ld"])
-    @commands.has_role(glo.DEVELOPER_ROLE_ID)
-    async def leaderboard(self, ctx):
-        filtered = {}
-        # Read all userdata
-        read = glo.JSONREAD("userdata.json")
-        to_send = "```"
-        # Remove all 0 entries
-        for k, v in read.items():
-            if v["starcount"] < 1:
-                pass
-            else: 
-                # Store as {user_id: starcount}
-                filtered[k] = v["starcount"]
-        # Sort high to low
-        filtered = {k: v for k, v in sorted(filtered.items(), key=lambda item: item[1], reverse = True)}
-        # Generate full list for ordered values
-        for key, value in filtered.items():
-            name = glo.CURRENT_NAMES[int(key)]
-            to_send += f"{name}: {value}\n"
-        to_send += "```"
-        # Send end
-        await ctx.send(to_send)
 
     @commands.group(aliases = ["la"])
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
