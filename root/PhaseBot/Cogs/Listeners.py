@@ -44,7 +44,8 @@ class Listeners(commands.Cog):
         embed = discord.Embed(title = f"Please welcome {member.name}!", color = glo.COLOR
         ).add_field(name = "We're glad to have you!", value  = F"I'm PhaseBot, and I'm here to help! Learn more about me with {glo.PREFIX}info and run {glo.PREFIX}help for a list of commands."
         ).set_footer(text = glo.FOOTER())
-        await channel.send(embed = embed)     
+        await channel.send(embed = embed) 
+        glo.SETNAME(member.id, member.name)    
     
     @commands.Cog.listener()
     async def on_member_remove(self, member):
@@ -69,7 +70,6 @@ class Listeners(commands.Cog):
 
         if p.emoji.name == "⭐":
             # Check the legacy system to ensure a previously starred message isn't restarred
-            # Preprocessing
             if str(p.message_id) in glo.FILEREAD("starred.txt"): return
             # Bot messages banned from starcastle
             if message.author.bot: return 
