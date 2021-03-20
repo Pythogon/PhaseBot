@@ -7,8 +7,8 @@ from discord.ext import commands
 ANNOUNCEMENT_CHANNEL_ID = 797176212594098187 #phasebot_announcements
 COLOR = 0xff00ff
 CURRENT_NAMES = {}
-DAILY_MIN = 15 # Dailies
-DAILY_MAX = 40
+DAILY_MIN = 20 # Dailies
+DAILY_MAX = 50
 DATE_FORMAT_HOUR_EXCLUSIVE = "%Y-%m-%d" # Day format
 DATE_FORMAT_HOUR_INCLUSIVE = "%H:%M:%S on %Y-%m-%d" # Time format
 DEVELOPER_ROLE_ID = 732384059191328809 # Developer role
@@ -16,9 +16,9 @@ ERROR_COLOR = 0xff0000
 GUILD_ID = 709717828365844511 # LIFE: The Game
 MAIN_CHANNEL_ID = 709717829112561776 #le-noir
 MONEY_MESSAGE_INTERVAL = 1000
-MONEY_MESSAGE_MIN = 7
+MONEY_MESSAGE_MAX = 30
+MONEY_MESSAGE_MIN = 10
 MONEY_MESSAGE_MINLENGTH = 15
-MONEY_MESSAGE_MAX = 20
 PREFIX = ")" 
 RANDOM_FOOTERS = {1: "with love. ❤",
 2: "in discord.py.",
@@ -43,8 +43,8 @@ SHOP_ITEM_COUNT = 4
 SHOP_RARITY_EXPONENT = 1.9
 STAR_COUNT = 3 # Amount of stars needed for a message to get onto the starboard
 STAR_CHANNEL_ID = 728440495105114173 #starcastle
-STAR_MESSAGE_MIN = 15
-STAR_MESSAGE_MAX = 50
+STAR_MESSAGE_MIN = 20
+STAR_MESSAGE_MAX = 60
 TEMP_MESSAGE_LIST = []
 VERSION = "3.1-pre1" # Current version (entirely symbolic, means nothing)
 
