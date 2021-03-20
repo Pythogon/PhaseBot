@@ -145,7 +145,7 @@ class Bank(commands.Cog):
             current_price.append(str(getprice(item)))
         display = list()
         for item in current_items:
-            if item in custom_emoji_map:
+            if item in custom_emoji_map.keys():
                 await ctx.send("item in emojimap")
                 custom_emoji = discord.utils.get(self.bot.emojis, id=int(custom_emoji_map[item]))
                 display.append(str(custom_emoji))
@@ -157,7 +157,7 @@ class Bank(commands.Cog):
             .add_field(name = "Price", value = '\n'.join(current_price), inline = True)
         msg: discord.Message = await ctx.send(embed = ebd)
         for r in current_items:
-            if r in custom_emoji_map:
+            if r in custom_emoji_map.keys():
                 custom_emoji = discord.utils.get(self.bot.emojis, id=int(custom_emoji_map[item]))
                 await msg.add_reaction(custom_emoji)
             else:
@@ -172,7 +172,7 @@ class Bank(commands.Cog):
             current_price.append(str(getprice(item)))
         display = list()
         for item in current_items:
-            if item in custom_emoji_map:
+            if item in custom_emoji_map.keys():
                 custom_emoji = discord.utils.get(self.bot.emojis, id=int(custom_emoji_map[item]))
                 display.append(str(custom_emoji))
             else:
@@ -182,7 +182,7 @@ class Bank(commands.Cog):
             .add_field(name = "Item", value = '\n'.join(display), inline = True)
         msg: discord.Message = await ctx.send(embed = ebd)
         for r in current_items:
-            if r in custom_emoji_map:
+            if r in custom_emoji_map.keys():
                 custom_emoji = discord.utils.get(self.bot.emojis, id=int(custom_emoji_map[item]))
                 await msg.add_reaction(custom_emoji)
             else:
