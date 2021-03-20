@@ -49,9 +49,6 @@ def randomise():
         if(len(current_items) == glo.SHOP_ITEM_COUNT):
             return
         elif(random.randint(0, 100) < 20):
-            if item in custom_emoji_map.keys():
-                current_items.append(custom_emoji_map[item])
-            else:
                 current_items.append(item)
     if(len(current_items) == 0):
         item = items[len(items) - 1]
