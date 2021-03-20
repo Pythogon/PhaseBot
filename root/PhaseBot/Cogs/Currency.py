@@ -149,6 +149,7 @@ class Bank(commands.Cog):
         display = list()
         for item in current_items:
             if item in custom_emoji_map:
+                await ctx.send("item in emojimap")
                 custom_emoji = discord.utils.get(self.bot.emojis, id=int(custom_emoji_map[item]))
                 display.append(custom_emoji)
             else:
