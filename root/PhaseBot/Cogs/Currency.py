@@ -29,8 +29,8 @@ items = [
 ]
 global custom_emoji_map 
 custom_emoji_map = {
-    "bean": 710243429119950969,
-    "TheaPixel": 800019320859394088
+    "bean": "710243429119950969",
+    "TheaPixel": "800019320859394088"
 }
 
 global current_items
@@ -149,7 +149,7 @@ class Bank(commands.Cog):
         display = list()
         for item in current_items:
             if item in custom_emoji_map:
-                custom_emoji = discord.utils.get(self.bot.emojis, id=custom_emoji_map[item])
+                custom_emoji = discord.utils.get(self.bot.emojis, id=int(custom_emoji_map[item]))
                 display.append(custom_emoji)
             else:
                 display.append(item)
@@ -160,7 +160,7 @@ class Bank(commands.Cog):
         msg: discord.Message = await ctx.send(embed = ebd)
         for r in current_items:
             if r in custom_emoji_map:
-                custom_emoji = discord.utils.get(self.bot.emojis, id=custom_emoji_map[item])
+                custom_emoji = discord.utils.get(self.bot.emojis, id=int(custom_emoji_map[item]))
                 await msg.add_reaction(custom_emoji)
             else:
                 await msg.add_reaction(r)
@@ -175,7 +175,7 @@ class Bank(commands.Cog):
         display = list()
         for item in current_items:
             if item in custom_emoji_map:
-                custom_emoji = discord.utils.get(self.bot.emojis, id=custom_emoji_map[item])
+                custom_emoji = discord.utils.get(self.bot.emojis, id=int(custom_emoji_map[item]))
                 display.append(custom_emoji)
             else:
                 display.append(item)
@@ -185,7 +185,7 @@ class Bank(commands.Cog):
         msg: discord.Message = await ctx.send(embed = ebd)
         for r in current_items:
             if r in custom_emoji_map:
-                custom_emoji = discord.utils.get(self.bot.emojis, id=custom_emoji_map[item])
+                custom_emoji = discord.utils.get(self.bot.emojis, id=int(custom_emoji_map[item]))
                 await msg.add_reaction(custom_emoji)
             else:
                 await msg.add_reaction(r)
