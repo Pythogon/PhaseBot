@@ -137,7 +137,7 @@ class Bank(commands.Cog):
         randomise()
         await ctx.send("Randomised shop items!")
 
-    @commands.command(aliases = ["sh"])
+#    @commands.command(aliases = ["sh"])
     async def shop(self, ctx):
         global current_items
         current_price = list()
@@ -163,7 +163,7 @@ class Bank(commands.Cog):
             else:
                 await msg.add_reaction(r)
 
-    @commands.command()
+#    @commands.command()
     async def steal(self, ctx):
         global current_items
         global custom_emoji_map
