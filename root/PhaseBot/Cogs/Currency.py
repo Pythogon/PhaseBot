@@ -148,7 +148,7 @@ class Bank(commands.Cog):
             if item in custom_emoji_map:
                 await ctx.send("item in emojimap")
                 custom_emoji = discord.utils.get(self.bot.emojis, id=int(custom_emoji_map[item]))
-                display.append(custom_emoji)
+                display.append(str(custom_emoji))
             else:
                 display.append(item)
         ebd = discord.Embed(title = "Shop", color = glo.COLOR) \
@@ -174,7 +174,7 @@ class Bank(commands.Cog):
         for item in current_items:
             if item in custom_emoji_map:
                 custom_emoji = discord.utils.get(self.bot.emojis, id=int(custom_emoji_map[item]))
-                display.append(custom_emoji)
+                display.append(str(custom_emoji))
             else:
                 display.append(item)
         ebd = discord.Embed(title = "Steal from Shop", color = glo.COLOR) \
