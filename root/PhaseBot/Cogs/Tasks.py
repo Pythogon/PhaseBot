@@ -11,7 +11,7 @@ class Tasks(commands.Cog):
 
     @tasks.loop(minutes=60)
     async def money_message_reset(self):
-        if datetime.now().hour == 23:
+        if datetime.now().hour == 15:
             ud = glo.JSONREAD("userdata.json")
             for k in ud:
                 ud[k]["mmnumber"] = 0
