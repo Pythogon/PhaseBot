@@ -13,17 +13,18 @@ purchases = 0
 # Items further down the list are rarer
 global items
 items = [
-    #"📱",
-    #"🪓",
-    #"💡",
-    #"📀",
-    #"🛡️",
-    #"🔮",
-    #"⭐",
-    #"🌟",
-    #"🗡️",
-    #"👑",
-    #"🍪",
+    "📱",
+    "🪓",
+    "💡",
+    "📀",
+    "🛡️",
+    "🔮",
+    "TheaPixel",
+    "⭐",
+    "🌟",
+    "🗡️",
+    "👑",
+    "🍪",
     "bean"
 ]
 global custom_emoji_map 
@@ -37,7 +38,7 @@ current_items = list()
 def getprice(item):
     if item in custom_emoji_map.values():
         return glo.SHOP_BASE_PRICE + (pow(items.index(list(custom_emoji_map.keys())[list(custom_emoji_map.values()).index(str(item))]), glo.SHOP_RARITY_EXPONENT))
-    return glo.SHOP_BASE_PRICE + (pow(items.index(item), glo.SHOP_RARITY_EXPONENT))
+    return math.floor(glo.SHOP_BASE_PRICE + (pow(items.index(item), glo.SHOP_RARITY_EXPONENT)))
 
 def randomise():
     global current_items
@@ -47,9 +48,6 @@ def randomise():
         if(len(current_items) == glo.SHOP_ITEM_COUNT):
             return
         elif(random.randint(0, 100) < 20):
-            if item in custom_emoji_map.keys():
-                current_items.append(custom_emoji_map[item])
-            else:
                 current_items.append(item)
     if(len(current_items) == 0):
         item = items[len(items) - 1]
@@ -132,7 +130,13 @@ class Bank(commands.Cog):
         await ctx.send(f"You've earned {amount} {glo.BANKFORMAT(amount)} today! Come back tomorrow for more.")
         glo.USERDATA_WRITE(ctx.author.id, userdata)
 
-    @commands.command(aliases = ["sh"])
+    @commands.command(aliases = ["randomise"])
+    @commands.has_role(glo.DEVELOPER_ROLE_ID)
+    async def randomize(self, ctx):
+        randomise()
+        await ctx.send("Randomised shop items!")
+
+#    @commands.command(aliases = ["sh"])
     async def shop(self, ctx):
         global current_items
         current_price = list()
@@ -140,8 +144,10 @@ class Bank(commands.Cog):
             current_price.append(str(getprice(item)))
         display = list()
         for item in current_items:
-            if item in custom_emoji_map:
-                display.append(f"<:{item}:{custom_emoji_map[item]}>")
+            if item in custom_emoji_map.keys():
+                await ctx.send("item in emojimap")
+                custom_emoji = discord.utils.get(self.bot.emojis, id=int(custom_emoji_map[item]))
+                display.append(str(custom_emoji))
             else:
                 display.append(item)
         ebd = discord.Embed(title = "Shop", color = glo.COLOR) \
@@ -150,13 +156,13 @@ class Bank(commands.Cog):
             .add_field(name = "Price", value = '\n'.join(current_price), inline = True)
         msg: discord.Message = await ctx.send(embed = ebd)
         for r in current_items:
-            if r in custom_emoji_map:
-                custom_emoji = await ctx.guild.fetch_emoji(int(custom_emoji_map[r]))
+            if r in custom_emoji_map.keys():
+                custom_emoji = discord.utils.get(self.bot.emojis, id=int(custom_emoji_map[item]))
                 await msg.add_reaction(custom_emoji)
             else:
                 await msg.add_reaction(r)
 
-    @commands.command()
+#    @commands.command()
     async def steal(self, ctx):
         global current_items
         global custom_emoji_map
@@ -165,8 +171,9 @@ class Bank(commands.Cog):
             current_price.append(str(getprice(item)))
         display = list()
         for item in current_items:
-            if item in custom_emoji_map:
-                display.append(f"<{list(custom_emoji_map.keys())[list(custom_emoji_map.values()).index(str(item))]}:{item}>")
+            if item in custom_emoji_map.keys():
+                custom_emoji = discord.utils.get(self.bot.emojis, id=int(custom_emoji_map[item]))
+                display.append(str(custom_emoji))
             else:
                 display.append(item)
         ebd = discord.Embed(title = "Steal from Shop", color = glo.COLOR) \
@@ -174,8 +181,9 @@ class Bank(commands.Cog):
             .add_field(name = "Item", value = '\n'.join(display), inline = True)
         msg: discord.Message = await ctx.send(embed = ebd)
         for r in current_items:
-            if r in custom_emoji_map:
-                await msg.add_reaction(await ctx.guild.fetch_emoji(int(custom_emoji_map[r])))
+            if r in custom_emoji_map.keys():
+                custom_emoji = discord.utils.get(self.bot.emojis, id=int(custom_emoji_map[item]))
+                await msg.add_reaction(custom_emoji)
             else:
                 await msg.add_reaction(r)
 

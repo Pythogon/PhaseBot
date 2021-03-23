@@ -1,5 +1,7 @@
 import discord
 import glo #pylint: disable=import-error
+import math
+import time
 import traceback
 import random
 
@@ -85,13 +87,16 @@ class Listeners(commands.Cog):
 
     @commands.Cog.listener(name = "on_message")
     async def shop_money_message_handler(self, message):
-        if message.author.bot:
-            return
-
+        if message.author.bot: return
+        if len(message.content) < glo.MONEY_MESSAGE_MINLENGTH: return
         if random.randint(1, glo.RANDOM_CURRENCY_CHANCE) == 1:
             data = glo.USERDATA_READ(message.author.id)
+            if (time.time()-data["last_random"]) < glo.MONEY_MESSAGE_INTERVAL:  return
+            if data["mmnumber"] == glo.MONEY_MESSAGE_PERDAY: return await message.channel.send("You would've recieved beans for this message, but you've already recieved the max number for today. Come back tomorrow!")
             currency = random.randint(glo.MONEY_MESSAGE_MIN, glo.MONEY_MESSAGE_MAX)
-            data["currency"] = data["currency"] + currency
+            data["currency"] += currency
+            data["last_random"] = math.floor(time.time())
+            data["mmnumber"] += 1 
             glo.USERDATA_WRITE(message.author.id, data)
             await message.channel.send(f"You earned {currency} {glo.BANKFORMAT(currency)} from speaking!")
 
