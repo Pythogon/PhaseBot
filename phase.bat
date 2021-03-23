@@ -1,2 +1,2 @@
-cd root/PhaseBot
-python PhaseBot\\bot.py
+cd root\\PhaseBot
+python bot.py
