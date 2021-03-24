@@ -33,7 +33,7 @@ datafod=$datafod" > phase.ini
 if [ $makedatafod ]; then
    mkdir $datafod
    echo "" > $datafod/starred.txt
-   echo "{\"default\":{}}" > $datafod/userdata.json
+   echo "{\"default\":{\"rate\":null,\"role\":null,\"starcount\":0,\"currency\":0,\"laststar\":0,\"inventory\":[],\"last_daily\":0,\"last_random\":0,\"mmnumber\":0}}" > $datafod/userdata.json
    echo "Please enter your bot token"
    read token
    echo $token > $datafod/token
