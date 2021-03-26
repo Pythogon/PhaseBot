@@ -8,7 +8,7 @@ class Tasks(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
-        self.mmnumber_batch_update.start()
+        self.mmnumber_batch_update.start() #pylint: disable=no-member
     
     @tasks.loop(minutes=60)
     async def mmnumber_batch_update(self):
@@ -17,6 +17,5 @@ class Tasks(commands.Cog):
             for k in ud:
                 ud[k]["mmnumber"] = 0
             glo.JSONWRITE("userdata.json", ud)
-            channel = self.bot.get_channel(glo.MAIN_CHANNEL_ID)
-            await channel.send("The daily caps on random message rewards have been reset. You are now allowed to get more random bean encounters.")
+
                 
