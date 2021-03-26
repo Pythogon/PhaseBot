@@ -8,9 +8,10 @@ class Tasks(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
-
+        self.mmnumber_batch_update.start()
+    
     @tasks.loop(minutes=60)
-    async def money_message_reset(self):
+    async def mmnumber_batch_update(self):
         if datetime.now().hour == 15:
             ud = glo.JSONREAD("userdata.json")
             for k in ud:
