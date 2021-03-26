@@ -12,7 +12,7 @@ class Tasks(commands.Cog):
     
     @tasks.loop(minutes=60)
     async def mmnumber_batch_update(self):
-        if datetime.now().hour == 15:
+        if datetime.now().hour == 12:
             ud = glo.JSONREAD("userdata.json")
             for k in ud:
                 ud[k]["mmnumber"] = 0
