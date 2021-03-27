@@ -1,21 +1,42 @@
-#!/usr/bin/sh
+#!/usr/bin/bash
+owd=$(pwd)
 
-while getopts "vh" opt
+while getopts "vhmd:" opt
 do
    case "$opt" in
       v ) verbose=1 ;;
       h ) help=1 ;;
+      m ) makedatafod=1 ;;
+      d ) datafod=$owd/$OPTARG ;;
       ? ) help=1 ;;
    esac
 done
+
+if [ !$datafod ]; then
+   datafod=$owd/local_Store
+fi
 
 if [ $help ]; then
     echo
     echo "Usage: $0 [options]"
     echo
-    echo "-v        Enable verbose output of installation"
-    echo "-h        Show this menu"
+    echo "-v         Enable verbose output of installation"
+    echo "-m         Create the required data folder & files, overrides existing files"
+    echo "-d folder  Set a custom data folder for the bot"
+    echo "-h         Show this menu"
     exit
+fi
+
+echo "[config]
+datafod=$datafod" > phase.ini
+
+if [ $makedatafod ]; then
+   mkdir $datafod
+   echo "" > $datafod/starred.txt
+   echo "{\"default\":{\"rate\":null,\"role\":null,\"starcount\":0,\"currency\":0,\"laststar\":0,\"inventory\":[],\"last_daily\":0,\"last_random\":0,\"mmnumber\":0}}" > $datafod/userdata.json
+   echo "Please enter your bot token"
+   read token
+   echo $token > $datafod/token
 fi
 
 if ! command -v python3 &> /dev/null
