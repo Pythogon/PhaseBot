@@ -71,8 +71,6 @@ class Listeners(commands.Cog):
         message = await channel.fetch_message(p.message_id)
 
         if p.emoji.name == "⭐":
-            # Check the legacy system to ensure a previously starred message isn't restarred
-            if str(p.message_id) in glo.FILEREAD("starred.txt"): return
             # Bot messages banned from starcastle
             if message.author.bot: return 
             # Check new system to ensure a previously starred message isn't restarred

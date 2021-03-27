@@ -69,7 +69,7 @@ class Starboard(commands.Cog):
 
     @commands.command(aliases = ["st"])
     async def startotal(self, ctx):
-        read = len(glo.FILEREAD("starcastle.txt")) + 55610
+        read = len(glo.FILEREAD("starcastle.txt")) + 70000
         percent = float('{:g}'.format(float('{:.{p}g}'.format((read / 100000) * 100, p=4)))) # Number to 4 s.f.
         started = date(2020, 7, 4) # Unchanging start date of development and collection of starboard entries
         today = date.today() 
