@@ -1,6 +1,7 @@
 import discord
 import json
 import random
+import sys
 
 from discord.ext import commands
 
@@ -96,19 +97,31 @@ async def STAR(message, star_channel):
 
 
 def FILEAPPEND(fpath, data):
-    fpath = f"local_Store/{fpath}"
+    try:
+        fpath = f"{sys.argv[1]}/{fpath}"
+    except:
+        fpath = f"local_Store/{fpath}"
     with open(fpath, "a", encoding = "utf-8") as file: file.write("\n" + data)
 
 def FILEREAD(fpath):
-    fpath = f"local_Store/{fpath}"
+    try:
+        fpath = f"{sys.argv[1]}/{fpath}"
+    except:
+        fpath = f"local_Store/{fpath}"
     with open(fpath, "r", encoding = "utf-8") as file: return file.read() 
 
 def JSONREAD(fpath):
-    fpath = f"local_Store/{fpath}"
+    try:
+        fpath = f"{sys.argv[1]}/{fpath}"
+    except:
+        fpath = f"local_Store/{fpath}"
     with open(fpath, 'r', encoding = "utf-8") as json_file: return json.load(json_file) 
 
 def JSONWRITE(fpath, data):
-    fpath = f"local_Store/{fpath}"
+    try:
+        fpath = f"{sys.argv[1]}/{fpath}"
+    except:
+        fpath = f"local_Store/{fpath}"
     with open(fpath, 'w', encoding = "utf-8") as outfile: json.dump(data,outfile)
 
 def USERDATA_READ(user):

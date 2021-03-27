@@ -1,0 +1,3 @@
+[submodule "vendor/ini-parser"]
+	path = vendor/ini-parser
+	url = https://github.com/albfan/bash-ini-parser
