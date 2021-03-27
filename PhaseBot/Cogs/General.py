@@ -14,7 +14,7 @@ class General(commands.Cog):
     async def avatar(self, ctx, user: discord.User):
         await ctx.send(user.avatar_url) # Anabot avatar command
 
-   # @commands.command(aliases = ["clr","color"])
+    @commands.command(aliases = ["clr","color"])
     async def colour(self, ctx, h):
         # Make an RGB tuple to appease the Disgods
          rgb = tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
