@@ -49,7 +49,7 @@ STAR_CHANNEL_ID = 728440495105114173 #starcastle
 STAR_MESSAGE_MIN = 20
 STAR_MESSAGE_MAX = 60
 TEMP_MESSAGE_LIST = []
-VERSION = "3.1-pre1" # Current version (entirely symbolic, means nothing)
+VERSION = "3.1-pre2" # Current version (entirely symbolic, means nothing)
 
 def BANKFORMAT(num):
     if num == 1: out = "<:bean:710243429119950969>"
@@ -95,7 +95,6 @@ async def STAR(message, star_channel):
     USERDATA_WRITE(message.author.id, userdata)
 
 # Global file mod functions
-
 
 def FILEAPPEND(fpath, data):
     try:
