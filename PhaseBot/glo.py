@@ -111,6 +111,13 @@ def FILEREAD(fpath):
         fpath = f"local_Store/{fpath}"
     with open(fpath, "r", encoding = "utf-8") as file: return file.read() 
 
+def FILEWRITR(fpath, data):
+    try:
+        fpath = f"{sys.argv[1]}/{fpath}"
+    except:
+        fpath = f"local_Store/{fpath}"
+    with open(fpath, "w", encoding = "utf-8") as file: file.write(data)
+
 def JSONREAD(fpath):
     try:
         fpath = f"{sys.argv[1]}/{fpath}"
