@@ -89,7 +89,7 @@ class Listeners(commands.Cog):
     #                                         #
     ###########################################
 
-    @commands.Cog.listener(name = "on_message")
+    @commands.Cog.listener(name = "on_message") # Code ripped straight from Tibot 
     async def counting_handler(self, message):
         if message.author.bot: return
         if message.channel.id != glo.COUNTING_CHANNEL: return      
