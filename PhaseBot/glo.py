@@ -7,6 +7,7 @@ from discord.ext import commands
 
 ANNOUNCEMENT_CHANNEL_ID = 797176212594098187 #phasebot_announcements
 COLOR = 0xff00ff
+COUNTING_CHANNEL = 828554535949041684
 CURRENT_NAMES = {}
 DAILY_MIN = 20 # Dailies
 DAILY_MAX = 50
