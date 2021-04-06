@@ -83,6 +83,35 @@ class Listeners(commands.Cog):
             await glo.STAR(message, self.bot.get_channel(glo.STAR_CHANNEL_ID))
             await message.add_reaction("✅")
 
+    ###########################################
+    #                                         #
+    #   Non-default names of listeners here   #
+    #                                         #
+    ###########################################
+
+    @commands.Cog.listener(name = "on_message")
+    async def counting_handler(self, message):
+        if message.author.bot: return
+        if message.channel.id != glo.COUNTING_CHANNEL: return      
+        counting_channel = message.channel
+        counting_lastnumber = "counting_lastnumber.txt"
+        counting_lastuser = "counting_lastuser.txt"     
+        last_user = glo.FILEREAD(counting_lastuser)
+        glo.FILEWRITE(counting_lastuser, str(message.author.id)) 
+        n = int(glo.FILEREAD(counting_lastnumber))
+        nn = n + 1
+        print(nn)
+        if message.content.startswith(str(nn)) != True:
+            await counting_channel.send(f"The next number was {nn}. Restarting at 1.")
+            glo.FILEWRITE(counting_lastuser, "0")            
+            return glo.FILEWRITE(counting_lastnumber, "0")   
+        if str(message.author.id) == last_user:
+            await counting_channel.send(f"You can't send two numbers in a row. The next number was {nn}. Restarting at 1.")
+            glo.FILEWRITE(counting_lastuser, "0")
+            return glo.FILEWRITE(counting_lastnumber, "0")            
+        await message.add_reaction("✅")
+        glo.FILEWRITE(counting_lastnumber, str(nn))
+    
     @commands.Cog.listener(name = "on_message")
     async def shop_money_message_handler(self, message):
         if message.author.bot: return
