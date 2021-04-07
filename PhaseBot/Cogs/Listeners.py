@@ -37,11 +37,12 @@ class Listeners(commands.Cog):
         
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        channel = self.bot.get_channel(829367909155078215)
-        await channel.send(f"Hi there <@{member.id}>, sorry about the wait. Please wait here for verification.")
-        role = member.guild.get_role(829360691105759282)
-        await member.add_roles(role)
-        glo.SETNAME(member.id, member.name)    
+        if glo.FILEREAD("lockdown") == "1":
+            channel = self.bot.get_channel(829367909155078215)
+            await channel.send(f"Hi there <@{member.id}>, sorry about the wait. Please wait here for verification.")
+            role = member.guild.get_role(829360691105759282)
+            await member.add_roles(role)
+            glo.SETNAME(member.id, member.name)    
     
     @commands.Cog.listener()
     async def on_member_remove(self, member):
