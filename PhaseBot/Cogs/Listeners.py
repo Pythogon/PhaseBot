@@ -67,7 +67,7 @@ class Listeners(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message_delete(self, message):
-        if message.channel != glo.COUNTING_CHANNEL: return
+        if message.channel.id != glo.COUNTING_CHANNEL: return
         if message.author.bot: return
         lastnumber = glo.FILEREAD("counting_lastnumber.txt")
         if message.content.startswith(lastnumber): await message.channel.send(f"A user deleted their last number! The count continues at {lastnumber}.")
