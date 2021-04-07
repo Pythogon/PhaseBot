@@ -70,7 +70,7 @@ class Listeners(commands.Cog):
         if message.channel.id != glo.COUNTING_CHANNEL: return
         if message.author.bot: return
         lastnumber = glo.FILEREAD("counting_lastnumber.txt")
-        if message.content.startswith(lastnumber): await message.channel.send(f"A user deleted their last number! The count continues at {lastnumber}.")
+        if message.content.startswith(lastnumber): await message.channel.send(f"A user deleted their last number! Their number was {lastnumber}.")
 
 
     @commands.Cog.listener()
