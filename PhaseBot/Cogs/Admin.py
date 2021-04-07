@@ -165,6 +165,16 @@ modify <user> <aspect> <value>""") \
         for role in ctx.guild.roles: role_list += f"{role.name}\n"
         await ctx.send(role_list)
 
+    @commands.command()
+    @commands.has_role(glo.DEVELOPER_ROLE_ID)
+    async def lockdown(self, ctx):
+        ld_state = glo.FILEREAD("lockdown")
+        if ld_state == "1":
+            glo.FILEWRITE("lockdown", "0")
+            return await ctx.send("Lockdown disabled. Welcome back!")
+        glo.FILEWRITE("lockdown", "0")
+        return await ctx.send("Lockdown enabled. Stay safe.")
+
     @commands.group(aliases = ["met"])
     async def metrics(self, ctx):
         if ctx.invoked_subcommand == None:
