@@ -112,7 +112,9 @@ class Listeners(commands.Cog):
             await counting_channel.send(f"You can't send two numbers in a row. The next number was {nn}. Restarting at 1.")
             glo.FILEWRITE(counting_lastuser, "0")
             return glo.FILEWRITE(counting_lastnumber, "0")
-
+        ud = glo.USERDATA_READ(message.author.id)
+        ud["currency"] += 1
+        glo.USERDATA_WRITE(message.author.id, ud)
         glo.FILEWRITE(counting_lastnumber, str(nn))
 
 
