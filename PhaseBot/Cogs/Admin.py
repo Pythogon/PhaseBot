@@ -173,7 +173,7 @@ modify <user> <aspect> <value>""") \
         if ld_state == "1":
             glo.FILEWRITE("lockdown", "0")
             return await ctx.send("Lockdown disabled. Welcome back!")
-        glo.FILEWRITE("lockdown", "0")
+        glo.FILEWRITE("lockdown", "1")
         return await ctx.send("Lockdown enabled. Stay safe.")
 
     @commands.group(aliases = ["met"])
