@@ -102,6 +102,7 @@ class Admin(commands.Cog):
 devhelp|dh
 embed|eb "TITLE" "NAME,VALUE;NAME,VALUE" "FOOTER"
 listall|la <channels|c, members|m, roles|r>
+lockdown
 metrics|met <guild|g, user|u>
 schedule|ss <add|a, purge|p, remove|r>""", inline = False) \
 .add_field(name = "Bot admin only commands", value = """evaluate|eval <to eval>
