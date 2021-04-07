@@ -101,6 +101,7 @@ class Listeners(commands.Cog):
         n = int(glo.FILEREAD(counting_lastnumber))
         nn = n + 1
         print(nn)
+        await message.delete()
         if message.content.startswith(str(nn)) != True:
             await counting_channel.send(f"The next number was {nn}. Restarting at 1.")
             glo.FILEWRITE(counting_lastuser, "0")            
@@ -109,12 +110,10 @@ class Listeners(commands.Cog):
             await counting_channel.send(f"You can't send two numbers in a row. The next number was {nn}. Restarting at 1.")
             glo.FILEWRITE(counting_lastuser, "0")
             return glo.FILEWRITE(counting_lastnumber, "0")            
-        await message.add_reaction("✅")
         glo.FILEWRITE(counting_lastnumber, str(nn))
         embed = discord.Embed(title="New count", description=message.content, color = glo.COLOR) \
         .set_author(name=message.author.name, icon_url=message.author.avatar_url) \
         .set_thumbnail(url=message.author.avatar_url)
-        await message.delete()
         await message.channel.send(embed = embed)
 
     @commands.Cog.listener(name = "on_message")
