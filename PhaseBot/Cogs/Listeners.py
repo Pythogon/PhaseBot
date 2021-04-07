@@ -111,8 +111,11 @@ class Listeners(commands.Cog):
             return glo.FILEWRITE(counting_lastnumber, "0")            
         await message.add_reaction("✅")
         glo.FILEWRITE(counting_lastnumber, str(nn))
+        embed = discord.Embed(title="New count", description=message.content, color = glo.COLOR) \
+        .set_author(name=message.author.name, icon_url=message.author.avatar_url) \
+        .set_thumbnail(url=message.author.avatar_url)
         await message.delete()
-        await message.channel.send(f"{message.author.name}: {nn}")
+        await message.channel.send(embed = embed)
 
     @commands.Cog.listener(name = "on_message")
     async def shop_money_message_handler(self, message):
