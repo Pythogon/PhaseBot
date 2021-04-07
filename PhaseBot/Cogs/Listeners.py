@@ -66,14 +66,6 @@ class Listeners(commands.Cog):
             return await message.add_reaction(emoji) # React bean
 
     @commands.Cog.listener()
-    async def on_message_delete(self, message):
-        if message.channel.id != glo.COUNTING_CHANNEL: return
-        if message.author.bot: return
-        lastnumber = glo.FILEREAD("counting_lastnumber.txt")
-        if message.content.startswith(lastnumber): await message.channel.send(f"A user deleted their last number! Their number was {lastnumber}.")
-
-
-    @commands.Cog.listener()
     async def on_raw_reaction_add(self, p: discord.RawReactionActionEvent):
         channel: discord.TextChannel = self.bot.get_channel(p.channel_id)
         message = await channel.fetch_message(p.message_id)
@@ -119,6 +111,8 @@ class Listeners(commands.Cog):
             return glo.FILEWRITE(counting_lastnumber, "0")            
         await message.add_reaction("✅")
         glo.FILEWRITE(counting_lastnumber, str(nn))
+        await message.delete()
+        await message.channel.send(f"{message.author.name}: {nn}")
 
     @commands.Cog.listener(name = "on_message")
     async def shop_money_message_handler(self, message):
