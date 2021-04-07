@@ -37,7 +37,7 @@ class Listeners(commands.Cog):
         
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        channel = self.bot.get_channel(829364640373800991)
+        channel = self.bot.get_channel(829367909155078215)
         await channel.send(f"Hi there <@{member.id}>, sorry about the wait. Please wait here for verification.")
         role = member.guild.get_role(829360691105759282)
         await member.add_roles(role)
