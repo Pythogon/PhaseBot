@@ -127,6 +127,29 @@ class Bank(commands.Cog):
         await ctx.send(f"You've earned {amount} {glo.BANKFORMAT(amount)} today! Come back tomorrow for more.")
         glo.USERDATA_WRITE(ctx.author.id, userdata)
 
+    @commands.command()
+    async def pay(self, ctx, payee: discord.Member, amount: int, *system):
+        payee_data = glo.USERDATA_READ(payee.id)
+        payer_data = glo.USERDATA_READ(ctx.author.id)
+        if system[0] == "-s":
+            if not ctx.author.has_role(glo.DEVELOPER_ROLE_ID):
+                return await ctx.send("You don't have system permissions.")
+            payee_data["currency"] += amount
+            glo.USERDATA_WRITE(payee.id, payee_data)
+            return await ctx.send(f"Gave {payee.name} {amount} {glo.BANKFORMAT(amount)} with system permissions.")
+        if payer_data["currency"] < amount:
+            return await ctx.send("You don't have enough money to do that!")
+        payer_data["currency"] -= amount
+        payee_data["currency"] += amount
+        glo.USERDATA_WRITE(ctx.author.id, payer_data)
+        glo.USERDATA_WRITE(payee.id, payee_data)
+        embed = discord.Embed(title = "Payment successful!", color = glo.COLOR) \
+        .add_field(name = "Amount paid", value = amount) \
+        .add_field(name = f"{ctx.author.name}'s new balance", value = payer_data["currency"]) \
+        .add_field(name = f"{payee.name}'s new balance", value = payee_data["currency"]) \
+        .set_footer(text = glo.FOOTER())
+        await ctx.send(embed = embed)
+
     @commands.command(aliases = ["randomise"])
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def randomize(self, ctx):

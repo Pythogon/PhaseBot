@@ -41,6 +41,12 @@ class General(commands.Cog):
         .add_field(name = 'Welcome to PhaseBot!', value = f"""Welcome to the PhaseBot {glo.VERSION} help menu.
 All commands use the {glo.PREFIX} prefix.
 Below are commands listed by category.""", inline = False) \
+        .add_field(name = "Economy", value = """balance|bal
+balancetop|baltop|bt
+daily
+pay <payee> <amount>
+shop
+steal""", inline=False) \
         .add_field(name = "General", value = """avatar|a <user>
 colour|color|clr <hex code>
 help|?
@@ -52,11 +58,6 @@ starinfo|si
 startop|top
 startotal|st
 superstar|super #channel <message id>""", inline = False) \
-        .add_field(name = "Economy [ALPHA]", value = """balance|bal
-balancetop|baltop|bt
-daily
-shop
-steal""", inline=False) \
         .set_footer(text = glo.FOOTER())
         await ctx.send(embed = title) # Anabot help
 
