@@ -131,7 +131,7 @@ class Bank(commands.Cog):
     async def pay(self, ctx, payee: discord.Member, amount: int, *system):
         payee_data = glo.USERDATA_READ(payee.id)
         payer_data = glo.USERDATA_READ(ctx.author.id)
-        if system == None:
+        if system == tuple():
             pass
         elif system[0] == "-s":
             if not ctx.author.has_role(glo.DEVELOPER_ROLE_ID):
