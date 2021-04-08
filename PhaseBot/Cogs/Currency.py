@@ -133,15 +133,15 @@ class Bank(commands.Cog):
             return await ctx.send("You can't send negative money!")
         payee_data = glo.USERDATA_READ(payee.id)
         payer_data = glo.USERDATA_READ(ctx.author.id)
-        if system == tuple():
-            pass
-        elif system[0] == "-s":
-            role = ctx.guild.get_role(glo.DEVELOPER_ROLE_ID)
-            if not (role in ctx.author.roles):
-                return await ctx.send("You don't have system permissions.")
-            payee_data["currency"] += amount
-            glo.USERDATA_WRITE(payee.id, payee_data)
-            return await ctx.send(f"Gave {payee.name} {amount} {glo.BANKFORMAT(amount)} with system permissions.")
+        if system != tuple():
+            if "-s" in system:
+                role = ctx.guild.get_role(glo.DEVELOPER_ROLE_ID)
+                if not (role in ctx.author.roles):
+                    return await ctx.send("You don't have system permissions.")
+                payee_data["currency"] += amount
+                glo.USERDATA_WRITE(payee.id, payee_data)
+                return await ctx.send(f"Gave {payee.name} {amount} {glo.BANKFORMAT(amount)} with system permissions.")
+            return await ctx.send("That wasn't a correct argument.")
         if payer_data["currency"] < amount:
             return await ctx.send("You don't have enough money to do that!")
         payer_data["currency"] -= amount
