@@ -129,12 +129,15 @@ class Bank(commands.Cog):
 
     @commands.command()
     async def pay(self, ctx, payee: discord.Member, amount: int, *system):
+        if amount < 0:
+            return await ctx.send("You can't send negative money!")
         payee_data = glo.USERDATA_READ(payee.id)
         payer_data = glo.USERDATA_READ(ctx.author.id)
         if system == tuple():
             pass
         elif system[0] == "-s":
-            if not ctx.author.has_role(glo.DEVELOPER_ROLE_ID):
+            role = ctx.guild.get_role(glo.DEVELOPER_ROLE_ID)
+            if not (role in ctx.author.roles):
                 return await ctx.send("You don't have system permissions.")
             payee_data["currency"] += amount
             glo.USERDATA_WRITE(payee.id, payee_data)
@@ -146,8 +149,8 @@ class Bank(commands.Cog):
         glo.USERDATA_WRITE(ctx.author.id, payer_data)
         glo.USERDATA_WRITE(payee.id, payee_data)
         embed = discord.Embed(title = "Payment successful!", color = glo.COLOR) \
-        .add_field(name = "Amount paid", value = amount) \
-        .add_field(name = f"{ctx.author.name}'s new balance", value = payer_data["currency"]) \
+        .add_field(name = "Amount paid", value = amount, inline = False) \
+        .add_field(name = f"{ctx.author.name}'s new balance", value = payer_data["currency"], inline = False) \
         .add_field(name = f"{payee.name}'s new balance", value = payee_data["currency"]) \
         .set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
