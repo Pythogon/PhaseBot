@@ -42,7 +42,7 @@ class Counting(commands.Cog):
         glo.FILEWRITE(counting_lastuser, str(message.author.id)) 
         n = int(glo.FILEREAD(counting_lastnumber))
         nn = n + 1
-        record = (glo.FILEREAD("counting_record.txt"))
+        record = int(glo.FILEREAD("counting_record.txt"))
 
         await message.delete()
         embed = discord.Embed(title="New count", description=message.content, color = glo.COLOR) \
