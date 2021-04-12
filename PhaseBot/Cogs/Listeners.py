@@ -56,6 +56,7 @@ class Listeners(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        if message.author.bot: return
         if "214771884544229382" in message.content:
             emoji = self.bot.get_emoji(710243429119950969)
             await message.add_reaction(emoji) # React bean
