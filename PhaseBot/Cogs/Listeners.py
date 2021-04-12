@@ -63,7 +63,7 @@ class Listeners(commands.Cog):
         
         calls = glo.FILEREAD("calls.json")
         for call in calls:
-            if call in message:
+            if call in message.content:
                 await message.channel.send(calls[call])
 
     @commands.Cog.listener()
