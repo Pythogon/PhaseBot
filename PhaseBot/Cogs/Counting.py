@@ -63,7 +63,7 @@ class Counting(commands.Cog):
         reason = {1: "That wasn't the correct next number!", 2: "You can't send 2 numbers in a row!"}.get(err)
 
         embed = discord.Embed(title = "You failed!", description = f"The next number was {nn}. Restarting at 1.", color = 0xff0000) \
-        .add_field(value = "Fail reason", name = reason) \
+        .add_field(name = "Fail reason", value = reason, inline = False) \
         .set_thumbnail(url = message.author.avatar_url) \
         .set_footer(text = glo.FOOTER())
 
@@ -72,7 +72,7 @@ class Counting(commands.Cog):
 
         if n > record:
             diff = n - record
-            embed.add_field(name = "That was a new record!", value = f"By a difference of {diff}, this beat {record}.")
+            embed.add_field(name = "That was a new record!", value = f"By a difference of {diff}, this beat {record}.", inline = False)
             await counting_channel.edit(topic = f"Last Record: {n}")
             glo.FILEWRITE("counting_record.txt", str(n))
 
