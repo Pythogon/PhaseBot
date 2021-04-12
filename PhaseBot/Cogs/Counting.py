@@ -19,7 +19,7 @@ class Counting(commands.Cog):
         counting_channel = message.channel
         counting_lastnumber = "counting_lastnumber.txt"
         counting_lastuser = "counting_lastuser.txt"   
-        error = 0
+        err = 0
         last_user = glo.FILEREAD(counting_lastuser)
         glo.FILEWRITE(counting_lastuser, str(message.author.id)) 
         n = int(glo.FILEREAD(counting_lastnumber))
@@ -31,17 +31,17 @@ class Counting(commands.Cog):
         .set_thumbnail(url=message.author.avatar_url)
         await counting_channel.send(embed = embed)  
         
-        if message.content.startswith(str(nn)) != True: error = 1
-        if str(message.author.id) == last_user: error = 2
+        if message.content.startswith(str(nn)) != True: err = 1
+        if str(message.author.id) == last_user: err = 2
 
-        if error == 0: 
+        if err == 0: 
             ud = glo.USERDATA_READ(message.author.id)
             ud["currency"] += 1
             glo.USERDATA_WRITE(message.author.id, ud)
             return glo.FILEWRITE(counting_lastnumber, str(nn))
         
         await counting_channel.send({1: f"The next number was {nn}. Restarting at 1.", 
-        2: f"You can't send two numbers in a row. The next number was {nn}. Restarting at 1."}.get(error))
+        2: f"You can't send two numbers in a row. The next number was {nn}. Restarting at 1."}.get(err))
         glo.FILEWRITE(counting_lastuser, "0")
         glo.FILEWRITE(counting_lastnumber, "0")
 
