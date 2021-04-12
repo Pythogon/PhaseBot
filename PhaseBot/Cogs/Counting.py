@@ -47,7 +47,7 @@ class Counting(commands.Cog):
 
         if n > int(glo.FILEREAD("counting_record.txt")):
             await counting_channel.send(f"That was a new record! The record is now: {n}.")
-            await counting_channel.edit(topic = f"Last record: {n}")
+            await counting_channel.edit(topic = f"Last Record: {n}")
             glo.FILEWRITE("counting_record.txt", str(n))
 
     
