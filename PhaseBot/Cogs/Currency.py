@@ -111,7 +111,15 @@ class Bank(commands.Cog):
         filtered = {k: v for k, v in sorted(filtered.items(), key=lambda item: item[1], reverse = True)}
         # Generate full list for ordered values
         for key, value in filtered.items():
-            name = glo.CURRENT_NAMES[int(key)]
+            try:
+                name = glo.CURRENT_NAMES[int(key)]
+            except KeyError:
+                u = self.bot.get_user(int(key))
+                if u is None:
+                    glo.SETNAME(int(key), "Member left")
+                else:
+                    glo.SETNAME(int(key), u.name)
+                name = glo.CURRENT_NAMES[int(key)]
             to_send += f"{name}: {value}\n"
         to_send += "```"
         # Send end
