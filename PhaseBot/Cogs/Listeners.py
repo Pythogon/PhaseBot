@@ -58,7 +58,12 @@ class Listeners(commands.Cog):
     async def on_message(self, message):
         if "214771884544229382" in message.content:
             emoji = self.bot.get_emoji(710243429119950969)
-            return await message.add_reaction(emoji) # React bean
+            await message.add_reaction(emoji) # React bean
+        
+        calls = glo.FILEREAD("calls.json")
+        for call in calls:
+            if call in message:
+                await message.channel.send(calls[call])
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, p: discord.RawReactionActionEvent):
@@ -108,9 +113,11 @@ class Listeners(commands.Cog):
             if str(message.embeds[0].title) == ("Shop") and not p.member.bot:
                 if p.emoji.name in Cogs.Currency.current_items:
                     if Cogs.Currency.purchase(p.user_id, p.emoji.name):
-#                        if p.emoji.name in Cogs.Currency.custom_emoji_map.keys():
-#                            await channel.send(f"Thank you for purchasing <:{p.emoji.name}:{Cogs.Currency.custom_emoji_map[p.emoji.name]}>!")
-#                        else:
+                        """
+                        if p.emoji.name in Cogs.Currency.custom_emoji_map.keys():
+                            await channel.send(f"Thank you for purchasing <:{p.emoji.name}:{Cogs.Currency.custom_emoji_map[p.emoji.name]}>!")
+                        else:
+                        """
                         await channel.send(f"Thank you for purchasing {p.emoji.name}!")
                     else:
                         await channel.send("You don't have enough money to buy that!")
@@ -123,9 +130,11 @@ class Listeners(commands.Cog):
                     else:
                         stole = Cogs.Currency.purchase(p.user_id, p.emoji.name, steal=True)
                         if stole == 0:
-#                            if p.emoji.name in Cogs.Currency.custom_emoji_map.keys():
-#                                await channel.send(f"You stole <:{p.emoji.name}:{Cogs.Currency.custom_emoji_map[p.emoji.name]}>!")
-#                            else:
+                            """
+                            if p.emoji.name in Cogs.Currency.custom_emoji_map.keys():
+                                await channel.send(f"You stole <:{p.emoji.name}:{Cogs.Currency.custom_emoji_map[p.emoji.name]}>!")
+                            else:
+                            """
                             await channel.send(f"You stole {p.emoji.name}!")
                         else:
                             await channel.send(f"You got caught! You have been fined {stole} {glo.BANKFORMAT(stole)}.")
