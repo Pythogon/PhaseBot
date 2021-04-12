@@ -61,9 +61,9 @@ class Listeners(commands.Cog):
             emoji = self.bot.get_emoji(710243429119950969)
             await message.add_reaction(emoji) # React bean
         
-        calls = glo.FILEREAD("calls.json")
+        calls = glo.JSONREAD("calls.json")
         for call, response in calls.items():
-            if call in message.content:
+            if call.lower() in message.content.lower():
                 await message.channel.send(response)
 
     @commands.Cog.listener()
