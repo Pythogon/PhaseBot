@@ -24,6 +24,7 @@ class Counting(commands.Cog):
         if message != "":
             embed.add_field(name = "Revive message", value = message)
         await counting_channel.send(embed = embed)
+        await ctx.send("Revived! Thank you!")
     
     @commands.Cog.listener(name = "on_message") 
     async def counting_handler(self, message):
