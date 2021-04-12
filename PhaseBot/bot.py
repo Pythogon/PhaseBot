@@ -37,6 +37,7 @@ bot = PhaseBot(command_prefix = glo.PREFIX, intents = discord.Intents.all()) # W
 bot.remove_command('help') # Removing default help (I don't like it)
 bot.add_cog(Cogs.Admin(bot)) # Many cog
 bot.add_cog(Cogs.Bank(bot))
+bot.add_cog(Cogs.Counting(bot))
 bot.add_cog(Cogs.General(bot))
 bot.add_cog(Cogs.Listeners(bot))
 bot.add_cog(Cogs.Starboard(bot))
