@@ -41,6 +41,7 @@ RANDOM_FOOTERS = {1: "with love. ❤",
 16: "with unintentional help from distopioid!"} 
 RANDOM_CURRENCY_CHANCE = 25
 RANDOM_SHOP_THRESHOLD = 2
+REVIVE_COST = 1000
 SHOP_BASE_PRICE = 15
 SHOP_ITEM_COUNT = 4
 SHOP_RARITY_EXPONENT = 1.9

@@ -8,6 +8,23 @@ class Counting(commands.Cog):
         self.bot = bot
         self._last_member = None
 
+    @commands.command()
+    async def revive(self, ctx, *message):
+        counting_channel = ctx.guild.get_channel(glo.COUNTING_CHANNEL)
+        message = " ".join(message)
+        record = glo.FILEREAD("counting_record.txt")
+        user = glo.USERDATA_READ(ctx.author.id)
+        if user["currency"] < glo.REVIVE_COST: return await ctx.send("You don't have enough money to do that!")
+        user["currency"] -= 1000
+        glo.FILEWRITE("counting_lastnumber.txt", record)
+        glo.USERDATA_WRITE(ctx.author.id, user)
+        embed = discord.Embed(title = f"Revive activated by {ctx.author.name}!", description = f"Current count: {record}.", color = 0x00ff00) \
+        .set_thumbnail(url=ctx.author.avatar_url) \
+        .set_footer(text=glo.FOOTER())
+        if message != "":
+            embed.add_field(name = "Revive message", value = message)
+        await counting_channel.send(embed = embed)
+    
     @commands.Cog.listener(name = "on_message") 
     async def counting_handler(self, message):
         """
@@ -28,7 +45,8 @@ class Counting(commands.Cog):
         await message.delete()
         embed = discord.Embed(title="New count", description=message.content, color = glo.COLOR) \
         .set_author(name=message.author.name, icon_url=message.author.avatar_url) \
-        .set_thumbnail(url=message.author.avatar_url)
+        .set_thumbnail(url=message.author.avatar_url) \
+        .set_footer(text = glo.FOOTER())
         await counting_channel.send(embed = embed)  
         
         if message.content.startswith(str(nn)) != True: err = 1
