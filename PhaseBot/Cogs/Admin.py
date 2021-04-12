@@ -103,7 +103,7 @@ class Admin(commands.Cog):
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def call_add(self, ctx, call, response):
         calls = glo.JSONREAD("calls.json")
-        calls["call"] = response
+        calls[call] = response
         glo.JSONWRITE("calls.json", calls)
         await ctx.send("Call successfully added.")
     
