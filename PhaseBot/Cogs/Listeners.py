@@ -62,9 +62,9 @@ class Listeners(commands.Cog):
             await message.add_reaction(emoji) # React bean
         
         calls = glo.FILEREAD("calls.json")
-        for call in calls:
+        for call, response in calls.items():
             if call in message.content:
-                await message.channel.send(calls[call])
+                await message.channel.send(response)
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, p: discord.RawReactionActionEvent):
