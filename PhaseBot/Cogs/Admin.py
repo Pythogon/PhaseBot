@@ -100,7 +100,7 @@ class Admin(commands.Cog):
             await ctx.send("Correct usage is )call <add|list|remove>")
 
     @call.command(name = "add")
-    @call.has_role(glo.DEVELOPER_ROLE_ID)
+    @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def call_add(self, ctx, call, response):
         calls = glo.JSONREAD("calls.json")
         calls["call"] = response
@@ -108,7 +108,7 @@ class Admin(commands.Cog):
         await ctx.send("Call successfully added.")
     
     @call.command(name = "list")
-    @call.has_role(glo.DEVELOPER_ROLE_ID)
+    @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def call_list(self, ctx):
         calls = glo.JSONREAD("calls.json")
         out = "__List of calls__ \n\n"
@@ -117,7 +117,7 @@ class Admin(commands.Cog):
         await ctx.send(out)
 
     @call.command(name = "remove")
-    @call.has_role(glo.DEVELOPER_ROLE_ID)
+    @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def call_remove(self, ctx, call):
         calls = glo.JSONREAD("calls.json")
         calls.pop(call)
