@@ -42,6 +42,7 @@ class Counting(commands.Cog):
         glo.FILEWRITE(counting_lastuser, str(message.author.id)) 
         n = int(glo.FILEREAD(counting_lastnumber))
         nn = n + 1
+        record = (glo.FILEREAD("counting_record.txt"))
 
         await message.delete()
         embed = discord.Embed(title="New count", description=message.content, color = glo.COLOR) \
@@ -59,14 +60,21 @@ class Counting(commands.Cog):
             glo.USERDATA_WRITE(message.author.id, ud)
             return glo.FILEWRITE(counting_lastnumber, str(nn))
         
-        await counting_channel.send({1: f"The next number was {nn}. Restarting at 1.", 
-        2: f"You can't send two numbers in a row. The next number was {nn}. Restarting at 1."}.get(err))
+        reason = {1: "That wasn't the correct next number!", 2: "You can't send 2 numbers in a row!"}.get(err)
+
+        embed = discord.Embed(title = "You failed!", description = f"The next number was {nn}. Restarting at 1.", color = 0xff0000) \
+        .add_field(value = "Fail reason", name = reason) \
+        .set_thumbnail(url = message.author.avatar_url) \
+        .set_footer(text = glo.FOOTER())
+
         glo.FILEWRITE(counting_lastuser, "0")
         glo.FILEWRITE(counting_lastnumber, "0")
 
-        if n > int(glo.FILEREAD("counting_record.txt")):
-            await counting_channel.send(f"That was a new record! The record is now: {n}.")
+        if n > record:
+            diff = n - record
+            embed.add_field(name = "That was a new record!", value = f"By a difference of {diff}, this beat {record}.")
             await counting_channel.edit(topic = f"Last Record: {n}")
             glo.FILEWRITE("counting_record.txt", str(n))
 
+        await counting_channel.send(embed = embed)
     
