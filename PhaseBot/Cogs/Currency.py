@@ -268,4 +268,4 @@ class Bank(commands.Cog):
     @commands.command(aliases = ["tax"])
     async def taxpot(self, ctx):
         tax = glo.FILEREAD("tax")
-        await ctx.send(f"There is currently {tax} {glo.BANKFORMAT(tax)} in the tax pot.")
+        await ctx.send(f"{tax} {glo.BANKFORMAT(tax)} is the amount currently in the tax pot.")
