@@ -49,6 +49,14 @@ STAR_COUNT = 3 # Amount of stars needed for a message to get onto the starboard
 STAR_CHANNEL_ID = 728440495105114173 #starcastle
 STAR_MESSAGE_MIN = 20
 STAR_MESSAGE_MAX = 60
+TAX_BRACKETS = {500: 100,
+600: 85,
+700: 80,
+800: 60,
+1000: 55,
+1500: 50,
+2000: 30,
+5000: 0}
 TEMP_MESSAGE_LIST = []
 VERSION = "3.1.2" # Current version (entirely symbolic, means nothing)
 
@@ -56,6 +64,14 @@ def BANKFORMAT(num):
     if num == 1: out = "<:bean:710243429119950969>"
     else: out = "<:bean:710243429119950969>s"
     return out
+
+def CALCULATE_TAX(income, balance):
+    for x in range(len(TAX_BRACKETS)):
+        bracket = tuple(TAX_BRACKETS.items())[x+1]
+        max_balance = bracket[0]
+        takehome = bracket[1]
+        if (income + balance) <= max_balance:
+            return (income * (takehome/100))
 
 def FOOTER(): # Random footer generator
     x = random.randint(1, len(RANDOM_FOOTERS))

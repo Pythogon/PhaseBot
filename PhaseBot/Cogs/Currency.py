@@ -245,3 +245,11 @@ class Bank(commands.Cog):
             .add_field(name = "Special Items", value = 'Nothing here!', inline = True)
 
         await ctx.send(embed = ebd)
+
+    @commands.command(aliases = ["tax"])
+    async def taxbrackets(self, ctx):
+        to_send = "```Current tax brackets\n\n"
+        for k, v in glo.TAX_BRACKETS.items():
+            to_send += f"{k}: {100-v}%\n"
+        to_send += "```"
+        await ctx.send(to_send)
