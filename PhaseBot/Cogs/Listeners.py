@@ -99,7 +99,7 @@ class Listeners(commands.Cog):
             if (time.time()-data["last_random"]) < glo.MONEY_MESSAGE_INTERVAL:  return
             if data["mmnumber"] == glo.MONEY_MESSAGE_PERDAY: return await message.channel.send("You would've recieved beans for this message, but you've already recieved the max number for today. Come back tomorrow!")
             currency = random.randint(glo.MONEY_MESSAGE_MIN, glo.MONEY_MESSAGE_MAX)
-            tax = glo.CALCULATE_TAX(currency)
+            tax = glo.CALCULATE_TAX(currency, data["currency"])
             data["currency"] += tax[0]
             data["last_random"] = math.floor(time.time())
             data["mmnumber"] += 1 
