@@ -99,11 +99,15 @@ class Listeners(commands.Cog):
             if (time.time()-data["last_random"]) < glo.MONEY_MESSAGE_INTERVAL:  return
             if data["mmnumber"] == glo.MONEY_MESSAGE_PERDAY: return await message.channel.send("You would've recieved beans for this message, but you've already recieved the max number for today. Come back tomorrow!")
             currency = random.randint(glo.MONEY_MESSAGE_MIN, glo.MONEY_MESSAGE_MAX)
-            data["currency"] += currency
+            tax = glo.CALCULATE_TAX(currency)
+            data["currency"] += tax[0]
             data["last_random"] = math.floor(time.time())
             data["mmnumber"] += 1 
             glo.USERDATA_WRITE(message.author.id, data)
-            await message.channel.send(f"You earned {currency} {glo.BANKFORMAT(currency)} from speaking!")
+            await message.channel.send(f"You earned money from speaking!\nAmount earned: {currency} {glo.BANKFORMAT(currency)}\nTax at {tax[2]}%: {tax[1]} {glo.BANKFORMAT(tax[1])}\nAmount recieved: {tax[0]} {glo.BANKFORMAT(tax(0))}")
+            tax_amount = int(glo.FILEREAD("tax"))
+            tax_amount = str(tax_amount + tax[1])
+            glo.FILEWRITE("tax", tax_amount)
 
     @commands.Cog.listener(name = "on_raw_reaction_add")
     async def shop_reaction_handler(self, p: discord.RawReactionActionEvent):
