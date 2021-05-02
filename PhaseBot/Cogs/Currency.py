@@ -130,10 +130,15 @@ class Bank(commands.Cog):
         userdata = glo.USERDATA_READ(ctx.author.id)
         if (time.time() - userdata["last_daily"]) < 86400: return await ctx.send("You've already claimed your daily today!")
         amount = random.randint(glo.DAILY_MIN, glo.DAILY_MAX)
-        userdata["currency"] += amount
+        after_tax = glo.CALCULATE_TAX(amount, userdata["currency"])
+        tax = amount - after_tax
+        userdata["currency"] += after_tax
         userdata["last_daily"] = math.floor(time.time())
-        await ctx.send(f"You've earned {amount} {glo.BANKFORMAT(amount)} today! Come back tomorrow for more.")
+        await ctx.send(f"Amount earned: {amount} {glo.BANKFORMAT(amount)}\nTax at {tax[2]}%: {tax[1]} {glo.BANKFORMAT(tax[1])}\nAmount recieved: {tax[0]} {glo.BANKFORMAT(tax[0])}.\nCome back tomorrow for more!")
         glo.USERDATA_WRITE(ctx.author.id, userdata)
+        tax_amount = int(glo.FILEREAD("tax"))
+        tax_amount = str(tax_amount + tax[1])
+        glo.FILEWRITE("tax", tax_amount)
 
     @commands.command()
     async def pay(self, ctx, payee: discord.Member, amount: int, *system):
@@ -153,15 +158,21 @@ class Bank(commands.Cog):
         if payer_data["currency"] < amount:
             return await ctx.send("You don't have enough money to do that!")
         payer_data["currency"] -= amount
-        payee_data["currency"] += amount
+        tax = glo.CALCULATE_TAX(amount, payee_data["currency"])
+        payee_data["currency"] += tax[0]
         glo.USERDATA_WRITE(ctx.author.id, payer_data)
         glo.USERDATA_WRITE(payee.id, payee_data)
         embed = discord.Embed(title = "Payment successful!", color = glo.COLOR) \
         .add_field(name = "Amount paid", value = amount, inline = False) \
+        .add_field(name = f"Tax paid (charged at {tax[2]}%)", value = tax[1], inline = False) \
         .add_field(name = f"{ctx.author.name}'s new balance", value = payer_data["currency"], inline = False) \
         .add_field(name = f"{payee.name}'s new balance", value = payee_data["currency"]) \
         .set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
+        tax_amount = int(glo.FILEREAD("tax"))
+        tax_amount = str(tax_amount + tax[1])
+        glo.FILEWRITE("tax", tax_amount)
+
 
     @commands.command(aliases = ["randomise"])
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
@@ -246,10 +257,15 @@ class Bank(commands.Cog):
 
         await ctx.send(embed = ebd)
 
-    @commands.command(aliases = ["tax"])
+    @commands.command()
     async def taxbrackets(self, ctx):
         to_send = "**Current tax brackets**\n\n"
         for k, v in glo.TAX_BRACKETS.items():
             to_send += f"{k} {glo.BANKFORMAT(k)}: {100-v}%\n"
         to_send += "*Max balance permitted for this bracket: Tax rate*"
         await ctx.send(to_send)
+    
+    @commands.command(aliases = ["tax"])
+    async def taxpot(self, ctx):
+        tax = glo.FILEREAD("tax")
+        await ctx.send(f"There is currently {tax} {glo.BANKFORMAT(tax)} in the tax pot.")

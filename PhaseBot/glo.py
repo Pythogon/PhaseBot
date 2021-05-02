@@ -1,5 +1,6 @@
 import discord
 import json
+import math
 import random
 import sys
 
@@ -71,7 +72,10 @@ def CALCULATE_TAX(income, balance):
         max_balance = bracket[0]
         takehome = bracket[1]
         if (income + balance) <= max_balance:
-            return (income * (takehome/100))
+            after_tax = math.ceil((income * (takehome/100)))
+            tax = income - after_tax
+            brace = 100 - takehome
+            return [after_tax, tax, brace]
 
 def FOOTER(): # Random footer generator
     x = random.randint(1, len(RANDOM_FOOTERS))
@@ -100,16 +104,21 @@ def SETNAME(user, name):
 async def STAR(message, star_channel):
     reward = random.randint(STAR_MESSAGE_MIN, STAR_MESSAGE_MAX)
     userdata = USERDATA_READ(message.author.id)
+    tax = CALCULATE_TAX(reward, userdata["currency"])
     embed = discord.Embed(title = f"⭐ | {message.author}", color = COLOR) \
     .add_field(name = "Message:", value = message.content, inline = False) \
     .add_field(name = "Jump link:", value = message.jump_url, inline = False) \
-    .add_field(name = "Reward given:", value = f"{reward} {BANKFORMAT(reward)}", inline=False) \
+    .add_field(name = f"Reward given after tax (tax charged at {tax[2]}%):", value = f"{tax[0]} {BANKFORMAT(tax[0])}", inline=False) \
     .set_footer(text = FOOTER())
     await star_channel.send(embed = embed) # PhaseBot class
     FILEAPPEND("starcastle.txt", message.content.encode(encoding = "ascii", errors = "ignore").decode().replace("\n", "")) # Adding to starcastle.txt
     userdata["starcount"] += 1
-    userdata["currency"] += reward
+    userdata["currency"] += tax[0]
     USERDATA_WRITE(message.author.id, userdata)
+    tax_amount = int(FILEREAD("tax"))
+    tax_amount = str(tax_amount + tax[1])
+    FILEWRITE("tax", tax_amount)
+
 
 # Global file mod functions
 
