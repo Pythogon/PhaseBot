@@ -67,6 +67,7 @@ def BANKFORMAT(num):
     return out
 
 def CALCULATE_TAX(income, balance):
+    if (income + balance) <= tuple(TAX_BRACKETS.items())[0][0]: return [income, 0, 0]
     for x in range(len(TAX_BRACKETS)):
         bracket = tuple(TAX_BRACKETS.items())[x+1]
         max_balance = bracket[0]
