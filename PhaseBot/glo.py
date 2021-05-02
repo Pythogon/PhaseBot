@@ -116,9 +116,9 @@ async def STAR(message, star_channel):
     userdata["starcount"] += 1
     userdata["currency"] += tax[0]
     USERDATA_WRITE(message.author.id, userdata)
-    tax_amount = int(FILEREAD("tax"))
+    tax_amount = int(GLOBAL_READ("tax"))
     tax_amount = str(tax_amount + tax[1])
-    FILEWRITE("tax", tax_amount)
+    GLOBAL_WRITE("tax", tax_amount)
 
 
 # Global file mod functions
