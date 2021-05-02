@@ -13,9 +13,14 @@ class Counting(commands.Cog):
         counting_channel = ctx.guild.get_channel(glo.COUNTING_CHANNEL)
         data = glo.GLOBAL_READ("counting")
         message = " ".join(message)
+        tax = glo.GLOBAL_READ("tax")
+        cost = glo.REVIVE_COST - tax
+        if cost < 0: 
+            cost = 0
+        subsidy = glo.REVIVE_COST - cost 
         user = glo.USERDATA_READ(ctx.author.id)
-        if user["currency"] < glo.REVIVE_COST: return await ctx.send("You don't have enough money to do that!")
-        user["currency"] -= 1000
+        if user["currency"] < cost: return await ctx.send("You don't have enough money to do that!")
+        user["currency"] -= cost
         data["number"] = data["record"]
         glo.GLOBAL_WRITE("counting", data)
         glo.USERDATA_WRITE(ctx.author.id, user)
@@ -25,7 +30,9 @@ class Counting(commands.Cog):
         if message != "":
             embed.add_field(name = "Revive message", value = message)
         await counting_channel.send(embed = embed)
-        await ctx.send(f"Revived! You have been debited {glo.REVIVE_COST} {glo.BANKFORMAT(glo.REVIVE_COST)}.")
+        await ctx.send(f"Revived! You have been debited {cost} {glo.BANKFORMAT(glo.REVIVE_COST)}. {subsidy} {glo.BANKFORMAT(subsidy)} was provided through taxes.")
+        tax -= subsidy
+        glo.GLOBAL_WRITE("tax", tax)
     
     @commands.Cog.listener(name = "on_message") 
     async def counting_handler(self, message):
