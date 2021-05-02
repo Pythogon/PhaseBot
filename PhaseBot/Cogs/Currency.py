@@ -251,5 +251,5 @@ class Bank(commands.Cog):
         to_send = "**Current tax brackets**\n\n"
         for k, v in glo.TAX_BRACKETS.items():
             to_send += f"{k} {glo.BANKFORMAT(k)}: {100-v}%\n"
-        to_send += "\nKey:\n ```Max balance permitted for this bracket: Tax rate```"
+        to_send += "*Key: Max balance permitted for this bracket: Tax rate*"
         await ctx.send(to_send)
