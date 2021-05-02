@@ -130,9 +130,8 @@ class Bank(commands.Cog):
         userdata = glo.USERDATA_READ(ctx.author.id)
         if (time.time() - userdata["last_daily"]) < 86400: return await ctx.send("You've already claimed your daily today!")
         amount = random.randint(glo.DAILY_MIN, glo.DAILY_MAX)
-        after_tax = glo.CALCULATE_TAX(amount, userdata["currency"])
-        tax = amount - after_tax
-        userdata["currency"] += after_tax
+        tax = glo.CALCULATE_TAX(amount, userdata["currency"])
+        userdata["currency"] += tax[0]
         userdata["last_daily"] = math.floor(time.time())
         await ctx.send(f"Amount earned: {amount} {glo.BANKFORMAT(amount)}\nTax at {tax[2]}%: {tax[1]} {glo.BANKFORMAT(tax[1])}\nAmount recieved: {tax[0]} {glo.BANKFORMAT(tax[0])}.\nCome back tomorrow for more!")
         glo.USERDATA_WRITE(ctx.author.id, userdata)
