@@ -37,7 +37,7 @@ class Listeners(commands.Cog):
         
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        if glo.FILEREAD("lockdown") == "1":
+        if glo.GLOBAL_READ("lockdown") == "1":
             channel = self.bot.get_channel(829367909155078215)
             await channel.send(f"Hi there <@{member.id}>, sorry about the wait. Please wait here for verification.")
             role = member.guild.get_role(829360691105759282)
@@ -61,7 +61,7 @@ class Listeners(commands.Cog):
             emoji = self.bot.get_emoji(710243429119950969)
             await message.add_reaction(emoji) # React bean
         
-        calls = glo.JSONREAD("calls.json")
+        calls = glo.GLOBAL_READ("calls")
         for call, response in calls.items():
             if call.lower() in message.content.lower():
                 await message.channel.send(response)
@@ -105,9 +105,9 @@ class Listeners(commands.Cog):
             data["mmnumber"] += 1 
             glo.USERDATA_WRITE(message.author.id, data)
             await message.channel.send(f"You earned money from speaking!\nAmount earned: {currency} {glo.BANKFORMAT(currency)}\nTax at {tax[2]}%: {tax[1]} {glo.BANKFORMAT(tax[1])}\nAmount recieved: {tax[0]} {glo.BANKFORMAT(tax(0))}")
-            tax_amount = int(glo.FILEREAD("tax"))
+            tax_amount = int(glo.GLOBAL_READ("tax"))
             tax_amount = str(tax_amount + tax[1])
-            glo.FILEWRITE("tax", tax_amount)
+            glo.GLOBAL_WRITE("tax", tax_amount)
 
     @commands.Cog.listener(name = "on_raw_reaction_add")
     async def shop_reaction_handler(self, p: discord.RawReactionActionEvent):

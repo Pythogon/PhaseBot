@@ -201,11 +201,11 @@ modify <user> <aspect> <value>""") \
     @commands.command()
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def lockdown(self, ctx):
-        ld_state = glo.FILEREAD("lockdown")
+        ld_state = glo.GLOBAL_READ("lockdown")
         if ld_state == "1":
-            glo.FILEWRITE("lockdown", "0")
+            glo.GLOBAL_WRITE("lockdown", "0")
             return await ctx.send("Lockdown disabled. Welcome back!")
-        glo.FILEWRITE("lockdown", "1")
+        glo.GLOBAL_WRITE("lockdown", "1")
         return await ctx.send("Lockdown enabled. Stay safe.")
 
     @commands.group(aliases = ["met"])

@@ -173,4 +173,11 @@ def USERDATA_WRITE(user, data):
     full_data[str(user)] = data
     JSONWRITE("userdata.json", full_data)
 
-    
+def GLOBAL_READ(var):
+    full_data = JSONREAD("globaldata.json")
+    return full_data[var]
+
+def GLOBAL_WRITE(var, data):
+    full_data = JSONREAD("globaldata.json")
+    full_data[var] = data
+    JSONWRITE("globaldata.json", full_data)

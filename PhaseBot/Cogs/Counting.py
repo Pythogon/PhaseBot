@@ -11,13 +11,13 @@ class Counting(commands.Cog):
     @commands.command()
     async def revive(self, ctx, *message):
         counting_channel = ctx.guild.get_channel(glo.COUNTING_CHANNEL)
-        data = glo.JSONREAD("counting.json")
+        data = glo.GLOBAL_READ("counting")
         message = " ".join(message)
         user = glo.USERDATA_READ(ctx.author.id)
         if user["currency"] < glo.REVIVE_COST: return await ctx.send("You don't have enough money to do that!")
         user["currency"] -= 1000
         data["number"] = data["record"]
-        glo.JSONWRITE("counting.json", data)
+        glo.GLOBAL_WRITE("counting", data)
         glo.USERDATA_WRITE(ctx.author.id, user)
         embed = discord.Embed(title = f"Revive activated by {ctx.author.name}!", description = f"Current count: {data['record']}.", color = 0x00ff00) \
         .set_thumbnail(url=ctx.author.avatar_url) \
@@ -36,7 +36,7 @@ class Counting(commands.Cog):
         if message.channel.id != glo.COUNTING_CHANNEL: return      
 
         counting_channel = message.channel
-        data = glo.JSONREAD("counting.json")
+        data = glo.GLOBAL_READ("counting")
         err = 0 
         n = data["number"]
         nn = n + 1
@@ -58,7 +58,7 @@ class Counting(commands.Cog):
             ud = glo.USERDATA_READ(message.author.id)
             ud["currency"] += 1
             glo.USERDATA_WRITE(message.author.id, ud)
-            return glo.JSONWRITE("counting.json", data)
+            return glo.GLOBAL_WRITE("counting", data)
         
         reason = {1: "That wasn't the correct next number!", 2: "You can't send 2 numbers in a row!"}.get(err)
 
@@ -76,6 +76,6 @@ class Counting(commands.Cog):
             await counting_channel.edit(topic = f"Last Record: {n}")
             data["record"] = n
 
-        glo.JSONWRITE("counting.json", data)
+        glo.GLOBAL_WRITE("counting", data)
         await counting_channel.send(embed = embed)
     

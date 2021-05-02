@@ -135,9 +135,9 @@ class Bank(commands.Cog):
         userdata["last_daily"] = math.floor(time.time())
         await ctx.send(f"Amount earned: {amount} {glo.BANKFORMAT(amount)}\nTax at {tax[2]}%: {tax[1]} {glo.BANKFORMAT(tax[1])}\nAmount recieved: {tax[0]} {glo.BANKFORMAT(tax[0])}.\nCome back tomorrow for more!")
         glo.USERDATA_WRITE(ctx.author.id, userdata)
-        tax_amount = int(glo.FILEREAD("tax"))
+        tax_amount = int(glo.GLOBAL_READ("tax"))
         tax_amount = str(tax_amount + tax[1])
-        glo.FILEWRITE("tax", tax_amount)
+        glo.GLOBAL_WRITE("tax", tax_amount)
 
     @commands.command()
     async def pay(self, ctx, payee: discord.Member, amount: int, *system):
@@ -168,9 +168,9 @@ class Bank(commands.Cog):
         .add_field(name = f"{payee.name}'s new balance", value = payee_data["currency"]) \
         .set_footer(text = glo.FOOTER())
         await ctx.send(embed = embed)
-        tax_amount = int(glo.FILEREAD("tax"))
+        tax_amount = int(glo.GLOBAL_READ("tax"))
         tax_amount = str(tax_amount + tax[1])
-        glo.FILEWRITE("tax", tax_amount)
+        glo.GLOBAL_WRITE("tax", tax_amount)
 
 
     @commands.command(aliases = ["randomise"])
@@ -266,5 +266,5 @@ class Bank(commands.Cog):
     
     @commands.command(aliases = ["tax"])
     async def taxpot(self, ctx):
-        tax = glo.FILEREAD("tax")
+        tax = glo.GLOBAL_READ("tax")
         await ctx.send(f"{tax} {glo.BANKFORMAT(tax)} is the amount currently in the tax pot.")
