@@ -72,7 +72,7 @@ def CALCULATE_TAX(income, balance):
         bracket = tuple(TAX_BRACKETS.items())[x+1]
         max_balance = bracket[0]
         takehome = bracket[1]
-        if (income + balance) <= max_balance:
+        if balance <= max_balance:
             after_tax = math.ceil((income * (takehome/100)))
             tax = income - after_tax
             brace = 100 - takehome
