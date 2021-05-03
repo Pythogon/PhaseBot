@@ -51,13 +51,17 @@ STAR_CHANNEL_ID = 728440495105114173 #starcastle
 STAR_MESSAGE_MIN = 20
 STAR_MESSAGE_MAX = 60
 TAX_BRACKETS = {500: 100,
-600: 85,
-700: 80,
-800: 60,
-1000: 55,
-1500: 50,
-2000: 30,
-5000: 0}
+800: 95,
+1000: 85,
+1100: 80,
+1300: 70,
+1700: 60,
+1900: 50,
+2100: 40,
+2200: 30,
+2250: 20,
+2300: 10,
+2350: 0}
 TEMP_MESSAGE_LIST = []
 VERSION = "3.1.2" # Current version (entirely symbolic, means nothing)
 

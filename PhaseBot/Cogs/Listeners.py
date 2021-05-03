@@ -104,7 +104,7 @@ class Listeners(commands.Cog):
             data["last_random"] = math.floor(time.time())
             data["mmnumber"] += 1 
             glo.USERDATA_WRITE(message.author.id, data)
-            await message.channel.send(f"You earned money from speaking!\nAmount earned: {currency} {glo.BANKFORMAT(currency)}\nTax at {tax[2]}%: {tax[1]} {glo.BANKFORMAT(tax[1])}\nAmount recieved: {tax[0]} {glo.BANKFORMAT(tax(0))}")
+            await message.channel.send(f"You earned money from speaking!\nAmount earned: {currency} {glo.BANKFORMAT(currency)}\nTax at {tax[2]}%: {tax[1]} {glo.BANKFORMAT(tax[1])}\nAmount recieved: {tax[0]} {glo.BANKFORMAT(tax[0])}")
             tax_amount = int(glo.GLOBAL_READ("tax"))
             tax_amount = str(tax_amount + tax[1])
             glo.GLOBAL_WRITE("tax", tax_amount)
