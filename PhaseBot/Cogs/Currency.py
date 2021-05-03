@@ -131,7 +131,7 @@ class Bank(commands.Cog):
         diff = time.time() - userdata["last_daily"]
         if diff < 86400: 
             time_left = time.strftime("%Hh %Mm %Ss", time.gmtime(diff))
-            return await ctx.send(f"You've already claimed your daily today, it will be available in {time_left}.")
+            return await ctx.send(f"You've already claimed your daily today, it will be available in {86000 - time_left}.")
         amount = random.randint(glo.DAILY_MIN, glo.DAILY_MAX)
         tax = glo.CALCULATE_TAX(amount, userdata["currency"])
         userdata["currency"] += tax[0]
