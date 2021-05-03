@@ -128,7 +128,10 @@ class Bank(commands.Cog):
     @commands.command()
     async def daily(self, ctx):
         userdata = glo.USERDATA_READ(ctx.author.id)
-        if (time.time() - userdata["last_daily"]) < 86400: return await ctx.send("You've already claimed your daily today!")
+        diff = time.time() - userdata["last_daily"]
+        if diff < 86400: 
+            time_left = time.strftime("%Hh %Mm %Ss", time.gmtime(diff))
+            return await ctx.send(f"You've already claimed your daily today, it will be available in {time_left}.")
         amount = random.randint(glo.DAILY_MIN, glo.DAILY_MAX)
         tax = glo.CALCULATE_TAX(amount, userdata["currency"])
         userdata["currency"] += tax[0]
