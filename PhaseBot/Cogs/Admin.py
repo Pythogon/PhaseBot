@@ -1,6 +1,7 @@
 import ast
 import discord
 import operator
+import random
 
 import glo #pylint: disable=import-error
 from datetime import date
@@ -262,3 +263,24 @@ modify <user> <aspect> <value>""") \
         userdata[aspect] = value
         glo.USERDATA_WRITE(user.id, userdata)
         await ctx.send(f"Aspect {aspect} is now {value}.")
+    
+    @commands.command(aliases = ["eg"])
+    @commands.has_role(glo.DEVELOPER_ROLE_ID)
+    async def endgiveaway(self, ctx, channel: discord.TextChannel, message_id: int, fee: int, winner_count: int):
+        entries = []
+        message = await channel.fetch_message(840692141902659684)
+        for reaction in message.reactions:
+            async for user in reaction.users():
+                ud = glo.USERDATA_READ(user.id)
+                ud["currency"] -= fee
+                tax = int(glo.GLOBAL_READ("tax"))
+                tax += fee
+                glo.USERDATA_WRITE(user.id, ud)
+                glo.GLOBAL_WRITE("tax", tax)
+                entries.append(user.id)
+        to_send = "__The winners of the giveaway__\n"
+        for x in range(winner_count):
+            winner = random.choice(entries)
+            entries.remove(winner)
+            to_send += f"<@{winner}>\n"
+        await channel.send(to_send)
