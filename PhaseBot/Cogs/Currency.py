@@ -261,10 +261,21 @@ class Bank(commands.Cog):
 
     @commands.command()
     async def taxbrackets(self, ctx):
+        brackets = glo.TAX_BRACKETS.items()
+        brackets[0] = (0, 100)
         to_send = "**Current tax brackets**\n\n"
-        for k, v in glo.TAX_BRACKETS.items():
-            to_send += f"{k} {glo.BANKFORMAT(k)}: {100-v}%\n"
-        to_send += "*Max balance permitted for this bracket: Tax rate*"
+        for t in brackets:
+            max = t[0]
+            amount = 100 - t[1]
+            if max == 0: pass
+            index = brackets.index(t)
+            try:
+                brackets[index + 1]
+            except:
+                to_send += f"{max}+: {amount}"
+                pass
+            min = brackets[index - 1][0] + 1
+            to_send += f"{min}-{max} {glo.BANKFORMAT(k)}: {amount}%\n"
         await ctx.send(to_send)
     
     @commands.command(aliases = ["tax"])
