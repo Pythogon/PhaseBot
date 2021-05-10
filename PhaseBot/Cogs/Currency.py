@@ -273,7 +273,7 @@ class Bank(commands.Cog):
             try:
                 brackets[index + 1]
             except:
-                to_send += f"{min + 1} {glo.BANKFORMAT(min)}+: {amount}"
+                to_send += f"{min} {glo.BANKFORMAT(min)}+: {amount}"
                 continue
             to_send += f"{min}-{max} {glo.BANKFORMAT(max)}: {amount}%\n"
         await ctx.send(to_send)
