@@ -13,7 +13,7 @@ class Counting(commands.Cog):
         counting_channel = ctx.guild.get_channel(glo.COUNTING_CHANNEL)
         data = glo.GLOBAL_READ("counting")
         message = " ".join(message)
-        tax = glo.GLOBAL_READ("tax")
+        tax = int(glo.GLOBAL_READ("tax"))
         cost = glo.REVIVE_COST - tax
         if cost < 0: 
             cost = 0
@@ -32,7 +32,7 @@ class Counting(commands.Cog):
         await counting_channel.send(embed = embed)
         await ctx.send(f"Revived! You have been debited {cost} {glo.BANKFORMAT(glo.REVIVE_COST)}. {subsidy} {glo.BANKFORMAT(subsidy)} was provided through taxes.")
         tax -= subsidy
-        glo.GLOBAL_WRITE("tax", tax)
+        glo.GLOBAL_WRITE("tax", str(tax))
     
     @commands.Cog.listener(name = "on_message") 
     async def counting_handler(self, message):
