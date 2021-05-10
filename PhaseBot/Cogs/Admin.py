@@ -280,6 +280,7 @@ modify <user> <aspect> <value>""") \
                 entries.append(user.id)
         to_send = "__The winners of the giveaway__\n"
         for x in range(winner_count):
+            if entries == []: continue
             winner = random.choice(entries)
             entries.remove(winner)
             to_send += f"<@{winner}>\n"
