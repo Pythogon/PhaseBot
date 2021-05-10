@@ -246,7 +246,7 @@ class Bank(commands.Cog):
         raw_inv = glo.USERDATA_READ(ctx.author.id)["inventory"]
         inv = list()
         for i in raw_inv:
-            # custom item check
+            # custom item 
             inv.append(i)
 
         inv_str = '\n'.join(inv)
@@ -275,7 +275,7 @@ class Bank(commands.Cog):
                 to_send += f"{max}+: {amount}"
                 pass
             min = brackets[index - 1][0] + 1
-            to_send += f"{min}-{max} {glo.BANKFORMAT(k)}: {amount}%\n"
+            to_send += f"{min}-{max} {glo.BANKFORMAT(max)}: {amount}%\n"
         await ctx.send(to_send)
     
     @commands.command(aliases = ["tax"])
