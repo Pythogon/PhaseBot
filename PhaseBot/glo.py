@@ -50,8 +50,8 @@ STAR_COUNT = 3 # Amount of stars needed for a message to get onto the starboard
 STAR_CHANNEL_ID = 728440495105114173 #starcastle
 STAR_MESSAGE_MIN = 20
 STAR_MESSAGE_MAX = 60
-TAX_BRACKETS = {500: 100,
-800: 95,
+TAX_BRACKETS = {500: 90,
+900: 87,
 1000: 85,
 1100: 80,
 1300: 70,
@@ -63,7 +63,7 @@ TAX_BRACKETS = {500: 100,
 2300: 10,
 2350: 0}
 TEMP_MESSAGE_LIST = []
-VERSION = "3.1.2" # Current version (entirely symbolic, means nothing)
+VERSION = "3.1.3" # Current version (entirely symbolic, means nothing)
 
 def BANKFORMAT(num):
     if num == 1: out = "<:bean:710243429119950969>"
@@ -71,9 +71,11 @@ def BANKFORMAT(num):
     return out
 
 def CALCULATE_TAX(income, balance):
-    if (income + balance) <= tuple(TAX_BRACKETS.items())[0][0]: return [income, 0, 0]
     for x in range(len(TAX_BRACKETS)):
-        bracket = tuple(TAX_BRACKETS.items())[x+1]
+        if x == 0:
+            bracket = tuple(TAX_BREACKETS.items())[x]
+        else:
+            bracket = tuple(TAX_BRACKETS.items())[x+1]
         max_balance = bracket[0]
         takehome = bracket[1]
         if balance <= max_balance:
