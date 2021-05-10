@@ -52,7 +52,8 @@ STAR_COUNT = 3 # Amount of stars needed for a message to get onto the starboard
 STAR_CHANNEL_ID = 728440495105114173 #starcastle
 STAR_MESSAGE_MIN = 20
 STAR_MESSAGE_MAX = 60
-TAX_BRACKETS = {500: 90,
+TAX_BRACKETS = {-1: 100,
+500: 90,
 900: 87,
 1000: 85,
 1100: 80,
@@ -74,10 +75,7 @@ def BANKFORMAT(num):
 
 def CALCULATE_TAX(income, balance):
     for x in range(len(TAX_BRACKETS)):
-        if x == 0:
-            bracket = tuple(TAX_BRACKETS.items())[x]
-        else:
-            bracket = tuple(TAX_BRACKETS.items())[x+1]
+        bracket = tuple(TAX_BRACKETS.items())[x+1]
         max_balance = bracket[0]
         takehome = bracket[1]
         if balance <= max_balance:
