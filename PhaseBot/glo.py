@@ -54,16 +54,15 @@ STAR_MESSAGE_MIN = 20
 STAR_MESSAGE_MAX = 60
 TAX_BRACKETS = {-1: 100,
 500: 90,
-900: 87,
-1000: 85,
-1100: 80,
-1300: 70,
-1700: 60,
-1900: 50,
-2100: 40,
-2200: 30,
-2250: 20,
-2300: 10,
+900: 85,
+1000: 80,
+1100: 75,
+1300: 65,
+1700: 55,
+1900: 45,
+2100: 35,
+2200: 20,
+2250: 10,
 2350: 0}
 TEMP_MESSAGE_LIST = []
 VERSION = "3.1.3" # Current version (entirely symbolic, means nothing)
