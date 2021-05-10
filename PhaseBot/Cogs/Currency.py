@@ -261,7 +261,7 @@ class Bank(commands.Cog):
 
     @commands.command()
     async def taxbrackets(self, ctx):
-        brackets = glo.TAX_BRACKETS.items()
+        brackets = list(glo.TAX_BRACKETS.items())
         brackets[0] = (0, 100)
         to_send = "**Current tax brackets**\n\n"
         for t in brackets:
