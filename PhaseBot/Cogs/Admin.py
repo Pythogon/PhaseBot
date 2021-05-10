@@ -268,7 +268,7 @@ modify <user> <aspect> <value>""") \
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def endgiveaway(self, ctx, channel: discord.TextChannel, message_id: int, fee: int, winner_count: int):
         entries = []
-        message = await channel.fetch_message(840692141902659684)
+        message = await channel.fetch_message(message_id)
         for reaction in message.reactions:
             async for user in reaction.users():
                 ud = glo.USERDATA_READ(user.id)
