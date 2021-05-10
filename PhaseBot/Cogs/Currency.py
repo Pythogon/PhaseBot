@@ -269,12 +269,12 @@ class Bank(commands.Cog):
             amount = 100 - t[1]
             if max == 0: continue
             index = brackets.index(t)
+            min = brackets[index - 1][0] + 1
             try:
                 brackets[index + 1]
             except:
-                to_send += f"{max}+: {amount}"
+                to_send += f"{min + 1}+: {amount}"
                 continue
-            min = brackets[index - 1][0] + 1
             to_send += f"{min}-{max} {glo.BANKFORMAT(max)}: {amount}%\n"
         await ctx.send(to_send)
     
