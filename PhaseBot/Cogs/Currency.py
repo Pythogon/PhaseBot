@@ -297,7 +297,7 @@ class Bank(commands.Cog):
     async def contribute(self, ctx, amount):
         userdata = glo.USERDATA_READ(ctx.author.id)
         if userdata["currency"] < amount: return await ctx.send("You don't have enough money for this contribution.")
-        tax = glo.GLOBAL_READ("tax")
+        tax = int(glo.GLOBAL_READ("tax"))
         tax_bracket = glo.CALCULATE_TAX(amount, userdata["currency"])
         tax += (amount + tax_bracket[1])
         userdata -= amount
