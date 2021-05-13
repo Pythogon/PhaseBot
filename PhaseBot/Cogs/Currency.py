@@ -153,12 +153,22 @@ class Bank(commands.Cog):
                 role = ctx.guild.get_role(glo.DEVELOPER_ROLE_ID)
                 if not (role in ctx.author.roles):
                     return await ctx.send("You don't have system permissions.")
+                if "-t" in system:
+                    tax = glo.CALCULATE_TAX(amount, payee_data["currency"])
+                    payee_data["currency"] += tax[0]
+                    glo.USERDATA_WRITE(payee.id, payee_data)
+                    tax_amount = int(glo.GLOBAL_READ("tax"))
+                    tax_amount = tax_amount + tax[1]
+                    glo.GLOBAL_WRITE("tax", tax_amount)
+                    return await ctx.send(f"Payment successful!\nAmount: {amount} {glo.BANKFORMAT(amount)}\nTax at {tax[2]}%: {tax[1]} {glo.BANKFORMAT(tax[1])}\nAmount recieved: {tax[0]} {glo.BANKFORMAT(tax[0])}")
                 payee_data["currency"] += amount
                 glo.USERDATA_WRITE(payee.id, payee_data)
                 return await ctx.send(f"Gave {payee.name} {amount} {glo.BANKFORMAT(amount)} with system permissions.")
             return await ctx.send("That wasn't a correct argument.")
         if payer_data["currency"] < amount:
             return await ctx.send("You don't have enough money to do that!")
+        if payee_data == payer_data:
+            return await ctx.send("You can't pay yourself!")
         payer_data["currency"] -= amount
         tax = glo.CALCULATE_TAX(amount, payee_data["currency"])
         payee_data["currency"] += tax[0]
