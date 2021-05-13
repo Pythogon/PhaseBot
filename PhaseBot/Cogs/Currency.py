@@ -142,7 +142,7 @@ class Bank(commands.Cog):
         tax_amount = str(tax_amount + tax[1])
         glo.GLOBAL_WRITE("tax", tax_amount)
 
-    #@commands.command()
+    @commands.command()
     async def pay(self, ctx, payee: discord.Member, amount: int, *system):
         if amount < 0:
             return await ctx.send("You can't send negative money!")
