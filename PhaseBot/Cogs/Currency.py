@@ -92,7 +92,7 @@ class Bank(commands.Cog):
     @commands.command(aliases = ["bal"])
     async def balance(self, ctx):
         bal = glo.USERDATA_READ(ctx.author.id)["currency"]
-        return await ctx.send(f"Your current balance is {bal} {glo.BANKFORMAT(bal)}.")
+        return await ctx.send(f"Your current balance is {glo.BANKFORMAT(bal)}.")
 
     @commands.command(aliases=["baltop", "bt"])
     async def balancetop(self, ctx):
@@ -136,7 +136,7 @@ class Bank(commands.Cog):
         tax = glo.CALCULATE_TAX(amount, userdata["currency"])
         userdata["currency"] += tax[0]
         userdata["last_daily"] = math.floor(time.time())
-        await ctx.send(f"Amount earned: {amount} {glo.BANKFORMAT(amount)}\nTax at {tax[2]}%: {tax[1]} {glo.BANKFORMAT(tax[1])}\nAmount recieved: {tax[0]} {glo.BANKFORMAT(tax[0])}.\nCome back tomorrow for more!")
+        await ctx.send(f"Amount earned: {glo.BANKFORMAT(amount)}\nTax at {tax[2]}%: {glo.BANKFORMAT(tax[1])}\nAmount recieved: {glo.BANKFORMAT(tax[0])}.\nCome back tomorrow for more!")
         glo.USERDATA_WRITE(ctx.author.id, userdata)
         tax_amount = int(glo.GLOBAL_READ("tax"))
         tax_amount = str(tax_amount + tax[1])
@@ -160,10 +160,10 @@ class Bank(commands.Cog):
                     tax_amount = int(glo.GLOBAL_READ("tax"))
                     tax_amount = tax_amount + tax[1]
                     glo.GLOBAL_WRITE("tax", tax_amount)
-                    return await ctx.send(f"Payment successful!\nAmount: {amount} {glo.BANKFORMAT(amount)}\nTax at {tax[2]}%: {tax[1]} {glo.BANKFORMAT(tax[1])}\nAmount recieved: {tax[0]} {glo.BANKFORMAT(tax[0])}")
+                    return await ctx.send(f"Payment successful!\nAmount: {glo.BANKFORMAT(amount)}\nTax at {tax[2]}%: {glo.BANKFORMAT(tax[1])}\nAmount recieved: {glo.BANKFORMAT(tax[0])}")
                 payee_data["currency"] += amount
                 glo.USERDATA_WRITE(payee.id, payee_data)
-                return await ctx.send(f"Gave {payee.name} {amount} {glo.BANKFORMAT(amount)} with system permissions.")
+                return await ctx.send(f"Gave {payee.name} {glo.BANKFORMAT(amount)} with system permissions.")
             return await ctx.send("That wasn't a correct argument.")
         if payer_data["currency"] < amount:
             return await ctx.send("You don't have enough money to do that!")
@@ -283,12 +283,24 @@ class Bank(commands.Cog):
             try:
                 brackets[index + 1]
             except:
-                to_send += f"{min} {glo.BANKFORMAT(min)}+: {amount}%\n"
+                to_send += f"{glo.BANKFORMAT(min)}+: {amount}%\n"
                 continue
-            to_send += f"{min}-{max} {glo.BANKFORMAT(max)}: {amount}%\n"
+            to_send += f"{min}-{glo.BANKFORMAT(max)}: {amount}%\n"
         await ctx.send(to_send)
     
     @commands.command(aliases = ["tax"])
     async def taxpot(self, ctx):
         tax = glo.GLOBAL_READ("tax")
-        await ctx.send(f"{tax} {glo.BANKFORMAT(tax)} is the amount currently in the tax pot.")
+        await ctx.send(f"{glo.BANKFORMAT(tax)} is the amount currently in the tax pot.")
+    
+    @commands.command(aliases = ["contr"])
+    async def contribute(self, ctx, amount):
+        userdata = glo.USERDATA_READ(ctx.author.id)
+        if userdata["currency"] < amount: return await ctx.send("You don't have enough money for this contribution.")
+        tax = glo.GLOBAL_READ("tax")
+        tax_bracket = glo.CALCULATE_TAX(amount, userdata["currency"])
+        tax += (amount + tax_bracket[1])
+        userdata -= amount
+        glo.GLOBAL_WRITE("tax", tax)
+        glo.USERDATA_WRITE(ctx.author.id, userdata)
+        await ctx.send(f"You paid {glo.BANKFORMAT(amount)} as a voluntary contribution! Given your tax bracket, {glo.BANKFORMAT(tax[1])} has been added to the tax pot in addition to your donation.")

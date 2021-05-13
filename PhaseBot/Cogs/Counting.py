@@ -30,7 +30,7 @@ class Counting(commands.Cog):
         if message != "":
             embed.add_field(name = "Revive message", value = message)
         await counting_channel.send(embed = embed)
-        await ctx.send(f"Revived! You have been debited {cost} {glo.BANKFORMAT(glo.REVIVE_COST)}. {subsidy} {glo.BANKFORMAT(subsidy)} was provided through taxes.")
+        await ctx.send(f"Revived! You have been debited {glo.BANKFORMAT(glo.REVIVE_COST)}. {glo.BANKFORMAT(subsidy)} was provided through taxes.")
         tax -= subsidy
         glo.GLOBAL_WRITE("tax", str(tax))
     

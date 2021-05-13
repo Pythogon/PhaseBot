@@ -68,8 +68,8 @@ TEMP_MESSAGE_LIST = []
 VERSION = "3.1.3" # Current version (entirely symbolic, means nothing)
 
 def BANKFORMAT(num):
-    if num == 1: out = "<:bean:710243429119950969>"
-    else: out = "<:bean:710243429119950969>s"
+    if num == 1: out = f"{num} <:bean:710243429119950969>"
+    else: out = f"{num} <:bean:710243429119950969>s"
     return out
 
 def CALCULATE_TAX(income, balance):
@@ -114,7 +114,7 @@ async def STAR(message, star_channel):
     embed = discord.Embed(title = f"⭐ | {message.author}", color = COLOR) \
     .add_field(name = "Message:", value = message.content, inline = False) \
     .add_field(name = "Jump link:", value = message.jump_url, inline = False) \
-    .add_field(name = f"Reward given after tax (tax charged at {tax[2]}%):", value = f"{tax[0]} {BANKFORMAT(tax[0])}", inline=False) \
+    .add_field(name = f"Reward given after tax (tax charged at {tax[2]}%):", value = f"{BANKFORMAT(tax[0])}", inline=False) \
     .set_footer(text = FOOTER())
     await star_channel.send(embed = embed) # PhaseBot class
     FILEAPPEND("starcastle.txt", message.content.encode(encoding = "ascii", errors = "ignore").decode().replace("\n", "")) # Adding to starcastle.txt
