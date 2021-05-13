@@ -300,7 +300,7 @@ class Bank(commands.Cog):
         tax = int(glo.GLOBAL_READ("tax"))
         tax_bracket = glo.CALCULATE_TAX(amount, userdata["currency"])
         tax += (amount + tax_bracket[1])
-        userdata -= amount
+        userdata["currency"] -= amount
         glo.GLOBAL_WRITE("tax", tax)
         glo.USERDATA_WRITE(ctx.author.id, userdata)
         await ctx.send(f"You paid {glo.BANKFORMAT(amount)} as a voluntary contribution! Given your tax bracket, {glo.BANKFORMAT(tax[1])} has been added to the tax pot in addition to your donation.")
