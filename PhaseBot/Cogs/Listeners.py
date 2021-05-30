@@ -1,5 +1,5 @@
 import discord
-import glo #pylint: disable=import-error
+import glo #type: ignore
 import math
 import time
 import traceback
@@ -7,7 +7,7 @@ import random
 
 from discord.ext import commands
 
-import Cogs.Currency #pylint: disable=import-error
+import Cogs.Currency #type: ignore
 
 class Listeners(commands.Cog):
     def __init__(self, bot):

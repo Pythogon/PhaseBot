@@ -1,5 +1,5 @@
 import discord
-import glo #pylint: disable=import-error
+import glo #type: ignore
 
 from discord.ext import commands
 

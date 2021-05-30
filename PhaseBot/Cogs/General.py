@@ -1,6 +1,6 @@
 import asyncio
 import discord
-import glo #pylint: disable=import-error
+import glo #type: ignore
 import random
 
 from discord.ext import commands

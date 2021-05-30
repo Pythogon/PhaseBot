@@ -3,7 +3,7 @@ import discord
 import operator
 import random
 
-import glo #pylint: disable=import-error
+import glo #type: ignore
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
@@ -285,3 +285,4 @@ modify <user> <aspect> <value>""") \
             entries.remove(winner)
             to_send += f"<@{winner}>\n"
         await channel.send(to_send)
+        

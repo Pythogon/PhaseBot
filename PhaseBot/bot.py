@@ -1,10 +1,9 @@
 import os
 
-#pylint: disable=import-error
 import discord
 
-import Cogs
-import glo
+import Cogs #type: ignore
+import glo #type: ignore
 
 from discord.ext import commands
 
