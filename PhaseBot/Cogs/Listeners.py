@@ -89,6 +89,19 @@ class Listeners(commands.Cog):
     #   Non-default names of listeners here   #
     #                                         #
     ###########################################
+    
+    @commands.Cog.listener(name="on_raw_reaction_add")
+    async def judge_raw_reaction(self,p: discord.RawReactionActionEvent):
+        emoji = self.bot.get_emoji(glo.JUDGE_EMOJI_ID)
+        channel = self.bot.get_channel(p.channel_id)
+        message = await channel.fetch_message(p.message_id)
+        if p.emoji == emoji:
+            if message.author.bot: return
+            if discord.utils.get(message.reactions, me = True, emoji = "☑️") is not None: return
+            response = glo.GETJUDGE(random.randint(1,5))
+            await message.reply(response)
+            return await message.add_reaction("☑️")
+            
 
     @commands.Cog.listener(name = "on_message")
     async def shop_money_message_handler(self, message):

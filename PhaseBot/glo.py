@@ -17,6 +17,7 @@ DATE_FORMAT_HOUR_INCLUSIVE = "%H:%M:%S on %Y-%m-%d" # Time format
 DEVELOPER_ROLE_ID = 732384059191328809 # Developer role
 ERROR_COLOR = 0xff0000
 GUILD_ID = 709717828365844511 # LIFE: The Game
+JUDGE_EMOJI_ID = 896730222865580072
 MAIN_CHANNEL_ID = 709717829112561776 #le-noir
 MONEY_MESSAGE_INTERVAL = 1000
 MONEY_MESSAGE_MAX = 30
@@ -90,6 +91,13 @@ def FOOTER(): # Random footer generator
 
 def GETEMOJI(l):
     return {0: u"\U0001F7E4", 1: u"\U0001F7E3", 2: u"\U0001F7E2", 3: u"\U0001F7E0"}.get(l) # Returns unicode for coloured circles
+
+def GETJUDGE(l):
+    return {1: "Your statement personally offends me. 1/5",
+    2: "I'm gonna have to disagree with that. 2/5",
+    3: "I'm on the fence about that. 3/5",
+    4: "That sounds about right! 4/5", 
+    5: "Oh my god, totally!"}.get(l)
 
 def GETRATE(l, user):
     varset = {-1: ['Error 404: {} not found.', 0xffffff, '☆'],
