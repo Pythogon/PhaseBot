@@ -97,7 +97,7 @@ def GETJUDGE(l):
     2: "I'm gonna have to disagree with that. 2/5",
     3: "I'm on the fence about that. 3/5",
     4: "That sounds about right! 4/5", 
-    5: "Oh my god, totally!"}.get(l)
+    5: "Oh my god, totally! 5/5"}.get(l)
 
 def GETRATE(l, user):
     varset = {-1: ['Error 404: {} not found.', 0xffffff, '☆'],
