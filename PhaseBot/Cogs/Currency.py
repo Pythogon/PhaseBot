@@ -293,8 +293,9 @@ class Bank(commands.Cog):
         tax = glo.GLOBAL_READ("tax")
         await ctx.send(f"{glo.BANKFORMAT(tax)} is the amount currently in the tax pot.")
     
-    #@commands.command(aliases = ["contr"])
+    @commands.command(aliases = ["contr"])
     async def contribute(self, ctx, amount: int):
+        if amount < 0: return await ctx.send("You can't contribute less than nothing!")
         userdata = glo.USERDATA_READ(ctx.author.id)
         if userdata["currency"] < amount: return await ctx.send("You don't have enough money for this contribution.")
         tax = int(glo.GLOBAL_READ("tax"))
