@@ -98,8 +98,7 @@ class Listeners(commands.Cog):
         if p.emoji == emoji:
             if message.author.bot: return
             if discord.utils.get(message.reactions, me = True, emoji = "☑️") is not None: return
-            response = glo.GETJUDGE(random.randint(1,5))
-            await message.reply(response)
+            await message.reply(glo.GETJUDGE())
             return await message.add_reaction("☑️")
             
 

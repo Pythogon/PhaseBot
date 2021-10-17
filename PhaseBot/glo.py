@@ -67,7 +67,7 @@ TAX_BRACKETS = {-1: 100,
 3000: 10,
 3500: 0}
 TEMP_MESSAGE_LIST = []
-VERSION = "3.2" # Current version (entirely symbolic, means nothing)
+VERSION = "3.2.0.1" # Current version (entirely symbolic, means nothing)
 
 def BANKFORMAT(num):
     if num == 1: out = f"{num} <:bean:710243429119950969>"
@@ -92,12 +92,21 @@ def FOOTER(): # Random footer generator
 def GETEMOJI(l):
     return {0: u"\U0001F7E4", 1: u"\U0001F7E3", 2: u"\U0001F7E2", 3: u"\U0001F7E0"}.get(l) # Returns unicode for coloured circles
 
-def GETJUDGE(l):
-    return {1: "Your statement personally offends me. 1/5",
-    2: "I'm gonna have to disagree with that. 2/5",
-    3: "I'm on the fence about that. 3/5",
-    4: "That sounds about right! 4/5", 
-    5: "Oh my god, totally! 5/5"}.get(l)
+def GETJUDGE():
+    varset = { \
+    1: "Your statement personally offends me.",
+    2: "I'm gonna have to disagree with that.",
+    3: "I'm on the fence about that.",
+    4: "That sounds about right.", 
+    5: "Oh my god, totally!",
+    6: "I think so.", 
+    7: "Maybe, but I'm not sure.",
+    8: "That doesn't sound right.",
+    9: "No.",
+    10: "Yes."
+    }
+    l = random.randint(1, len(varset))
+    return varset.get(l)
 
 def GETRATE(l, user):
     varset = {-1: ['Error 404: {} not found.', 0xffffff, '☆'],
