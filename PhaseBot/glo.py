@@ -67,7 +67,7 @@ TAX_BRACKETS = {-1: 100,
 3000: 10,
 3500: 0}
 TEMP_MESSAGE_LIST = []
-VERSION = "3.2.0.2a" # Current version (entirely symbolic, means nothing)
+VERSION = "3.2.0.2" # Current version (entirely symbolic, means nothing)
 
 def BANKFORMAT(num):
     if num == 1: out = f"{num} <:bean:710243429119950969>"
