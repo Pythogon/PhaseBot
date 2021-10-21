@@ -65,7 +65,8 @@ TAX_BRACKETS = {-1: 100,
 2300: 20,
 2600: 15,
 3000: 10,
-3500: 0}
+3500: 5,
+9999: 0}
 TEMP_MESSAGE_LIST = []
 VERSION = "3.2.0.2" # Current version (entirely symbolic, means nothing)
 
