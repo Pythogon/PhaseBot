@@ -10,7 +10,7 @@ from discord.ext import commands
 class PhaseBot(commands.Bot):
     """ The bot """
     async def on_ready(self):
-        print("LOAD") # Great, it's working
+        print("Disucoudo ") # Great, it's working
         await bot.change_presence(activity = discord.Activity(name = f"my startup...", type = discord.ActivityType.watching)) # Simplistic help
         ud = glo.JSONREAD("userdata.json")
         del ud["default"]
