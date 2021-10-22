@@ -68,7 +68,7 @@ TAX_BRACKETS = {-1: 100,
 3500: 5,
 9999: 0}
 TEMP_MESSAGE_LIST = []
-VERSION = "3.2.1.1" # Current version (entirely symbolic, means nothing)
+VERSION = "3.2.1.2" # Current version (entirely symbolic, means nothing)
 
 def BANKFORMAT(num):
     if num == 1: out = f"{num} <:bean:710243429119950969>"
@@ -104,7 +104,11 @@ def GETJUDGE():
     7: "Maybe, but I'm not sure.",
     8: "That doesn't sound right.",
     9: "No.",
-    10: "Yes."
+    10: "Yes.",
+    11: "Nah.",
+    12: "Hell yeah!",
+    13: "As the prophets fortold.",
+    14: "The fates don't align with that."
     }
     l = random.randint(1, len(varset))
     return varset.get(l)
