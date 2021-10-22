@@ -61,7 +61,7 @@ def purchase(uid, item, steal = False):
             data = glo.USERDATA_READ(uid)
             data["inventory"].append(item)
             glo.USERDATA_WRITE(uid, data)
-            tax = glo.GLOBAL_READ("tax")
+            tax = int(glo.GLOBAL_READ("tax"))
             tax -= getprice(item)
             glo.GLOBAL_WRITE("tax", tax)
             return 0
@@ -71,7 +71,7 @@ def purchase(uid, item, steal = False):
             fine = int((getprice(item) * 2))
             data["currency"] -= fine
             glo.USERDATA_WRITE(uid, data)
-            tax = glo.GLOBAL_READ("tax")
+            tax = int(glo.GLOBAL_READ("tax"))
             tax += fine
             glo.GLOBAL_WRITE("tax", tax)
             randomise()
