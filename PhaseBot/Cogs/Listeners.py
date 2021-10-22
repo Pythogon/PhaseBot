@@ -152,7 +152,7 @@ class Listeners(commands.Cog):
                                 await channel.send(f"You stole <:{p.emoji.name}:{Cogs.Currency.custom_emoji_map[p.emoji.name]}>!")
                             else:
                             """
-                            await channel.send(f"You stole {p.emoji.name}!")
+                            await channel.send(f"You stole {p.emoji.name}! It cost the tax pot {glo.BANKFORMAT(Cogs.Currency.getprice(p.emoji.name))}.")
                         else:
                             await channel.send(f"You got caught! You have been fined {glo.BANKFORMAT(stole)}.")
                 else:
