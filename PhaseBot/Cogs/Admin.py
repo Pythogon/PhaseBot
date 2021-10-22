@@ -155,7 +155,7 @@ modify <user> <aspect> <value>""") \
         embed.set_footer(text = footer)
         await ctx.send(embed = embed)
 
-    @commands.command(aliases = ["eval"])
+    @commands.command(aliases = ["eval", "return"])
     @commands.is_owner()
     async def evaluate(self, ctx, *, cmd):
         fn_name = "_eval_expr"
