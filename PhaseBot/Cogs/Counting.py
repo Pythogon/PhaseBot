@@ -23,7 +23,7 @@ class Counting(commands.Cog):
             cost = glo.REVIVE_COST
         else: 
             tax_bracket = glo.CALCULATE_TAX(100, user["currency"])[2]
-            cost = math.floor(user["currency"] / tax_bracket)
+            cost = math.floor(user["currency"] / tax_bracket) * 100
 
         subsidy = glo.REVIVE_COST - cost 
 
