@@ -14,23 +14,31 @@ class Counting(commands.Cog):
         data = glo.GLOBAL_READ("counting")
         message = " ".join(message)
         tax = int(glo.GLOBAL_READ("tax"))
-        cost = glo.REVIVE_COST - tax
-        if cost < 0: 
-            cost = 0
-        subsidy = glo.REVIVE_COST - cost 
         user = glo.USERDATA_READ(ctx.author.id)
-        if user["currency"] < cost: return await ctx.send("You don't have enough money to do that!")
+
+        # New cost logic
+        if user["currency"] > glo.REVIVE_COST: 
+            cost = glo.REVIVE_COST
+        else: 
+            tax_bracket = glo.CALCULATE_TAX(100, user["currency"])[2]
+            cost = user["currency"] / tax_bracket
+
+        subsidy = glo.REVIVE_COST - cost 
+
         user["currency"] -= cost
         data["number"] = data["record"]
         glo.GLOBAL_WRITE("counting", data)
         glo.USERDATA_WRITE(ctx.author.id, user)
+
         embed = discord.Embed(title = f"Revive activated by {ctx.author.name}!", description = f"Current count: {data['record']}.", color = 0x00ff00) \
         .set_thumbnail(url=ctx.author.avatar_url) \
         .set_footer(text=glo.FOOTER())
+
         if message != "":
             embed.add_field(name = "Revive message", value = message)
         await counting_channel.send(embed = embed)
         await ctx.send(f"Revived! You have been debited {glo.BANKFORMAT(glo.REVIVE_COST)}. {glo.BANKFORMAT(subsidy)} was provided through taxes.")
+        
         tax -= subsidy
         glo.GLOBAL_WRITE("tax", str(tax))
     
