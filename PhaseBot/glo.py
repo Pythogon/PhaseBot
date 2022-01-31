@@ -67,7 +67,7 @@ TAX_BRACKETS = {-1: 100,
 3300: 10,
 9999: 0}
 TEMP_MESSAGE_LIST = []
-VERSION = "3.2.1.2" # Current version (entirely symbolic, means nothing)
+VERSION = "3.2.2" # Current version (entirely symbolic, means nothing)
 
 def BANKFORMAT(num):
     if num == 1: out = f"{num} <:bean:710243429119950969>"
@@ -82,8 +82,8 @@ def CALCULATE_TAX(income, balance):
         if balance <= max_balance:
             after_tax = math.ceil((income * (takehome/100)))
             tax = income - after_tax
-            brace = 100 - takehome
-            return [after_tax, tax, brace]
+            bracket = 100 - takehome
+            return [after_tax, tax, bracket]
 
 def FOOTER(): # Random footer generator
     x = random.randint(1, len(RANDOM_FOOTERS))
