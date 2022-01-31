@@ -23,7 +23,7 @@ class Counting(commands.Cog):
             cost = glo.REVIVE_COST
         else: 
             tax_bracket = glo.CALCULATE_TAX(100, user["currency"])[2]
-            cost = math.floor(user["currency"] / tax_bracket) * 100
+            cost = math.floor(user["currency"] * (tax_bracket/100)) 
 
         subsidy = glo.REVIVE_COST - cost 
 
@@ -39,7 +39,7 @@ class Counting(commands.Cog):
         if message != "":
             embed.add_field(name = "Revive message", value = message)
         await counting_channel.send(embed = embed)
-        await ctx.send(f"Revived! You have been debited {glo.BANKFORMAT(glo.REVIVE_COST)}. {glo.BANKFORMAT(subsidy)} was provided through taxes.")
+        await ctx.send(f"Revived! You have been debited {glo.BANKFORMAT(cost)}. {glo.BANKFORMAT(subsidy)} was provided through taxes.")
 
         tax -= subsidy
         glo.GLOBAL_WRITE("tax", str(tax))
