@@ -62,9 +62,9 @@ class Listeners(commands.Cog):
             await message.add_reaction(emoji) # React bean
         
         calls = glo.GLOBAL_READ("calls")
-        message_words = [x.lower() for x in message.content.split(" ")]
+        message_words = set([x.lower() for x in message.content.split(" ")])
         for call, response in calls.items():
-            if call.split(" ") in message_words:
+            if set(call.split(" ")).issubset(message_words):
                 await message.channel.send(response)
 
     @commands.Cog.listener()
