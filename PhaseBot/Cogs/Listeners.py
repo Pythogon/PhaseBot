@@ -64,7 +64,7 @@ class Listeners(commands.Cog):
         calls = glo.GLOBAL_READ("calls")
         message_words = [x.lower() for x in message.content.split(" ")]
         for call, response in calls.items():
-            if call.lower() in message_words:
+            if [x.lower() for x in call.split(" ")] in message_words:
                 await message.channel.send(response)
 
     @commands.Cog.listener()
