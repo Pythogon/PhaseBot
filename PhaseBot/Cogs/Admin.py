@@ -103,15 +103,15 @@ class Admin(commands.Cog):
     @call.command(name = "add")
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def call_add(self, ctx, call, response):
-        calls = glo.JSONREAD("calls.json")
+        calls = glo.GLOBAL_READ("calls")
         calls[call] = response
-        glo.JSONWRITE("calls.json", calls)
+        glo.GLOBAL_WRITE("calls", calls)
         await ctx.send("Call successfully added.")
     
     @call.command(name = "list")
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def call_list(self, ctx):
-        calls = glo.JSONREAD("calls.json")
+        calls = glo.GLOBAL_READ("calls")
         out = "__List of calls__ \n\n"
         for call in calls:
             out += f"{call}: {calls[call]} \n"
@@ -120,9 +120,9 @@ class Admin(commands.Cog):
     @call.command(name = "remove")
     @commands.has_role(glo.DEVELOPER_ROLE_ID)
     async def call_remove(self, ctx, call):
-        calls = glo.JSONREAD("calls.json")
+        calls = glo.GLOBAL_READ("calls")
         calls.pop(call)
-        glo.JSONWRITE("calls.json", calls)
+        glo.GLOBAL_WRITE("calls", calls)
         await ctx.send("Call removed.")
 
     @commands.command(aliases = ["dh"])
