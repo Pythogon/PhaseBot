@@ -15,7 +15,9 @@ class Voting(commands.Cog):
 		used_users = []
 		sole_nyu = instascrape.Profile("https://www.instagram.com/sole_nyu/").scrape(headers={"sessionid", glo.GLOBAL_READ("igsessionid")})
 		post = sole_nyu.get_recent_posts(1)
+		print("t")
 		comments = post.get_recent_comments()
+		print("t")
 
 		for comment in comments:
 			if comment.username in used_users: continue
