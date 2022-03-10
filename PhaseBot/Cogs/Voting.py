@@ -20,7 +20,7 @@ class Voting(commands.Cog):
 		options = {k: [] for i in range(number) for k in chr(65+i)}
 		used_users = []
 		print("t")
-		for comment in glo.JSONREAD("sole_nyu.json")["GraphImages"]["comments"]["data"]:
+		for comment in glo.JSONREAD("sole_nyu.json")["GraphImages"][0]["comments"]["data"]:
 			print("t")
 			user_id = comment["owner"]["id"]
 			if user_id in used_users: continue
