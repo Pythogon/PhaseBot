@@ -19,7 +19,9 @@ class Voting(commands.Cog):
 
 		for comment in comments:
 			if comment.username in used_users: continue
+			print("t")
 			vote = comment.text[0].upper()
+			print("t")
 			if vote not in options.keys(): continue
 			options[vote].append(comment.username)
 			used_users.append(comment.username)
