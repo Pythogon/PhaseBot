@@ -44,7 +44,7 @@ class Voting(commands.Cog):
 			votes = len(options[option])
 			field += f"{option}: {votes} ({round((votes/vote_count)*100, 2)}%)\n"
 		eb = discord.Embed(title = "Current votes", color = glo.COLOR) \
-		.add_field(name = f"(last reloaded {humanize.naturaltime(datetime.fromtimestamp(glo.GLOBAL_READ('lastreload')) - datetime.now())})", value = field) \
+		.add_field(name = f"(last reloaded {humanize.naturaltime(datetime.now() - datetime.fromtimestamp(glo.GLOBAL_READ('lastreload')))})", value = field) \
 		.set_footer(text = glo.FOOTER())
 		await ctx.send(embed = eb)
 
