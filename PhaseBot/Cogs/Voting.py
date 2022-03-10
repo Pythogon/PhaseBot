@@ -1,3 +1,4 @@
+import shlex
 import discord
 import glo
 import subprocess
@@ -11,7 +12,7 @@ class Voting(commands.Cog):
 
 	@commands.command()
 	async def reload(self, ctx):
-		subprocess.run(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u lifethegamesbiggestfan -p{glo.GLOBAL_READ('igpass')} d ./local_Store")
+		subprocess.run(shlex.split(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u lifethegamesbiggestfan -p{glo.GLOBAL_READ('igpass')} d ./local_Store"))
 		await ctx.send("Updating the comments data now! Wait about 30 seconds before running )votes.")
 
 	@commands.command()
