@@ -19,12 +19,12 @@ class Instagram(commands.Cog):
 		self.reload.cancel()
 
 	@tasks.loop(minutes = 5)
-	async def reload(self, ctx):
+	async def reload(self):
 		subprocess.Popen(shlex.split(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u life_vote_counter -p{glo.GLOBAL_READ('igpass')} -d ./local_Store"))
 		glo.GLOBAL_WRITE('lastreload', round(datetime.now().timestamp()))
 
 	@tasks.loop(minutes = 5)
-	async def check_new_posts(self, ctx):
+	async def check_new_posts(self):
 		print("Checking new posts...")
 		c = self.bot.get_channel(709719731472564224)
 		if c is not None:
@@ -33,7 +33,7 @@ class Instagram(commands.Cog):
 				glo.GLOBAL_WRITE("lastshortcode", shortcode)
 				await c.send(f"A new episode of LIFE has been released! https://instagram.com/p/{shortcode}/")
 				print("New post found!")
-				
+
 	@commands.command()
 	async def votes(self, ctx, number: int):
 		options = {k: [] for i in range(number) for k in chr(65+i)}
