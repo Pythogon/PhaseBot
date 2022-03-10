@@ -16,6 +16,7 @@ class Voting(commands.Cog):
 		headers = {"user-agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.57", "cookie": f'sessionid={glo.GLOBAL_READ("igsessionid")}'}
 		sole_nyu = instascrape.Profile("https://www.instagram.com/sole_nyu/")
 		sole_nyu.scrape(headers=headers)
+		print(sole_nyu)
 		post = sole_nyu.get_recent_posts(1)
 		comments = post.get_recent_comments()
 
