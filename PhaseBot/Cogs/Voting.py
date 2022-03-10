@@ -14,13 +14,10 @@ class Voting(commands.Cog):
 		options = {k:[] for i in range(number) for k in chr(i+65)}
 		used_users = []
 		headers = {"user-agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.57", "cookie": f'sessionid={glo.GLOBAL_READ("igsessionid")}'}
-		print("t")
-		sole_nyu = instascrape.Profile("https://www.instagram.com/sole_nyu/").scrape(headers=headers)
-		print("t")
+		sole_nyu = instascrape.Profile("https://www.instagram.com/sole_nyu/")
+		sole_nyu.scrape(headers=headers)
 		post = sole_nyu.get_recent_posts(1)
-		print("t")
 		comments = post.get_recent_comments()
-		print("t")
 
 		for comment in comments:
 			if comment.username in used_users: continue
