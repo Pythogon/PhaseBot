@@ -12,14 +12,14 @@ class Voting(commands.Cog):
 
 	@commands.command()
 	async def reload(self, ctx):
-		subprocess.Popen(shlex.split(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u lifethegamesbiggestfan -p{glo.GLOBAL_READ('igpass')} -d ./local_Store"))
+		subprocess.Popen(shlex.split(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u life_vote_counter -p{glo.GLOBAL_READ('igpass')} -d ./local_Store"))
 		await ctx.send("Updating the comments data now! Wait about 30 seconds before running )votes.")
 
 	@commands.command()
 	async def votes(self, ctx, number: int):
 		options = {k: [] for i in range(number) for k in chr(65+i)}
 		used_users = []
-		
+
 		for comment in glo.JSONREAD("sole_nyu.json")["GraphImages"][0]["comments"]["data"]:
 			user_id = comment["owner"]["id"]
 			if user_id in used_users: continue
