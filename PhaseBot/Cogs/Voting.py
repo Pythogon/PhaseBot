@@ -14,6 +14,7 @@ class Voting(commands.Cog):
 		options = {k:[] for i in range(number) for k in chr(i+65)}
 		used_users = []
 		headers = {"sessionid", glo.GLOBAL_READ("igsessionid")}
+		print("t")
 		sole_nyu = instascrape.Profile("https://www.instagram.com/sole_nyu/").scrape(headers=headers)
 		print("t")
 		post = sole_nyu.get_recent_posts(1)
