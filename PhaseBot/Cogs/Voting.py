@@ -21,7 +21,7 @@ class Voting(commands.Cog):
 	@tasks.loop(minutes = 5)
 	async def reload(self):
 		subprocess.Popen(shlex.split(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u life_vote_counter -p{glo.GLOBAL_READ('igpass')} -d ./local_Store"))
-		glo.GLOBAL_WRITE(round(datetime.now().timestamp()))
+		glo.GLOBAL_WRITE('lastreload', round(datetime.now().timestamp()))
 
 	@commands.command()
 	async def votes(self, ctx, number: int):
@@ -44,7 +44,7 @@ class Voting(commands.Cog):
 			votes = len(options[option])
 			field += f"{option}: {votes} ({round((votes/vote_count)*100, 2)}%)\n"
 		eb = discord.Embed(title = "Current votes", color = glo.COLOR) \
-		.add_field(name = f"(last reloaded {humanize.naturaltime(datetime.fromtimestamp(glo.JSONREAD) - datetime.now())})", value = field) \
+		.add_field(name = f"(last reloaded {humanize.naturaltime(datetime.fromtimestamp(glo.GLOBAL_READ('lastreload')) - datetime.now())})", value = field) \
 		.set_footer(text = glo.FOOTER())
 		await ctx.send(embed = eb)
 
