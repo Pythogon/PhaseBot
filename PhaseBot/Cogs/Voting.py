@@ -1,7 +1,7 @@
 import discord
 import glo
-import os
-import instascrape
+import subprocess
+import instagram_scraper
 from discord.ext import commands
 
 class Voting(commands.Cog):
@@ -10,22 +10,23 @@ class Voting(commands.Cog):
 		self._last_member = None
 
 	@commands.command()
-	async def votes(self, ctx, number: int):
-		options = {k:[] for i in range(number) for k in chr(i+65)}
-		used_users = []
-		sole_nyu = instascrape.Profile("https://www.instagram.com/sole_nyu")
-		sole_nyu.scrape()
-		post = sole_nyu.get_recent_posts(1)[0]
-		comments = post.get_recent_comments()
+	async def reload(self, ctx):
+		subprocess.run(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u lifethegamesbiggestfan -p{glo.GLOBAL_READ('igpass')} d ./local_Store")
+		await ctx.send("Updating the comments data now! Wait about 30 seconds before running )votes.")
 
-		for comment in comments:
-			if comment.username in used_users: continue
+	@commands.command()
+	async def votes(self, ctx, number: int):
+		options = {k: [] for i in range(number) for k in chr(65+i)}
+		used_users = []
+		for comment in glo.JSONREAD("sole_nyu.json")["GraphImages"]["comments"]["data"]:
+			user_id = comment["owner"]["id"]
+			if user_id in used_users: continue
 			print("t")
-			vote = comment.text[0].upper()
+			vote = comment["text"][0].upper()
 			print("t")
 			if vote not in options.keys(): continue
-			options[vote].append(comment.username)
-			used_users.append(comment.username)
+			options[vote].append(user_id)
+			used_users.append(user_id)
 
 		vote_count = len([x for slist in list(options.values()) for x in slist])
 		to_send = f"__Current vote totals__\n"
