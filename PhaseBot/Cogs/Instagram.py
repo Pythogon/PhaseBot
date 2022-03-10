@@ -27,11 +27,13 @@ class Instagram(commands.Cog):
 
 	@tasks.loop(minutes = 10)
 	async def check_new_posts(self):
+		print("Checking new posts...")
 		c = self.bot.get_channel(709719731472564224)
 		shortcode = glo.JSONREAD("sole_nyu.json")[0]["shortcode"]
 		if shortcode != glo.GLOBAL_READ("lastshortcode"): 
 			glo.GLOBAL_WRITE("lastshortcode", shortcode)
 			await c.send(f"A new episode of LIFE has been released! https://instagram.com/p/{shortcode}/")
+			print("New post found!")
 
 	@commands.command()
 	async def votes(self, ctx, number: int):
