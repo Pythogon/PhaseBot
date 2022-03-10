@@ -20,9 +20,6 @@ class Instagram(commands.Cog):
 
 	@tasks.loop(minutes = 5)
 	async def reload(self):
-		subprocess.Popen(shlex.split(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u life_vote_counter -p{glo.GLOBAL_READ('igpass')} -d ./local_Store"))
-		glo.GLOBAL_WRITE('lastreload', round(datetime.now().timestamp()))
-
 		print("Checking new posts...")
 		c = self.bot.get_channel(709719731472564224)
 		shortcode = glo.JSONREAD("sole_nyu.json")[0]["shortcode"]
@@ -30,6 +27,9 @@ class Instagram(commands.Cog):
 			glo.GLOBAL_WRITE("lastshortcode", shortcode)
 			await c.send(f"A new episode of LIFE has been released! https://instagram.com/p/{shortcode}/")
 			print("New post found!")
+			
+		subprocess.Popen(shlex.split(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u life_vote_counter -p{glo.GLOBAL_READ('igpass')} -d ./local_Store"))
+		glo.GLOBAL_WRITE('lastreload', round(datetime.now().timestamp()))
 
 
 	@commands.command()
