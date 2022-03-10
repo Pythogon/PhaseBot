@@ -22,11 +22,12 @@ class Instagram(commands.Cog):
 	async def reload(self):
 		print("Checking new posts...")
 		c = self.bot.get_channel(709719731472564224)
-		shortcode = glo.JSONREAD("sole_nyu.json")["GraphImages"][0]["shortcode"]
-		if shortcode != glo.GLOBAL_READ("lastshortcode"): 
-			glo.GLOBAL_WRITE("lastshortcode", shortcode)
-			await c.send(f"A new episode of LIFE has been released! https://instagram.com/p/{shortcode}/")
-			print("New post found!")
+		if c is not None:
+			shortcode = glo.JSONREAD("sole_nyu.json")["GraphImages"][0]["shortcode"]
+			if shortcode != glo.GLOBAL_READ("lastshortcode"): 
+				glo.GLOBAL_WRITE("lastshortcode", shortcode)
+				await c.send(f"A new episode of LIFE has been released! https://instagram.com/p/{shortcode}/")
+				print("New post found!")
 
 		subprocess.Popen(shlex.split(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u life_vote_counter -p{glo.GLOBAL_READ('igpass')} -d ./local_Store"))
 		glo.GLOBAL_WRITE('lastreload', round(datetime.now().timestamp()))
