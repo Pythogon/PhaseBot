@@ -13,7 +13,8 @@ class Voting(commands.Cog):
 	async def votes(self, ctx, number: int):
 		options = {k:[] for i in range(number) for k in chr(i+65)}
 		used_users = []
-		post = instascrape.Profile("https://www.instagram.com/sole_nyu/").get_recent_posts(1)
+		sole_nyu = instascrape.Profile("https://www.instagram.com/sole_nyu/").scrape()
+		post = sole_nyu.get_recent_posts(1)
 		comments = post.get_recent_comments()
 
 		for comment in comments:
