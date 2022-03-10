@@ -3,6 +3,7 @@ import humanize
 import glo
 import shlex
 import subprocess
+import re
 
 from datetime import datetime
 
@@ -48,7 +49,7 @@ class Instagram(commands.Cog):
 			text = comment["text"].upper()
 			vote = text[0]
 			if vote not in options.keys(): continue
-			if text != vote and not text.startswith(f"{vote} "): continue
+			if text != vote and (re.match(r"[a-zA-Z]", text[1]) is not None or text[1] == text[0]): continue
 			options[vote].append(user_id)
 			used_users.append(user_id)
 		
