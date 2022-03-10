@@ -19,11 +19,14 @@ class Voting(commands.Cog):
 	async def votes(self, ctx, number: int):
 		options = {k: [] for i in range(number) for k in chr(65+i)}
 		used_users = []
+		
 		for comment in glo.JSONREAD("sole_nyu.json")["GraphImages"][0]["comments"]["data"]:
 			user_id = comment["owner"]["id"]
 			if user_id in used_users: continue
-			vote = comment["text"][0].upper()
+			text = comment["text"].upper()
+			vote = text[0]
 			if vote not in options.keys(): continue
+			if text != vote and not text.startswith(f"{vote} "): continue
 			options[vote].append(user_id)
 			used_users.append(user_id)
 		
