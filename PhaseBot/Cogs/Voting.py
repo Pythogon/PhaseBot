@@ -1,19 +1,27 @@
-import shlex
 import discord
+import humanize
 import glo
+import shlex
 import subprocess
-import instagram_scraper
+
+from datetime import datetime
+
 from discord.ext import commands
+from discord.ext import tasks
 
 class Voting(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		self._last_member = None
+		self.reload.start()
 
-	@commands.command()
-	async def reload(self, ctx):
+	def cog_unload(self):
+		self.reload.cancel()
+
+	@tasks.loop(minutes = 5)
+	async def reload(self):
 		subprocess.Popen(shlex.split(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u life_vote_counter -p{glo.GLOBAL_READ('igpass')} -d ./local_Store"))
-		await ctx.send("Updating the comments data now! Wait about 30 seconds before running )votes.")
+		glo.GLOBAL_WRITE(round(datetime.now().timestamp()))
 
 	@commands.command()
 	async def votes(self, ctx, number: int):
@@ -31,10 +39,12 @@ class Voting(commands.Cog):
 			used_users.append(user_id)
 		
 		vote_count = len([x for slist in list(options.values()) for x in slist])
-		to_send = f"__Current vote totals__\n"
+		field = ""
 		for option in options.keys(): 
 			votes = len(options[option])
-			to_send += f"{option}: {votes} ({round((votes/vote_count)*100, 2)}%)\n"
-		
-		await ctx.send(to_send)
+			field += f"{option}: {votes} ({round((votes/vote_count)*100, 2)}%)\n"
+		eb = discord.Embed(title = "Current votes", color = glo.COLOR) \
+		.add_field(name = f"(last reloaded {humanize.naturaltime(datetime.fromtimestamp(glo.JSONREAD) - datetime.now())})", value = field) \
+		.set_footer(text = glo.FOOTER())
+		await ctx.send(embed = eb)
 
