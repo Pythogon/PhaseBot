@@ -25,24 +25,6 @@ MONEY_MESSAGE_MIN = 10
 MONEY_MESSAGE_MINLENGTH = 15
 MONEY_MESSAGE_PERDAY = 7
 PREFIX = ")" 
-RANDOM_FOOTERS = {1: "with love. ❤",
-2: "in discord.py.",
-3: "on 2020-07-04.",
-4: "| Error 404: Good code not found.",
-5: "with special thanks to Erika!",
-6: "with Anabot.",
-7: "with no added sugar!",
-8: "| It's nut free!",
-9: "with magic and rainbows.",
-10: "while consulting the deities.",
-11: "on behalf of a very caffeinated frog.",
-12: "| If you find a bug, feel free to report it!",
-13: "with thanks to bekano_cat for her artistic talent!",
-14: "because even monsters deserve love. ❤",
-15: "rising from the ashes.",
-16: "with unintentional help from distopioid!",
-17: "to cultivate psychedelic cacti - not for consumption (for legal reasons)" #cool tomato
-} 
 RANDOM_CURRENCY_CHANCE = 25
 RANDOM_SHOP_THRESHOLD = 2
 REVIVE_COST = 2000
@@ -67,7 +49,7 @@ TAX_BRACKETS = {-1: 100,
 3300: 10,
 9999: 0}
 TEMP_MESSAGE_LIST = []
-VERSION = "3.3.0.1" # Current version (entirely symbolic, means nothing)
+VERSION = "3.3.0.2" # Current version (entirely symbolic, means nothing)
 
 def BANKFORMAT(num):
     if num == 1: out = f"{num} <:bean:710243429119950969>"
@@ -86,31 +68,44 @@ def CALCULATE_TAX(income, balance):
             return [after_tax, tax, bracket]
 
 def FOOTER(): # Random footer generator
-    x = random.randint(1, len(RANDOM_FOOTERS))
-    return "PhaseBot v{} | Made by Pythogon Technologies {}".format(VERSION, RANDOM_FOOTERS.get(x))  # Random footer <3
+    return "PhaseBot v{} | Made by Pythogon Technologies {}".format(VERSION, random.choice(["with love. ❤",
+"in discord.py.",
+"on 2020-07-04.",
+"| Error 404: Good code not found.",
+"with special thanks to Erika!",
+"with Anabot.",
+"with no added sugar!",
+"| It's nut free!",
+"with magic and rainbows.",
+"while consulting the deities.",
+"on behalf of a very caffeinated frog.",
+"| If you find a bug, feel free to report it!",
+"with thanks to bekano_cat for her artistic talent!",
+"because even monsters deserve love. ❤",
+"rising from the ashes.",
+"with unintentional help from distopioid!",
+"to cultivate psychedelic cacti - not for consumption (for legal reasons)" #cool tomato
+    ]))  # Random footer <3
 
 def GETEMOJI(l):
     return {0: u"\U0001F7E4", 1: u"\U0001F7E3", 2: u"\U0001F7E2", 3: u"\U0001F7E0"}.get(l) # Returns unicode for coloured circles
 
 def GETJUDGE():
-    varset = { \
-    1: "Your statement personally offends me.",
-    2: "I'm gonna have to disagree with that.",
-    3: "I'm on the fence about that.",
-    4: "That sounds about right.", 
-    5: "Oh my god, totally!",
-    6: "I think so.", 
-    7: "Maybe, but I'm not sure.",
-    8: "That doesn't sound right.",
-    9: "No.",
-    10: "Yes.",
-    11: "Nah.",
-    12: "Hell yeah!",
-    13: "As the prophets fortold.",
-    14: "The fates don't align with that."
-    }
-    l = random.randint(1, len(varset))
-    return varset.get(l)
+    return random.choice([
+    "Your statement personally offends me.",
+    "I'm gonna have to disagree with that.",
+    "I'm on the fence about that.",
+    "That sounds about right.", 
+    "Oh my god, totally!",
+    "I think so.", 
+    "Maybe, but I'm not sure.",
+    "That doesn't sound right.",
+    "No.",
+    "Yes.",
+    "Nah.",
+    "Hell yeah!",
+    "As the prophets foretold.",
+    "The fates don't align with that."])
 
 def GETRATE(l, user):
     varset = {-1: ['Error 404: {} not found.', 0xffffff, '☆'],
