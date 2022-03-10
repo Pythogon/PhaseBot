@@ -19,14 +19,10 @@ class Voting(commands.Cog):
 	async def votes(self, ctx, number: int):
 		options = {k: [] for i in range(number) for k in chr(65+i)}
 		used_users = []
-		print("t")
 		for comment in glo.JSONREAD("sole_nyu.json")["GraphImages"][0]["comments"]["data"]:
-			print("t")
 			user_id = comment["owner"]["id"]
 			if user_id in used_users: continue
-			print("t")
 			vote = comment["text"][0].upper()
-			print("t")
 			if vote not in options.keys(): continue
 			options[vote].append(user_id)
 			used_users.append(user_id)
@@ -34,7 +30,8 @@ class Voting(commands.Cog):
 		vote_count = len([x for slist in list(options.values()) for x in slist])
 		to_send = f"__Current vote totals__\n"
 		for option in options.keys(): 
-			to_send += f"{option}: {options[option]} ({round((len(option)/vote_count)*100, 2)}%)\n"
+			votes = len(options[option])
+			to_send += f"{option}: {votes} ({round((votes/vote_count)*100, 2)}%)\n"
 		
 		await ctx.send(to_send)
 
