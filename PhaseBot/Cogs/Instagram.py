@@ -49,7 +49,7 @@ class Instagram(commands.Cog):
 			text = comment["text"].upper()
 			vote = text[0]
 			if vote not in options.keys(): continue
-			if text != vote and (re.match(r"[a-zA-Z]", text[1]) is not None or text[1] == text[0]): continue
+			if text != vote and re.match(r"[a-zA-Z]", text[1]) is not None and text[1] != text[0]: continue
 			options[vote].append(user_id)
 			used_users.append(user_id)
 		
