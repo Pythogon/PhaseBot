@@ -13,7 +13,7 @@ class Voting(commands.Cog):
 	async def votes(self, ctx, number: int):
 		options = {k:[] for i in range(number) for k in chr(i+65)}
 		used_users = []
-		headers = {"user-agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.57", "sessionid": glo.GLOBAL_READ("igsessionid")}
+		headers = {"user-agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.57", "cookies": {"sessionid": glo.GLOBAL_READ("igsessionid")}}
 		print("t")
 		sole_nyu = instascrape.Profile("https://www.instagram.com/sole_nyu/").scrape(headers=headers)
 		print("t")
