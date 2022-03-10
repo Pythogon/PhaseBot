@@ -23,6 +23,7 @@ class PhaseBot(commands.Bot):
                 name = u.name
             glo.SETNAME(k, name)
         await bot.change_presence(activity = discord.Activity(name = f"le noir | v{glo.VERSION}", type = discord.ActivityType.watching)) # Simplistic help
+        await Cogs.Instagram.check_new_posts.start()
 
     async def on_message(self, message):
         if message.channel.id == 796374619900084255:
