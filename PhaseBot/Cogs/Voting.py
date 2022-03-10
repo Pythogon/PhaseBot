@@ -17,7 +17,7 @@ class Voting(commands.Cog):
 		sole_nyu = instascrape.Profile("https://www.instagram.com/sole_nyu/")
 		sole_nyu.scrape(headers=headers)
 		print(sole_nyu)
-		post = sole_nyu.get_recent_posts(1)
+		post = sole_nyu.get_recent_posts(1)[0]
 		comments = post.get_recent_comments()
 
 		for comment in comments:
