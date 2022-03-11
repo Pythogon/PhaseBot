@@ -32,10 +32,11 @@ class Instagram(commands.Cog):
 		print("Checking new posts...")
 		c = self.bot.get_channel(709719731472564224)
 		if c is not None:
-			shortcode = glo.JSONREAD("sole_nyu.json")["GraphImages"][0]["shortcode"]
+			graphimage = glo.JSONREAD("sole_nyu.json")["GraphImages"][0]
+			shortcode = graphimage["shortcode"]
 			if shortcode != glo.GLOBAL_READ("lastshortcode"): 
 				glo.GLOBAL_WRITE("lastshortcode", shortcode)
-				await c.send(f"A new episode of LIFE has been released! https://instagram.com/p/{shortcode}/")
+				await c.send(f"A new episode of LIFE has been released!\n{graphimage['edge_media_to_caption']['edges'][0]['node']['text']}\nhttps://instagram.com/p/{shortcode}/")
 				print("New post found!")
 
 	@commands.command()
