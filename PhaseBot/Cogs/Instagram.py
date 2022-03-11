@@ -58,6 +58,7 @@ class Instagram(commands.Cog):
 		for option in options.keys(): 
 			votes = len(options[option])
 			field += f"{option}: {votes} ({round((votes/vote_count)*100, 2)}%)\n"
+		field += f"**Total votes: {vote_count}"
 		eb = discord.Embed(title = "Current votes", color = glo.COLOR) \
 		.add_field(name = f"(last reloaded {humanize.naturaltime(datetime.now() - datetime.fromtimestamp(glo.GLOBAL_READ('lastreload')))})", value = field) \
 		.set_footer(text = glo.FOOTER())
