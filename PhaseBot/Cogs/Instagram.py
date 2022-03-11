@@ -23,7 +23,7 @@ class Instagram(commands.Cog):
 
 	@tasks.loop(minutes = 10)
 	async def reload(self):
-		subprocess.Popen(shlex.split(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u life_vote_counter -p{glo.GLOBAL_READ('igpass')} -d ./local_Store --cookiejar=./local_Store/instagram_cookies"))
+		subprocess.Popen(shlex.split(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u angy_garnedd -p {glo.GLOBAL_READ('igpass')} -d ./local_Store --cookiejar=./local_Store/instagram_cookies"))
 		glo.GLOBAL_WRITE('lastreload', round(datetime.now().timestamp()))
 
 	@tasks.loop(minutes = 10)
