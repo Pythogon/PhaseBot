@@ -32,7 +32,7 @@ class Instagram(commands.Cog):
 		print("Checking new posts...")
 		c = self.bot.get_channel(709719731472564224)
 		if c is not None:
-			graphimage = glo.JSONREAD("sole_nyu.json")["GraphImages"][0]
+			graphimage = glo.GETGRAPHIMAGE()
 			shortcode = graphimage["shortcode"]
 			if shortcode != glo.GLOBAL_READ("lastshortcode"): 
 				glo.GLOBAL_WRITE("lastshortcode", shortcode)
@@ -44,7 +44,7 @@ class Instagram(commands.Cog):
 		options = {k: [] for i in range(number) for k in chr(65+i)}
 		used_users = []
 
-		for comment in glo.JSONREAD("sole_nyu.json")["GraphImages"][0]["comments"]["data"]:
+		for comment in glo.GETGRAPHIMAGE()["comments"]["data"]:
 			user_id = comment["owner"]["id"]
 			if user_id in used_users: continue
 			text = comment["text"].upper()
