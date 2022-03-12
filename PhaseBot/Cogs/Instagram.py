@@ -14,19 +14,19 @@ class Instagram(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		self._last_member = None
-		self.reload.start()
 		self.check_new_posts.start()
 
 	def cog_unload(self):
-		self.reload.cancel()
 		self.check_new_posts.cancel()
 
-	@tasks.loop(minutes = 30)
-	async def reload(self):
+	@commands.command()
+	async def reload(self, ctx):
 		subprocess.Popen(shlex.split(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u angy_garnedd -p {glo.GLOBAL_READ('igpass')} -d ./local_Store --cookiejar=./local_Store/instagram_cookies"))
 		glo.GLOBAL_WRITE('lastreload', round(datetime.now().timestamp()))
+		await ctx.send("Reloading... please wait 30 seconds before running )votes.")
 
-	@tasks.loop(minutes = 30)
+
+	@tasks.loop(minutes = 10)
 	async def check_new_posts(self):
 		await self.bot.wait_until_ready()
 		print("Checking new posts...")
