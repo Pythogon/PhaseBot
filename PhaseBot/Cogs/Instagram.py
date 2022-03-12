@@ -21,7 +21,8 @@ class Instagram(commands.Cog):
 
 	@commands.command()
 	async def reload(self, ctx):
-		subprocess.Popen(shlex.split(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u angy_garnedd -p {glo.GLOBAL_READ('igpass')} -d ./local_Store --cookiejar=./local_Store/instagram_cookies"))
+		ig = glo.GLOBAL_READ('ig')
+		subprocess.Popen(shlex.split(f"instagram-scraper sole_nyu -m 1 --comments --media-types=none -u {ig['user']} -p {ig['pwd']} -d ./local_Store --cookiejar=./local_Store/instagram_cookies"))
 		glo.GLOBAL_WRITE('lastreload', round(datetime.now().timestamp()))
 		await ctx.send("Reloading... please wait 30 seconds before running )votes.")
 
