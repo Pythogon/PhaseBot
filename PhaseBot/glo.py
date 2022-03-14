@@ -91,7 +91,7 @@ def GETEMOJI(l):
     return {0: u"\U0001F7E4", 1: u"\U0001F7E3", 2: u"\U0001F7E2", 3: u"\U0001F7E0"}.get(l) # Returns unicode for coloured circles
 
 def GETGRAPHIMAGE():
-    return JSONREAD("sole_nyu.json")["GraphImages"][0]
+    return JSONREAD("lifethegameinsta.json")["GraphImages"][0]
 
 def GETJUDGE():
     return random.choice([
