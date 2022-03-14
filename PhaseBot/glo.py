@@ -72,7 +72,6 @@ def FOOTER(): # Random footer generator
 "in discord.py.",
 "on 2020-07-04.",
 "| Error 404: Good code not found.",
-"with special thanks to Erika!",
 "with Anabot.",
 "with no added sugar!",
 "| It's nut free!",
@@ -84,7 +83,9 @@ def FOOTER(): # Random footer generator
 "because even monsters deserve love. ❤",
 "rising from the ashes.",
 "with unintentional help from distopioid!",
-"to cultivate psychedelic cacti - not for consumption (for legal reasons)" #cool tomato
+"to cultivate psychedelic cacti - not for consumption (for legal reasons)", #cool tomato
+"| Welcome to Season 9!",
+"welcoming back LIFE: The Game."
     ]))  # Random footer <3
 
 def GETEMOJI(l):
