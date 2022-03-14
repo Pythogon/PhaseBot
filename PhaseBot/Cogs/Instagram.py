@@ -41,7 +41,7 @@ class Instagram(commands.Cog):
 				print("New post found!")
 
 	@commands.command()
-	async def votes(self, ctx, number: int):
+	async def votes(self, ctx, number: int, *args):
 		options = {k: [] for i in range(number) for k in chr(65+i)}
 		used_users = []
 
@@ -61,8 +61,11 @@ class Instagram(commands.Cog):
 			votes = len(options[option])
 			field += f"{option}: {votes} ({round((votes/vote_count)*100, 2)}%)\n"
 		field += f"**Total votes: {vote_count}**"
+		if "-r" in args:
+			return await ctx.send(field)
 		eb = discord.Embed(title = "Current votes", color = glo.COLOR) \
 		.add_field(name = f"(last reloaded {humanize.naturaltime(datetime.now() - datetime.fromtimestamp(glo.GLOBAL_READ('lastreload')))})", value = field) \
 		.set_footer(text = glo.FOOTER())
 		await ctx.send(embed = eb)
+		
 
