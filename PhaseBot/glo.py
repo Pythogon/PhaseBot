@@ -69,23 +69,23 @@ def CALCULATE_TAX(income, balance):
 
 def FOOTER(): # Random footer generator
     return "PhaseBot v{} | Made by Pythogon Technologies {}".format(VERSION, random.choice(["with love. ❤",
-"in discord.py.",
-"on 2020-07-04.",
-"| Error 404: Good code not found.",
-"with Anabot.",
-"with no added sugar!",
-"| It's nut free!",
-"with magic and rainbows.",
-"while consulting the deities.",
-"on behalf of a very caffeinated frog.",
-"| If you find a bug, feel free to report it!",
-"with thanks to bekano_cat for her artistic talent!",
-"because even monsters deserve love. ❤",
-"rising from the ashes.",
-"with unintentional help from distopioid!",
-"to cultivate psychedelic cacti - not for consumption (for legal reasons)", #cool tomato
-"| Welcome to Season 9!",
-"welcoming back LIFE: The Game."
+    "in discord.py.",
+    "on 2020-07-04.",
+    "| Error 404: Good code not found.",
+    "with Anabot.",
+    "with no added sugar!",
+    "| It's nut free!",
+    "with magic and rainbows.",
+    "while consulting the deities.",
+    "on behalf of a very caffeinated frog.",
+    "| If you find a bug, feel free to report it!",
+    "with thanks to bekano_cat for her artistic talent!",
+    "because even monsters deserve love. ❤",
+    "rising from the ashes.",
+    "with unintentional help from distopioid!",
+    "to cultivate psychedelic cacti - not for consumption (for legal reasons)", #cool tomato
+    "| Welcome to Season 9!",
+    "welcoming back LIFE: The Game."
     ]))  # Random footer <3
 
 def GETEMOJI(l):
@@ -109,7 +109,12 @@ def GETJUDGE():
     "Nah.",
     "Hell yeah!",
     "As the prophets foretold.",
-    "The fates don't align with that."])
+    "The fates don't align with that.",
+    "Not at all, why would you even say that?", 
+    "Not in my opinion.",
+    "10/10!",
+    "Yeah."
+    ])
 
 def GETRATE(l, user):
     varset = {-1: ['Error 404: {} not found.', 0xffffff, '☆'],
